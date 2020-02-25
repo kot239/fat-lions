@@ -22,3 +22,22 @@
 ### Герман
 
 1. Вывести что-нибудь
+
+## Code-style
+
+```C++
+class Example {
+public:
+    Example();
+    ~Example();
+    void fat_lion();
+private:
+    int fatLions;
+}
+```
+
+```C++
+int* ptr;
+// Sorry, but I don't remember other things
+}
+```
