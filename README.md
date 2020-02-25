@@ -39,5 +39,4 @@ private:
 ```C++
 int* ptr;
 // Sorry, but I don't remember other things
-}
 ```
