@@ -9,7 +9,7 @@
 int VectorLogicLion::dist(int x1, int y1, int x2, int y2) {
     return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2); 
 }
-//Katya loh, Olesya lazha, A ya parasha
+
 void VectorLogicLion::find_target(Animal::Zebra cur_zebra) {
     if (cur_zebra.get_age() >= MAX_AGE || cur_zebra.get_hunger() == 0) {
         //как удалять, если умер?
