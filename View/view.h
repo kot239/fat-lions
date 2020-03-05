@@ -11,12 +11,12 @@ public:
     ~View();
 
 protected:
-	void paintEvent(QPaintEvent* event);
+    void paintEvent(QPaintEvent* event);
     void draw_map();
     void draw_animals();
 
 private:
-	QLabel* animal;
+    QLabel* animal;
 };
 
 #endif // VIEW_H
