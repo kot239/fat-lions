@@ -1,43 +1,43 @@
 #ifndef _INCLUDE_ANIMAL_HPP
 #define _INCLUDE_ANIMAL_HPP
 
+#include "Geometry.hpp"
+
 namespace world {
-
-struct Point {
-	int x_, y_;
-};
-
-struct Vector {
-	int x_, y_;
-};
 
 enum class Sex {
 	MALE, FEMALE
 };
 
 enum class Action {
-	EAT, DIE, GO, REPRODUCE
+	EAT, DIE, GO, REPRODUCE, NOTHING
 };
 
 class Animal {
 public:
-	Vector direction;
-	Action nextAction;
-	int velocity;
+	Vector direction_;
+	Action nextAction_;
+	int velocity_;
+	Point position_;
+	int hunger_;	
+	int age_;
+	int sexcd_;
+	Sex sex_;
+
+
+	Animal(const Animal &other);
 
 	Point get_position() const;
 	Sex get_sex() const;
 	int get_age() const;
 	int get_hunger() const;
 	bool get_sexcd() const;
+
+	void make_move();
 	
-private:
-	Point position_;
-	Sex sex_;
-	int age_;
-	int hunger_;
-	int sexcd_;
 };
+
+void swap(Animal &a, Animal &b);
 
 } //namespace world
 

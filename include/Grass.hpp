@@ -1,14 +1,19 @@
 #ifndef _INCLUDE_GRASS_HPP_
 #define _INCLUDE_GRASS_HPP_
 
-#include <vector>
+#include "Geometry.hpp"
+#include "Animal.hpp"
 
 namespace world {
 
 class Grass final {
-private:
-	std::vector<Point> coord;
+public:
+	Grass(Animal &animal);
+	Point get_position() const;
+	Point position_;
 };
+
+void swap(Grass &a, Grass &b);
 
 } //namespace world
 

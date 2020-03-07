@@ -1,13 +1,13 @@
 #ifndef _INCLUDE_OBSTACLE_HPP_
 #define _INCLUDE_OBSTACLE_HPP_
 
-#include <vector>
+#include "Geometry.hpp"
 
 namespace world {
 
 class Obstacle final {
 private:
-	std::vector<Point> coord;
+	Figure figure_;
 };
 
 } //namespace world

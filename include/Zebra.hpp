@@ -5,7 +5,7 @@
 
 namespace world {
 
-class Zebra : Animal {};
+class Zebra final : public Animal {};
 
 } //namespace world
 
