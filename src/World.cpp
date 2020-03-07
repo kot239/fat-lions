@@ -36,10 +36,6 @@ void World::update() {
 				}
 			}
 		}
-		if (zebra->nextAction_ == Action::DIE) {
-			zebras_death(i);
-			--i;
-		}
 		if (zebra->nextAction_ == Action::GO) {
 			zebra->make_move();
 		}
@@ -51,6 +47,10 @@ void World::update() {
 		}
 		++zebra->age_;
 		++zebra->sexcd_;
+		if (zebra->nextAction_ == Action::DIE) {
+			zebras_death(i);
+			--i;
+		}
 	}
 
 
@@ -66,10 +66,6 @@ void World::update() {
 				}
 			}
 		}
-		if (lion->nextAction_ == Action::DIE) {
-			lions_death(i);
-			--i;
-		}
 		if (lion->nextAction_ == Action::GO) {
 			lion->make_move();
 		}
@@ -81,6 +77,10 @@ void World::update() {
 		}
 		++lion->age_;
 		++lion->sexcd_;
+		if (lion->nextAction_ == Action::DIE) {
+			lions_death(i);
+			--i;
+		}
 	}
 
 
