@@ -1,9 +1,10 @@
+using namespace world;
+
 struct VectorLogicZebra {
-
-    int dist(int x1, int y1, int x2, int y2);
-    void VectorLogicZebra::find_target(Animal::Zebra cur_zebra);
-    void move (Animal::Zebra cur_zebra);
-
+    bool ready_for_sex(const Animal::Zebra& curZebra);
+    int dist(Point a, Point b);
+    Vector find_correct_vec(const Animal::Zebra& curZebra, Vector resVector, const World& curWorld);
+    void find_target(Animal::Zebra& curZebra, const World& curWorld);
 }
 
 //пока что с классами, попозже решим что именно будем делать

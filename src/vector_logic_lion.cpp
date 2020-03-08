@@ -18,7 +18,7 @@ void VectorLogicLion::find_target(Animal::Lion cur_lion) {
     int not_sex = true;
     if (cur_lion.get_age() >= AGE_FOR_SEX || cur_lion.get_hunger() > HUNGER_FOR_SEX) { //sex
     	bool flag = true;
-        for (auto lion : LionArray) {
+        for (auto lion : lionsArray_) {
             int tmp_dist = dist(lion.get_pos().x_, lion.get_pos().y_, cur_lion.get_pos().x_, cur_lion.get_pos().x_);
             int min_dist = dist(cur_lion.get_pos().x_, cur_lion.get_pos().y_, cur_lion.get_dir().x_, cur_lion.get_dir().x_);
             if (lion.get_sex() != cur_lion.get_sex() &&
@@ -36,7 +36,7 @@ void VectorLogicLion::find_target(Animal::Lion cur_lion) {
         not_sex = flag;
     }
     if (not_sex) {
-        for (auto zebra : zebras_array) {
+        for (auto zebra : zebrasArray) {
             bool flag = true;
             int tmp_dist = dist(zebra.get_pos().x_, zebra.get_pos().y_, cur_lion.get_pos().x_, cur_lion.get_pos().x_);
             int min_dist = dist(cur_lion.get_pos().x_, cur_lion.get_pos().y_, cur_lion.get_dir().x_, cur_lion.get_dir().x_);

@@ -1,44 +1,83 @@
 #include "vector_logic_zebra.h"
 
-//bool get_sexcd() {
-//     return this->sexcd == CD_SEX_TIME;
-// }
+using namespace world;
 
-//шаблонная проверка условия
-
-int VectorLogicLion::dist(int x1, int y1, int x2, int y2) {
-    return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2); 
+bool VectorLogicZebra::ready_for_sex(const Animal::Zebra& curZebra) {
+    return curZebra.get_age() >= AGE_FOR_SEX &&
+           curZebra.get_sexcd() &&
+           curZebra.get_hunger() >= HUNGER_FOR_SEX;
 }
 
-void VectorLogicLion::find_target(Animal::Zebra cur_zebra) {
-    if (cur_zebra.get_age() >= MAX_AGE || cur_zebra.get_hunger() == 0) {
-        //как удалять, если умер?
-        //можно enum в классе животных
-    }
-    
-    int res_x = cur_zebra.get_pos().x_, res_y = cur_zebra.get_pos().y_;
-
-    for (auto lion : lions_array) {
-        res_x += lion.get_pos().x_;
-        res_y += lion.get_pos().y_;
-    }
-    bool sex_flag = true;
-    if (res_x != cur_zebra.get_pos().x_ ||
-        res_y != cur_zebra.get_pos().y_) {
-       //установить направление
-        //cur_zebra.get_dir().x_ = ge;
-        //res_y = cur_zebra.get_dir().y_;
-        sex_flag = false;
-    }
-    if (sex_flag) {
-        
-    }
-
-
-
+int VectorLogicZebra::dist(Point a, Point b) {
+    return (a.x_ - b.x_) * (a.x_ - b.x_) + (a.y_ - b.y_) * (a.y_ - b.y_);
 }
 
-void move (Animal::Zebra cur_zebra) {
-    //??
-    //поговорить про функцию проверки, временное вычисления в даблах и т д
+Vector VectorLogicZebra::find_correct_vec(const Animal::Zebra& curZebra, Vector resVector, const World& curWorld) {
+    int timeToThink = 5;
+    while (!curWorld.can_move(curZebra.get_position() + resVector * curZebra.get_velocity())
+            && timeToThink > 0) {
+        resVector.x_ *= -1;
+        --timeToThink;
+    }
+    return resVector;
+}
+
+void VectorLogicZebra::find_target(Animal::Zebra& curZebra, const World& curWorld) {
+
+    if (curZebra.get_age() >= MAX_AGE || curZebra.get_hunger() == MAX_HUNGER) {
+        curZebra.nextAction_ = Action::DIE;
+        return;
+    }
+
+    Vector resVector = {0, 0};
+     // find_danger
+    for (auto lion : lionsArray_) {
+        if (dist(lion.get_position(), curZebra.get_position()) < curZebra.get_vision() * curZebra.get_vision()) {
+            resVector += lion.get_position() - curZebra.get_position(); //find result vector
+        }
+    }
+
+    if (resVector.x_ != 0 || resVector.y_ != 0) { //check if lions around
+        curZebra.nextAction_ = find_correct_vec(curZebra, resVector, curWorld);
+        return;   
+    }
+
+    int min_dist = -1;
+     // find_zebra
+    if (ready_for_sex(curZebra)) {
+        for (auto zebra : zebrasArray_) {
+            int cur_dist = dist(zebra.get_position(), curZebra.get_position());
+            if (zebra.get_sex() != curZebra.get_sex() && ready_for_sex(zebra) &&
+                (cur_dist < curZebra.get_vision() * curZebra.get_vision())) {
+
+                if (zebra.get_position() == curZebra.get_position()) {
+                    zebra.nextAction_ = (get_sex() == FEMALE) ? REPRODUCE : NOTHING;
+                    curZebra.nextAction_ = (get_sex() == FEMALE) ? REPRODUCE : NOTHING;
+                    return;
+                }
+                if (min_dist == -1 || cur_dist < min_dist) {
+                    min_dist = cur_dist;
+                    resVector = zebra.get_position() - curZebra.get_position();
+                }
+            }
+        }
+        curZebra.nextAction_ = find_correct_vec(curZebra, resVector, curWorld);
+        return;
+    }
+   // find_grass
+    int min_dist = -1;
+    for (auto grass : grassArray_) {
+        cur_dist = dist(grass.get_position(), curZebra.get_position());
+        if (cur_dist < curZebra.get_vision() * curZebra.get_vision() &&
+            (min_dist == -1 || cur_dist < min_dist)) {
+
+            min_dist = cur_dist;
+            resVector = grass.get_position() - curZebra.get_position();
+        }
+    }
+    if (resVector.x_ != 0 || resVector.y_ != 0) {
+        curZebra.nextAction_ = find_correct_vec(curZebra, resVector, curWorld);
+        return;
+    }
+    curZebra.nextAction_ = curZebra.get_direction();
 }
