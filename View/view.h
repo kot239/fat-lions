@@ -1,22 +1,31 @@
-#ifndef VIEW_H
-#define VIEW_H
+#ifndef VIEW_H_
+#define VIEW_H_
 
 #include <QWidget>
+#include <QGraphicsScene>
+#include <QShortcut>
+#include <QTimer>
 #include <QLabel>
+
+#include <lion.h>
+
+namespace Ui {
+class View;
+}
 
 class View : public QWidget {
 
+    Q_OBJECT
+
 public:
-    View(QWidget* parent = nullptr);
+    explicit View(QWidget* parent = nullptr);
     ~View();
 
-protected:
-    void paintEvent(QPaintEvent* event);
-    void draw_map();
-    void draw_animals();
-
 private:
-    QLabel* animal;
+    Ui::View      *ui;
+    QGraphicsScene* scene_;
+    LionView* lion_;
+    //QTimer* timer;
 };
 
-#endif // VIEW_H
+#endif // VIEW_H_
