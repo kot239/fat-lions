@@ -22,10 +22,10 @@ public:
     ~View();
 
 private:
-    Ui::View      *ui;
+    Ui::View* ui_;
     QGraphicsScene* scene_;
     LionView* lion_;
-    //QTimer* timer;
+    QTimer* timer;
 };
 
 #endif // VIEW_H_

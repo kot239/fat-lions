@@ -2,11 +2,16 @@
 
 const char* LION_COLOR = "#FFCC33";
 
-LionView::LionView() : QGraphicsItem() {
-	
+LionView::LionView(QObject* parent) : QObject(parent), QGraphicsItem(), angle_(0) {
+	setRotation(angle_);
 };
 
 LionView::~LionView() {};
+
+void LionView::slot_game_timer() {
+    angle_ += 5;
+    setRotation(angle_);
+};
 
 QRectF LionView::boundingRect() const {
 	return QRectF(-30, -30, 60, 60);

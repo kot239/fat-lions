@@ -12,8 +12,8 @@ int main(int argc, char* argv[])
     View w;
 
     w.resize(800, 600);
-    w.setWindowTitle("Fat Lions");
-    w.setWindowIcon(QIcon("icon.png"));
+    //w.setWindowTitle("Fat Lions");
+    //w.setWindowIcon(QIcon("icon.png"));
     w.show();
 
     //start of the game

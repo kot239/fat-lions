@@ -31,12 +31,18 @@ if(ANDROID)
     main.cpp
     view.cpp
     view.h
+    lion.h
+    lion.cpp
+    view.ui
   )
 else()
   add_executable(View
     main.cpp
     view.cpp
     view.h
+    lion.h
+    lion.cpp
+    view.ui
   )
 endif()
 
