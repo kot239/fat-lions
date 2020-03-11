@@ -65,6 +65,7 @@ void VectorLogicZebra::find_target(Animal::Zebra& curZebra, const World& curWorl
         curZebra.nextAction_ = find_correct_vec(curZebra, resVector, curWorld);
         return;
     }
+ ///herere'
    // find_grass
     int min_dist = -1;
     for (auto grass : curWorld.grassArray_) {
