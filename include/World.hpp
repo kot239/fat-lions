@@ -12,6 +12,7 @@
 namespace world {
 
 const int AGE_FOR_SEX = 5;
+const int MAX_AGE = 100;
 const int HUNGER_FOR_SEX = 10;
 const int CD_SEX_TIME = 3;
 const int MAX_HUNGER = 100;

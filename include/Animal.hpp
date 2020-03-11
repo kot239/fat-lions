@@ -1,6 +1,8 @@
 #ifndef _INCLUDE_ANIMAL_HPP
 #define _INCLUDE_ANIMAL_HPP
 
+
+#include <variant>
 #include "Geometry.hpp"
 
 namespace world {
@@ -18,18 +20,20 @@ public:
 	Vector direction_;
 	Action nextAction_;
 	int velocity_;
+	int vision_;
 	Point position_;
-	int hunger_;	
+	int hunger_;
 	int age_;
 	int sexcd_;
 	Sex sex_;
 
-
+    Animal();
 	Animal(const Animal &other);
 
 	Point get_position() const;
 	Sex get_sex() const;
 	int get_age() const;
+	int get_vision() const;
 	int get_hunger() const;
 	bool get_sexcd() const;
 

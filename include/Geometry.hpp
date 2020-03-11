@@ -14,13 +14,17 @@ public:
 	Point &operator=(const Point &other);
 	Point &operator+=(const Vector &v);
 	bool operator==(const Point &other);
+	Point operator+(const Vector &v) const;
+	Vector operator-(const Point &other) const;
 };
 
 class Vector final {
 public:
 	int x_, y_;
-
+    Vector &operator+=(const Vector &v);
+    Vector &operator*=(const int val);
 	Vector &operator*(const int val);
+
 };
 
 class Figure final {

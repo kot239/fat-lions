@@ -46,6 +46,7 @@ void World::update() {
 			zebra->sexcd_ = -1;
 		}
 		++zebra->age_;
+		++zebra->hunger_;
 		++zebra->sexcd_;
 		if (zebra->nextAction_ == Action::DIE) {
 			zebras_death(i);
@@ -77,6 +78,7 @@ void World::update() {
 		}
 		++lion->age_;
 		++lion->sexcd_;
+		++lion->hunger_;
 		if (lion->nextAction_ == Action::DIE) {
 			lions_death(i);
 			--i;
