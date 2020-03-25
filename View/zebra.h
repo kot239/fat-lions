@@ -1,7 +1,7 @@
-#ifndef LION_H_
-#define LION_H_
+#ifndef ZEBRA_H_
+#define ZEBRA_H_
 
-#include "../include/Lion.hpp"
+#include "../include/Zebra.hpp"
 
 #include <QGraphicsItem>
 #include <QPainter>
@@ -10,15 +10,15 @@
 
 using namespace world;
 
-class LionView : public QObject, public QGraphicsItem {
+class ZebraView : public QObject, public QGraphicsItem {
 
 	Q_OBJECT
 
 public:
-	LionView(QObject* parent = nullptr);
-	~LionView();
+	ZebraView(QObject* parent = nullptr);
+	~ZebraView();
 
-	void set_location(Lion lion);
+	void set_location(Zebra zebra);
 
 	Point position_;
 	qreal angle_;
@@ -28,4 +28,4 @@ protected:
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 };
 
-#endif // LION_H_
+#endif // ZEBRA_H_

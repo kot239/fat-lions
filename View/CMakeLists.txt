@@ -33,7 +33,24 @@ if(ANDROID)
     view.h
     lion.h
     lion.cpp
+    zebra.h
+    zebra.cpp
     view.ui
+    ../include/Animal.hpp
+    ../include/Geometry.hpp
+    ../include/Grass.hpp
+    ../include/Lion.hpp
+    ../include/Obstacle.hpp
+    ../include/vector_logic_lion.h
+    ../include/vector_logic_zebra.h
+    ../include/World.hpp
+    ../include/Zebra.hpp
+    ../src/Animal.cpp
+    ../src/Geometry.cpp
+    ../src/Grass.cpp
+    ../src/vector_logic_lion.cpp
+    ../src/vector_logic_zebra.cpp
+    ../src/World.cpp
   )
 else()
   add_executable(View
@@ -42,7 +59,24 @@ else()
     view.h
     lion.h
     lion.cpp
+    zebra.h
+    zebra.cpp
     view.ui
+    ../include/Animal.hpp
+    ../include/Geometry.hpp
+    ../include/Grass.hpp
+    ../include/Lion.hpp
+    ../include/Obstacle.hpp
+    ../include/vector_logic_lion.h
+    ../include/vector_logic_zebra.h
+    ../include/World.hpp
+    ../include/Zebra.hpp
+    ../src/Animal.cpp
+    ../src/Geometry.cpp
+    ../src/Grass.cpp
+    ../src/vector_logic_lion.cpp
+    ../src/vector_logic_zebra.cpp
+    ../src/World.cpp
   )
 endif()
 

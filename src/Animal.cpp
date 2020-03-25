@@ -1,5 +1,5 @@
-#include "Animal.hpp"
-#include "World.hpp"
+#include "../include/Animal.hpp"
+#include "../include/World.hpp"
 #include <random>
 
 namespace world {

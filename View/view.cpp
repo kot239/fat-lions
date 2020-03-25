@@ -1,15 +1,70 @@
 #include "view.h"
 #include "ui_view.h"
 
+#include <iostream>
+//#include "animal_view.h"
+
 const int MAP_WIDTH = 600;
 const int MAP_HEIGHT = 450;
 const int MAP_H_CONOR = 20;
 const int MAP_W_CONOR = 20;
+/*
+void run_game(World& world, VectorLogicZebra& logicZebra, VectorLogicLion& logicLion) {
+    for (int i = 0; i < 100; i++) {
+        for (size_t j = 0; j < world.zebrasArray_.size(); j++) {
+            logicZebra.find_target(world.zebrasArray_[j], world);
+        }
+
+        for (size_t j = 0; j < world.lionsArray_.size(); j++) {
+            logicLion.find_target(world.lionsArray_[j], world);
+         //   std::cout << j << ' ' << (world.lionsArray_[j].position_.x_) << '\n';
+        }
+        world.update();
+    }    
+}
+*/
+void View::update_world() {
+    scene_->clear();
+    for (size_t j = 0; j < world.zebrasArray_.size(); j++) {
+        ZebraView* zebra;
+        zebra = new ZebraView();
+        zebra->set_location(world.zebrasArray_[j]);
+        scene_->addItem(zebra);
+        zebra->setPos(zebra->position_.x_, zebra->position_.y_);
+    }
+    for (size_t j = 0; j < world.lionsArray_.size(); j++) {
+        LionView* lion;
+        lion = new LionView();
+        lion->set_location(world.lionsArray_[j]);
+        scene_->addItem(lion);
+        lion->setPos(lion->position_.x_, lion->position_.y_);
+    }
+
+    //waiter->start(1000);
+
+    for (size_t j = 0; j < world.zebrasArray_.size(); j++) {
+        logicZebra.find_target(world.zebrasArray_[j], world);
+    }
+
+    for (size_t j = 0; j < world.lionsArray_.size(); j++) {
+        logicLion.find_target(world.lionsArray_[j], world);
+    }
+    world.update();
+}
 
 View::View(QWidget* parent) : QWidget(parent), ui_(new Ui::View) {
     ui_->setupUi(this);
     scene_ = new QGraphicsScene();
-    lion_ = new LionView();
+    
+    for (int i = 0; i < 5; i++) {
+        Zebra tmp;
+        world.zebrasArray_.push_back(tmp);
+    }
+    for (int i = 0; i < 5; i++) {
+        Lion tmp;
+        world.lionsArray_.push_back(tmp);
+    }
+    //run_game(world, logicZebra, logicLion);
 
     ui_->graphicsView->setScene(scene_);
     ui_->graphicsView->setRenderHint(QPainter::Antialiasing);
@@ -18,12 +73,10 @@ View::View(QWidget* parent) : QWidget(parent), ui_(new Ui::View) {
 
     scene_->setSceneRect(MAP_W_CONOR, MAP_H_CONOR, MAP_WIDTH, MAP_HEIGHT);
 
-    scene_->addItem(lion_);
-    lion_->setPos(50, 50);
-
     timer = new QTimer();
-    connect(timer, &QTimer::timeout, lion_, &LionView::slot_game_timer);
-    timer->start(1000 / 50);
+    //waiter = new QTimer();
+    connect(timer, SIGNAL(timeout()), this, SLOT(update_world()));
+    timer->start(1000);
 }
 
 View::~View() {

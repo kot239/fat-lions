@@ -1,5 +1,5 @@
-#include "vector_logic_lion.h"
-#include "World.hpp"
+#include "../include/vector_logic_lion.h"
+#include "../include/World.hpp"
 #include <iostream>
 
 using namespace world;

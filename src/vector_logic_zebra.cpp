@@ -1,5 +1,5 @@
-#include "vector_logic_zebra.h"
-#include "World.hpp"
+#include "../include/vector_logic_zebra.h"
+#include "../include/World.hpp"
 
 using namespace world;
 

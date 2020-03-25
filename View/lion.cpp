@@ -1,15 +1,23 @@
 #include "lion.h"
 
+#include <cmath>
+
 const char* LION_COLOR = "#FFCC33";
 
-LionView::LionView(QObject* parent) : QObject(parent), QGraphicsItem(), angle_(0) {
-	setRotation(angle_);
-};
+const double PI = 3.14159265;
+
+LionView::LionView(QObject* parent) : QObject(parent), QGraphicsItem() {};
 
 LionView::~LionView() {};
 
-void LionView::slot_game_timer() {
-    angle_ += 5;
+void LionView::set_location(Lion lion) {
+    position_ = lion.position_;
+    double arg = double(lion.direction_.y_) / sqrt(double(lion.direction_.x_ * lion.direction_.x_ + lion.direction_.y_ * lion.direction_.y_));
+    if (lion.direction_.x_ >= 0) {
+        angle_ = acos(arg) * 180.0 / PI;
+    } else {
+        angle_ = 360.0 - acos(arg) * 180.0 / PI;
+    }
     setRotation(angle_);
 };
 
