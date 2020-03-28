@@ -36,7 +36,6 @@ private:
     Ui::View* ui_;
     QGraphicsScene* scene_;
     QTimer* timer;
-    QTimer* waiter;
     World world;
     VectorLogicLion logicLion;
     VectorLogicZebra logicZebra;

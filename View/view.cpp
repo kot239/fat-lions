@@ -4,6 +4,9 @@
 #include <iostream>
 //#include "animal_view.h"
 
+const char* LION_COLOR = "#FFCC33";
+//const char* ZEBRA_COLOR = "#999999";
+
 const int MAP_WIDTH = 600;
 const int MAP_HEIGHT = 450;
 const int MAP_H_CONOR = 20;
@@ -34,13 +37,11 @@ void View::update_world() {
     }
     for (size_t j = 0; j < world.lionsArray_.size(); j++) {
         LionView* lion;
-        lion = new LionView();
+        lion = new LionView(LION_COLOR);
         lion->set_location(world.lionsArray_[j]);
         scene_->addItem(lion);
         lion->setPos(lion->position_.x_, lion->position_.y_);
     }
-
-    //waiter->start(1000);
 
     for (size_t j = 0; j < world.zebrasArray_.size(); j++) {
         logicZebra.find_target(world.zebrasArray_[j], world);
@@ -64,17 +65,15 @@ View::View(QWidget* parent) : QWidget(parent), ui_(new Ui::View) {
         Lion tmp;
         world.lionsArray_.push_back(tmp);
     }
-    //run_game(world, logicZebra, logicLion);
 
     ui_->graphicsView->setScene(scene_);
-    ui_->graphicsView->setRenderHint(QPainter::Antialiasing);
+    //ui_->graphicsView->setRenderHint(QPainter::Antialiasing);
     ui_->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui_->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     scene_->setSceneRect(MAP_W_CONOR, MAP_H_CONOR, MAP_WIDTH, MAP_HEIGHT);
 
     timer = new QTimer();
-    //waiter = new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(update_world()));
     timer->start(1000);
 }

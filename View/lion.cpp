@@ -2,11 +2,11 @@
 
 #include <cmath>
 
-const char* LION_COLOR = "#FFCC33";
+//const char* LION_COLOR = "#FFCC33";
 
 const double PI = 3.14159265;
 
-LionView::LionView(QObject* parent) : QObject(parent), QGraphicsItem() {};
+LionView::LionView(const char* color, QObject* parent) : QObject(parent), QGraphicsItem(), color_(color) {};
 
 LionView::~LionView() {};
 
@@ -28,7 +28,7 @@ QRectF LionView::boundingRect() const {
 void LionView::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
 	QPolygon polygon;
     polygon << QPoint(0, -10) << QPoint(5, 5) << QPoint(-5,5);
-    painter->setBrush(QColor(LION_COLOR));
+    painter->setBrush(QColor(color_));
     painter->drawPolygon(polygon);
     Q_UNUSED(option);
     Q_UNUSED(widget);
