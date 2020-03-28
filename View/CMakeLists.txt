@@ -31,10 +31,8 @@ if(ANDROID)
     main.cpp
     view.cpp
     view.h
-    lion.h
-    lion.cpp
-    zebra.h
-    zebra.cpp
+    animal_view.h
+    animal_view.cpp
     view.ui
     ../include/Animal.hpp
     ../include/Geometry.hpp
@@ -57,10 +55,8 @@ else()
     main.cpp
     view.cpp
     view.h
-    lion.h
-    lion.cpp
-    zebra.h
-    zebra.cpp
+    animal_view.h
+    animal_view.cpp
     view.ui
     ../include/Animal.hpp
     ../include/Geometry.hpp

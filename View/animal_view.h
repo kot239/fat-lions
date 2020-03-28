@@ -10,15 +10,15 @@
 
 using namespace world;
 
-class LionView : public QObject, public QGraphicsItem {
+class AnimalView : public QObject, public QGraphicsItem {
 
 	Q_OBJECT
 
 public:
-    LionView(const char* color, QObject* parent = nullptr);
-	~LionView();
+    AnimalView(const char* color, QObject* parent = nullptr);
+    ~AnimalView();
 
-	void set_location(Lion lion);
+    void set_location(Animal animal);
 
 	Point position_;
 	qreal angle_;

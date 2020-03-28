@@ -7,8 +7,8 @@
 #include <QTimer>
 #include <QLabel>
 
-#include "lion.h"
-#include "zebra.h"
+#include "animal_view.h"
+//#include "zebra.h"
 #include "../include/World.hpp"
 #include "../include/vector_logic_lion.h"
 #include "../include/vector_logic_zebra.h"
@@ -32,7 +32,7 @@ public:
     ~View();
 
 private:
-    LionView* lion;
+    AnimalView* lion;
     Ui::View* ui_;
     QGraphicsScene* scene_;
     QTimer* timer;

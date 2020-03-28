@@ -5,7 +5,7 @@
 //#include "animal_view.h"
 
 const char* LION_COLOR = "#FFCC33";
-//const char* ZEBRA_COLOR = "#999999";
+const char* ZEBRA_COLOR = "#999999";
 
 const int MAP_WIDTH = 600;
 const int MAP_HEIGHT = 450;
@@ -29,15 +29,15 @@ void run_game(World& world, VectorLogicZebra& logicZebra, VectorLogicLion& logic
 void View::update_world() {
     scene_->clear();
     for (size_t j = 0; j < world.zebrasArray_.size(); j++) {
-        ZebraView* zebra;
-        zebra = new ZebraView();
+        AnimalView* zebra;
+        zebra = new AnimalView(ZEBRA_COLOR);
         zebra->set_location(world.zebrasArray_[j]);
         scene_->addItem(zebra);
         zebra->setPos(zebra->position_.x_, zebra->position_.y_);
     }
     for (size_t j = 0; j < world.lionsArray_.size(); j++) {
-        LionView* lion;
-        lion = new LionView(LION_COLOR);
+        AnimalView* lion;
+        lion = new AnimalView(LION_COLOR);
         lion->set_location(world.lionsArray_[j]);
         scene_->addItem(lion);
         lion->setPos(lion->position_.x_, lion->position_.y_);
