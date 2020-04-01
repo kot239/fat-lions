@@ -6,14 +6,11 @@
 #include <QShortcut>
 #include <QTimer>
 #include <QLabel>
-#include <vector>
 
 #include "animal_view.h"
-//#include "zebra.h"
 #include "../include/World.hpp"
 #include "../include/vector_logic_lion.h"
 #include "../include/vector_logic_zebra.h"
-//#include "Geometry.hpp"
 
 namespace Ui {
 class View;
@@ -33,7 +30,6 @@ public:
     ~View();
 
 private:
-    AnimalView* lion;
     Ui::View* ui_;
     QGraphicsScene* scene_;
     QTimer* timer;
@@ -41,7 +37,8 @@ private:
     VectorLogicLion logicLion;
     VectorLogicZebra logicZebra;
 
-    void add_animals(const std::vector<Animal> animals, const char* color);
+    template <typename T>
+    void add_animals(const std::vector<T>& animals, const char* color);
 };
 
 #endif // VIEW_H_
