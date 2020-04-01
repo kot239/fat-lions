@@ -7,6 +7,7 @@
 int main(int argc, char* argv[])
 {
     // very important comand
+    std::srand(unsigned(std::time(0)));
     QApplication a(argc, argv);
 
     View w;

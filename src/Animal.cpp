@@ -2,9 +2,9 @@
 #include "../include/World.hpp"
 #include <random>
 #include <iostream>
+#include <ctime>
 
 namespace world {
-
 
 Animal::Animal() {
     direction_.x_ = abs(rand()) % 100;
@@ -14,8 +14,8 @@ Animal::Animal() {
    
     velocity_ = 1;
    
-    position_.x_ = abs(rand()) % 200;
-    position_.y_= abs(rand()) % 200;
+    position_.x_ = abs(rand()) % 400;
+    position_.y_= abs(rand()) % 400;
    
     hunger_ = 0;
     age_= 0;
