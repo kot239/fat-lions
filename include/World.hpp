@@ -15,9 +15,9 @@ const int AGE_FOR_SEX = 5;
 const int MAX_AGE = 100;
 const int HUNGER_FOR_SEX = 10;
 const int CD_SEX_TIME = 3;
-const int MAX_HUNGER = 100;
+const int MAX_HUNGER = 1000000;
 const int GRASS_NUTRITION = 10;
-const int START_VELOCITY = 1;
+const double START_VELOCITY = 1;
 const int START_HUNGER = 2;
 const int ZEBRAS_NUTRITION = 20;
 
