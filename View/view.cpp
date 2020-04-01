@@ -67,4 +67,3 @@ View::View(QWidget* parent) : QWidget(parent), ui_(new Ui::View) {
 View::~View() {
     delete ui_;
 }
-
