@@ -1,6 +1,7 @@
 #include "../include/Animal.hpp"
 #include "../include/World.hpp"
 #include <random>
+#include <iostream>
 
 namespace world {
 
@@ -42,7 +43,12 @@ Animal::Animal(const Animal &other) : direction_(other.direction_)
 }
 
 void Animal::make_move() {
-	position_ += direction_ * velocity_;
+	double len = sqrt((direction_.x_ - position_.x_) * (direction_.x_ - position_.x_) +
+	(direction_.y_ - position_.y_) * (direction_.y_ - position_.y_)); 
+
+	direction_.x_ = (direction_.x_ - position_.x_) / len;
+	direction_.y_ = (direction_.y_ - position_.y_) / len; 
+	position_ += (direction_ * velocity_);
 }
 
 void swap(Animal &a, Animal &b) {
@@ -53,7 +59,7 @@ void swap(Animal &a, Animal &b) {
 	std::swap(a.sex_, b.sex_);
 	std::swap(a.age_, b.age_);
 	std::swap(a.hunger_, b.hunger_);
-	std::swap(a.sexcd_, b.hunger_);
+	std::swap(a.sexcd_, b.sexcd_);
 }
 
 } //namespace world

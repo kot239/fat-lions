@@ -3,7 +3,7 @@
 namespace world {
 
 bool World::can_move(const Point pos) const {
-	if (pos.x_ < 621 && pos.x_ > 0 && pos.y_ < 471 && pos.y_ > 0) {
+	if (pos.x_ < 619 && pos.x_ > 2 && pos.y_ < 469 && pos.y_ > 2) {
 	    return true;
 	}
     return false;
