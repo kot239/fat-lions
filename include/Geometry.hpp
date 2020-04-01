@@ -9,7 +9,7 @@ class Vector;
 
 class Point final {
 public:
-	int x_, y_;
+	double x_, y_;
 
 	Point &operator=(const Point &other);
 	Point &operator+=(const Vector &v);
@@ -20,7 +20,7 @@ public:
 
 class Vector final {
 public:
-	int x_, y_;
+	double x_, y_;
     Vector &operator+=(const Vector &v);
     Vector &operator*=(const int val);
 	Vector &operator*(const int val);

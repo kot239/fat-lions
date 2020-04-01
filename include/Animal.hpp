@@ -19,7 +19,7 @@ class Animal {
 public:
 	Vector direction_;
 	Action nextAction_;
-	int velocity_;
+	double velocity_;
 	int vision_;
 	Point position_;
 	int hunger_;

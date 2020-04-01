@@ -76,7 +76,7 @@ View::View(QWidget* parent) : QWidget(parent), ui_(new Ui::View) {
     timer = new QTimer();
     //waiter = new QTimer();
     connect(timer, SIGNAL(timeout()), this, SLOT(update_world()));
-    timer->start(1000);
+    timer->start(100);
 }
 
 View::~View() {

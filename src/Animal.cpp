@@ -11,7 +11,7 @@ Animal::Animal() {
     if (rand() & 1) direction_.x_ *= -1;
     if (rand() & 1) direction_.y_ *= -1;
    
-    velocity_ = 1;
+    velocity_ = 0;
    
     position_.x_ = abs(rand()) % 200;
     position_.y_= abs(rand()) % 200;
