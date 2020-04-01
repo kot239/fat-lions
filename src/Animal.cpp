@@ -1,6 +1,7 @@
 #include "../include/Animal.hpp"
 #include "../include/World.hpp"
 #include <random>
+#include <iostream>
 
 namespace world {
 
@@ -11,7 +12,7 @@ Animal::Animal() {
     if (rand() & 1) direction_.x_ *= -1;
     if (rand() & 1) direction_.y_ *= -1;
    
-    velocity_ = 0;
+    velocity_ = 1;
    
     position_.x_ = abs(rand()) % 200;
     position_.y_= abs(rand()) % 200;
@@ -24,8 +25,7 @@ Animal::Animal() {
         sex_= Sex::MALE;
     } else {
         sex_ = Sex::FEMALE;
-    }
-   
+    }   
 }
 
 Animal::Animal(const Animal &other) : direction_(other.direction_)
@@ -42,32 +42,13 @@ Animal::Animal(const Animal &other) : direction_(other.direction_)
 	}
 }
 
-Point Animal::get_position() const {
-	return position_;
-}
-
-Sex Animal::get_sex() const {
-	return sex_;
-}
-
-int Animal::get_age() const {
-	return age_;
-}
-
-int Animal::get_vision() const {
-	return vision_;
-}
-
-int Animal::get_hunger() const {
-	return hunger_;
-}
-
-bool Animal::get_sexcd() const {
-	return sexcd_ >= CD_SEX_TIME;
-}
-
 void Animal::make_move() {
-	position_ += direction_ * velocity_;
+	double len = sqrt((direction_.x_ - position_.x_) * (direction_.x_ - position_.x_) +
+	(direction_.y_ - position_.y_) * (direction_.y_ - position_.y_)); 
+
+	direction_.x_ = (direction_.x_ - position_.x_) / len;
+	direction_.y_ = (direction_.y_ - position_.y_) / len; 
+	position_ += (direction_ * velocity_);
 }
 
 void swap(Animal &a, Animal &b) {
@@ -78,7 +59,7 @@ void swap(Animal &a, Animal &b) {
 	std::swap(a.sex_, b.sex_);
 	std::swap(a.age_, b.age_);
 	std::swap(a.hunger_, b.hunger_);
-	std::swap(a.sexcd_, b.hunger_);
+	std::swap(a.sexcd_, b.sexcd_);
 }
 
 } //namespace world
