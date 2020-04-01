@@ -8,11 +8,9 @@
 #include <QLabel>
 
 #include "animal_view.h"
-//#include "zebra.h"
 #include "../include/World.hpp"
 #include "../include/vector_logic_lion.h"
 #include "../include/vector_logic_zebra.h"
-//#include "Geometry.hpp"
 
 namespace Ui {
 class View;
@@ -32,13 +30,15 @@ public:
     ~View();
 
 private:
-    AnimalView* lion;
     Ui::View* ui_;
     QGraphicsScene* scene_;
     QTimer* timer;
     World world;
     VectorLogicLion logicLion;
     VectorLogicZebra logicZebra;
+
+    template <typename T>
+    void add_animals(const std::vector<T>& animals, const char* color);
 };
 
 #endif // VIEW_H_
