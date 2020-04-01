@@ -99,8 +99,8 @@ void VectorLogic::find_target_zebra(Zebra& curZebra, World& curWorld) {
     Vector resVector = {0, 0};
 
     for (auto lion : curWorld.lionsArray_) {
-        if (dist(lion.get_position(), curZebra.get_position()) < curZebra.get_vision() * curZebra.get_vision()) {
-            resVector += lion.get_position() - curZebra.get_position(); //find result vector
+        if (dist(lion.position_, curZebra.position_) < curZebra.vision_ * curZebra.vision_) {
+            resVector += lion.position_ - curZebra.position_; //find result vector
         }
     }
 

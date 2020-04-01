@@ -33,7 +33,7 @@ Vector &Vector::operator+=(const Vector &v) {
 }
 
 bool Point::operator==(const Point &point) {
-	return x_ == point.x_ && y_ == point.y_;
+	return (x_ - point.x_ < 0.00001) && (y_ - point.y_ < 0.00001);
 }
 
 Point Point::operator+(const Vector &v) const {

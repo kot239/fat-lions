@@ -11,7 +11,7 @@ Animal::Animal() {
     if (rand() & 1) direction_.x_ *= -1;
     if (rand() & 1) direction_.y_ *= -1;
    
-    velocity_ = 0;
+    velocity_ = 1;
    
     position_.x_ = abs(rand()) % 200;
     position_.y_= abs(rand()) % 200;
@@ -24,8 +24,7 @@ Animal::Animal() {
         sex_= Sex::MALE;
     } else {
         sex_ = Sex::FEMALE;
-    }
-   
+    }   
 }
 
 Animal::Animal(const Animal &other) : direction_(other.direction_)
@@ -40,30 +39,6 @@ Animal::Animal(const Animal &other) : direction_(other.direction_)
 	} else {
 		sex_ = Sex::FEMALE;
 	}
-}
-
-Point Animal::get_position() const {
-	return position_;
-}
-
-Sex Animal::get_sex() const {
-	return sex_;
-}
-
-int Animal::get_age() const {
-	return age_;
-}
-
-int Animal::get_vision() const {
-	return vision_;
-}
-
-int Animal::get_hunger() const {
-	return hunger_;
-}
-
-bool Animal::get_sexcd() const {
-	return sexcd_ >= CD_SEX_TIME;
 }
 
 void Animal::make_move() {

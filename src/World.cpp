@@ -3,7 +3,10 @@
 namespace world {
 
 bool World::can_move(const Point pos) const {
-	return true;
+	if (pos.x_ < 621 && pos.x_ > 0 && pos.y_ < 471 && pos.y_ > 0) {
+	    return true;
+	}
+    return false;
 }
 
 void World::zebras_death(size_t ind) {
