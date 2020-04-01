@@ -14,7 +14,7 @@ Animal::Animal() {
    
     velocity_ = 1;
    
-    position_.x_ = abs(rand()) % 400;
+    position_.x_ = abs(rand()) % 600;
     position_.y_= abs(rand()) % 400;
    
     hunger_ = 0;
