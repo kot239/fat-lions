@@ -6,6 +6,7 @@
 #include <QShortcut>
 #include <QTimer>
 #include <QLabel>
+#include <vector>
 
 #include "animal_view.h"
 //#include "zebra.h"
@@ -39,6 +40,8 @@ private:
     World world;
     VectorLogicLion logicLion;
     VectorLogicZebra logicZebra;
+
+    void add_animals(const std::vector<Animal> animals, const char* color);
 };
 
 #endif // VIEW_H_

@@ -11,23 +11,20 @@ const int MAP_WIDTH = 600;
 const int MAP_HEIGHT = 450;
 const int MAP_H_CONOR = 20;
 const int MAP_W_CONOR = 20;
-/*
-void run_game(World& world, VectorLogicZebra& logicZebra, VectorLogicLion& logicLion) {
-    for (int i = 0; i < 100; i++) {
-        for (size_t j = 0; j < world.zebrasArray_.size(); j++) {
-            logicZebra.find_target(world.zebrasArray_[j], world);
-        }
 
-        for (size_t j = 0; j < world.lionsArray_.size(); j++) {
-            logicLion.find_target(world.lionsArray_[j], world);
-         //   std::cout << j << ' ' << (world.lionsArray_[j].position_.x_) << '\n';
-        }
-        world.update();
-    }    
+void View::add_animals(const std::vector<Animal> animals, const char* color) {
+    for (size_t j = 0; j < animals.size(); j++) {
+        AnimalView* animal;
+        animal = new AnimalView(color);
+        animal->set_location(animals[j]);
+        scene_->addItem(animal);
+        animal->setPos(animal->position_.x_, animal->position_.y_);
+    }
 }
-*/
+
 void View::update_world() {
     scene_->clear();
+    /*
     for (size_t j = 0; j < world.zebrasArray_.size(); j++) {
         AnimalView* zebra;
         zebra = new AnimalView(ZEBRA_COLOR);
@@ -42,7 +39,9 @@ void View::update_world() {
         scene_->addItem(lion);
         lion->setPos(lion->position_.x_, lion->position_.y_);
     }
-
+    */
+    add_animals(world.zebrasArray_, ZEBRA_COLOR);
+    add_animals(world.lionsArray_, LION_COLOR);
     for (size_t j = 0; j < world.zebrasArray_.size(); j++) {
         logicZebra.find_target(world.zebrasArray_[j], world);
     }
