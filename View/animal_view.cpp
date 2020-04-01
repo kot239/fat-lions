@@ -16,7 +16,7 @@ void AnimalView::set_location(Animal animal) {
     if (animal.direction_.x_ >= 0) {
         angle_ = acos(arg) * 180.0 / PI;
     } else {
-        angle_ = 360.0 - acos(arg) * 180.0 / PI;
+        angle_ = 180.0 + acos(arg) * 180.0 / PI;
     }
     setRotation(angle_);
 };
