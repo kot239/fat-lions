@@ -30,11 +30,11 @@ void View::update_world() {
     add_animals(world.lionsArray_, LION_COLOR);
 
     for (size_t j = 0; j < world.zebrasArray_.size(); j++) {
-        logicZebra.find_target(world.zebrasArray_[j], world);
+        logic.find_target_zebra(world.zebrasArray_[j], world);
     }
 
     for (size_t j = 0; j < world.lionsArray_.size(); j++) {
-        logicLion.find_target(world.lionsArray_[j], world);
+        logic.find_target_lion(world.lionsArray_[j], world);
     }
     world.update();
 }

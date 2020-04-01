@@ -39,15 +39,13 @@ if(ANDROID)
     ../include/Grass.hpp
     ../include/Lion.hpp
     ../include/Obstacle.hpp
-    ../include/vector_logic_lion.h
-    ../include/vector_logic_zebra.h
+    ../include/
     ../include/World.hpp
     ../include/Zebra.hpp
     ../src/Animal.cpp
     ../src/Geometry.cpp
     ../src/Grass.cpp
-    ../src/vector_logic_lion.cpp
-    ../src/vector_logic_zebra.cpp
+    ../src/
     ../src/World.cpp
   )
 else()
@@ -63,15 +61,13 @@ else()
     ../include/Grass.hpp
     ../include/Lion.hpp
     ../include/Obstacle.hpp
-    ../include/vector_logic_lion.h
-    ../include/vector_logic_zebra.h
+    ../include/VectorLogic.hpp
     ../include/World.hpp
     ../include/Zebra.hpp
     ../src/Animal.cpp
     ../src/Geometry.cpp
     ../src/Grass.cpp
-    ../src/vector_logic_lion.cpp
-    ../src/vector_logic_zebra.cpp
+    ../src/VectorLogic.cpp
     ../src/World.cpp
   )
 endif()
