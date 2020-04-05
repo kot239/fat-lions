@@ -24,10 +24,23 @@ public:
 class Vector final {
 public:
 	double x_, y_;
+
+	Vector() = default;
+	Vector(double x, double y);
+	Vector(const Point &a, const Point &b);
     Vector &operator+=(const Vector &v);
     Vector &operator*=(const int val);
 	Vector &operator*(const int val);
 
+	double len() const;
+
+};
+
+class Angle final {
+public:
+	double phi;
+
+	Angle(const Vector &a, const Vector &b);
 };
 
 class Segment final {
