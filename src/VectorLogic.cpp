@@ -5,9 +5,9 @@
 using namespace world;
 
 bool VectorLogic::ready_for_reprod(const Animal& curAnimal) {
-    return curAnimal.age_ >= AGE_FOR_SEX &&
-           curAnimal.sexcd_ &&
-           curAnimal.hunger_ >= HUNGER_FOR_SEX;
+    return curAnimal.age_ >= AGE_FOR_REPROD &&
+           curAnimal.reprodCd_ &&
+           curAnimal.hunger_ >= HUNGER_FOR_REPROD;
 }
 
 int VectorLogic::dist(Point a, Point b) {
@@ -16,7 +16,7 @@ int VectorLogic::dist(Point a, Point b) {
 
 Vector VectorLogic::find_correct_vec(const Animal& curAnimal, Vector resVector, const World& curWorld) {
     int timeToThink = 5;
-    while (!curWorld.can_move(curAnimal.position_ + resVector * curAnimal.velocity_)
+    while (!curWorld.can_move(curAnimal.position_, curAnimal.position_ + resVector * curAnimal.velocity_)
             && timeToThink > 0) {
         resVector.x_ *= -1;
         --timeToThink;

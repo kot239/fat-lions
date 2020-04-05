@@ -1,8 +1,6 @@
 #ifndef _INCLUDE_ANIMAL_HPP
 #define _INCLUDE_ANIMAL_HPP
 
-
-#include <variant>
 #include "Geometry.hpp"
 
 namespace world {
@@ -24,7 +22,7 @@ public:
     Point position_;
     int hunger_;
     int age_;
-    int sexcd_;
+    int reprodCd_;
     Sex sex_;
 
     Animal();

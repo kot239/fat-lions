@@ -11,10 +11,10 @@
 
 namespace world {
 
-const int AGE_FOR_SEX = 5;
+const int AGE_FOR_REPROD = 5;
 const int MAX_AGE = 100;
-const int HUNGER_FOR_SEX = 10;
-const int CD_SEX_TIME = 3;
+const int HUNGER_FOR_REPROD = 10;
+const int CD_REPROD_TIME = 3;
 const int MAX_HUNGER = 1000000;
 const int GRASS_NUTRITION = 10;
 const double START_VELOCITY = 1;
@@ -30,7 +30,7 @@ public:
 	std::vector<Grass> grassArray_;
 	std::vector<Polygon> obstaclesArray_;
 
-	bool can_move(const Point pos) const;
+	bool can_move(const Point &from, const Point &to) const;
 	void update();
 	void zebras_death(size_t ind);
 	void lions_death(size_t ind);

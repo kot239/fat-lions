@@ -3,8 +3,8 @@
 namespace world {
 
 
-bool World::can_move(const Point pos) const {
-	if (pos.x_ < 619 && pos.x_ > 2 && pos.y_ < 469 && pos.y_ > 2) {
+bool World::can_move(const Point &from, const Point &to) const {
+	if (to.x_ < 619 && to.x_ > 2 && to.y_ < 469 && to.y_ > 2) {
 	    return true;
 	}
     return false;
@@ -47,11 +47,11 @@ void World::update() {
 			if (zebra->sex_ == Sex::FEMALE) {
 				zebrasArray_.push_back(Zebra(*zebra));
 			}
-			zebra->sexcd_ = -1;
+			zebra->reprodCd_ = -1;
 		}
 		++zebra->age_;
 		++zebra->hunger_;
-		++zebra->sexcd_;
+		++zebra->reprodCd_;
 		if (zebra->nextAction_ == Action::DIE) {
 			zebras_death(i);
 			--i;
@@ -78,10 +78,10 @@ void World::update() {
 			if (lion->sex_ == Sex::FEMALE) {
 				lionsArray_.push_back(Lion(*lion));
 			}
-			lion->sexcd_ = -1;
+			lion->reprodCd_ = -1;
 		}
 		++lion->age_;
-		++lion->sexcd_;
+		++lion->reprodCd_;
 		++lion->hunger_;
 		if (lion->nextAction_ == Action::DIE) {
 			lions_death(i);
