@@ -5,9 +5,8 @@
 
 namespace world {
 
-class Obstacle final {
-private:
-	Figure figure_;
+class Obstacle {
+
 };
 
 } //namespace world

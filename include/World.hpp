@@ -1,11 +1,11 @@
 #ifndef _INCLUDE_WORLD_HPP
 #define _INCLUDE_WORLD_HPP
 
-#include "Geometry.hpp"
-#include "Lion.hpp"
-#include "Zebra.hpp"
-#include "Grass.hpp"
-#include "Obstacle.hpp"
+#include "../include/Geometry.hpp"
+#include "../include/Lion.hpp"
+#include "../include/Zebra.hpp"
+#include "../include/Grass.hpp"
+#include "../include/Obstacle.hpp"
 
 #include <vector>
 
@@ -20,13 +20,15 @@ const int GRASS_NUTRITION = 10;
 const double START_VELOCITY = 1;
 const int START_HUNGER = 2;
 const int ZEBRAS_NUTRITION = 20;
+const size_t X_FIELD_SIZE = 672;
+const size_t Y_FIELD_SIZE = 472;
 
 class World final {
 public:
 	std::vector<Lion> lionsArray_;
 	std::vector<Zebra> zebrasArray_;
 	std::vector<Grass> grassArray_;
-	std::vector<Obstacle> obstaclesArray_;
+	std::vector<Polygon> obstaclesArray_;
 
 	bool can_move(const Point pos) const;
 	void update();

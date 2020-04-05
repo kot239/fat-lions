@@ -11,6 +11,9 @@ class Point final {
 public:
 	double x_, y_;
 
+	Point();
+	Point(const Point &other);
+
 	Point &operator=(const Point &other);
 	Point &operator+=(const Vector &v);
 	bool operator==(const Point &other);
@@ -27,16 +30,27 @@ public:
 
 };
 
-class Figure final {
+class Segment final {
 public:
-	bool point_in_figure(const Point &point) const;
-private:
+	Point a_, b_;
+
+	Segment(const Point &a, const Point &b);
+};
+
+class Polygon final {
+public:
+	size_t size_;
 	std::vector<Point> coord_;
+
+	Polygon(std::vector<Polygon> &polygons);
 };
 
 void swap(Point &a, Point &b);
 
 void swap(Vector &a, Vector &b);
+
+void swap(Polygon &a, Polygon &b);
+
 } //namespace world
 
 #endif // _INCLUDE_GEOMETRY_HPP_
