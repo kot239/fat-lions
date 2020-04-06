@@ -7,7 +7,7 @@
 
 namespace world {
 
-const double eps = 1e-5;
+const double eps = 1e-6;
 
 //Point
 
@@ -95,6 +95,24 @@ Angle::Angle(const Vector &a, const Vector &b) {
 	phi = std::acos(a.len() * b.len() / coord_scalar_product(a, b));
 }
 
+Angle::Angle(const Vector &a) { //polar
+	*this = Angle(a, Vector(1, 0));
+}
+
+bool Angle::operator<(const Angle &other) const {
+	return phi + eps < other.phi;
+}
+bool Angle::operator==(const Angle &other) const {
+	return abs(phi - other.phi) < eps;
+}
+
+
+
+Angle &Angle::operator=(const Angle &other) {
+	phi = other.phi;
+	return *this;
+}
+
 //Angle
 
 //Polygon
@@ -133,8 +151,40 @@ bool point_in_polygon(const Point &point, const Polygon &polygon) {
 	return true;
 }
 
-std::vector<Point> &convex_hull(std::vector<Point> &v) { //TODO
-	return v;
+std::vector<Point> &convex_hull(std::vector<Point> &v) { //gift wrapping algo
+	size_t ind = 0, n = v.size();
+	for (size_t i = 1; i < n; ++i) {
+		if (v[i].y_ < v[ind].y_) {
+			ind = i;
+		}
+		if (v[i].y_ == v[ind].y_ && v[i].x_ > v[ind].x_) {
+			ind = i;
+		}
+	}
+
+	auto p0 = v[ind];
+	auto pi = p0;
+	std::vector<Point> result = {p0};
+	v.push_back(p0);
+	ind = 0;
+	while (true) {
+		++ind;
+		for (size_t i = ind; i < n; ++i) {
+			Vector v1(result.back(), v[i]), v2(result.back(), v[ind]);
+			Angle angle1(v1);
+			Angle angle2(v2);
+			if (angle1 < angle2 || (angle1 == angle2 && v1.len() > v2.len())) {
+				swap(v[i], v[ind]);
+			}
+		}
+		pi = v[ind];
+		if (pi == p0) {
+			break;
+		}
+		result.push_back(pi);
+	}
+	return result;
+
 }
 
 Polygon::Polygon(std::vector<Polygon> &polygons) {

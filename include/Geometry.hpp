@@ -40,7 +40,12 @@ class Angle final {
 public:
 	double phi;
 
+	Angle(const Vector &a);
 	Angle(const Vector &a, const Vector &b);
+
+	bool operator<(const Angle &other) const;
+	bool operator==(const Angle &other) const;
+	Angle &operator=(const Angle &other);
 };
 
 class Segment final {
