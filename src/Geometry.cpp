@@ -58,15 +58,18 @@ Vector::Vector(const Point &a, const Point &b) {
 	y_ = b.y_ - a.y_;
 }
 
+Vector::Vector(const Vector &other) : x_(other.x_), y_(other.y_) {}
 
-Vector &Vector::operator*(const int val) {
-	x_*= val;
-	y_ *= val;
-	return *this;
+
+Vector Vector::operator*(const int val) {
+	Vector cur(*this);
+	cur *= val;
+	return cur;
 }
 
 Vector &Vector::operator*=(const int val) {
-	*this = *this * val;
+	x_ *= val;
+	y_ *= val;
 	return *this;
 }
 
@@ -151,7 +154,7 @@ bool point_in_polygon(const Point &point, const Polygon &polygon) {
 	return true;
 }
 
-std::vector<Point> &convex_hull(std::vector<Point> &v) { //gift wrapping algo
+std::vector<Point> convex_hull(std::vector<Point> &v) { //gift wrapping algo
 	size_t ind = 0, n = v.size();
 	for (size_t i = 1; i < n; ++i) {
 		if (v[i].y_ < v[ind].y_) {

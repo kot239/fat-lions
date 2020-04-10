@@ -27,10 +27,11 @@ public:
 
 	Vector() = default;
 	Vector(double x, double y);
+	Vector(const Vector &v);
 	Vector(const Point &a, const Point &b);
     Vector &operator+=(const Vector &v);
     Vector &operator*=(const int val);
-	Vector &operator*(const int val);
+	Vector operator*(const int val);
 
 	double len() const;
 
