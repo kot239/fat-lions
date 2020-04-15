@@ -4,10 +4,12 @@ namespace world {
 
 
 bool World::can_move(const Point &from, const Point &to) const {
-	if (to.x_ < 619 && to.x_ > 2 && to.y_ < 469 && to.y_ > 2) {
-	    return true;
+	for (auto &polygon : obstaclesArray_) {
+		if (segment_and_polygon_intersection(Segment{from, to}, polygon)) {
+			return false;
+		}
 	}
-    return false;
+	return true;
 }
 
 void World::zebras_death(size_t ind) {

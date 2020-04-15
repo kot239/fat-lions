@@ -3,6 +3,7 @@
 #include "../include/World.hpp"
 
 #include <cmath>
+#include <algorithm>
 #include <stdlib.h>
 
 namespace world {
@@ -212,6 +213,37 @@ Polygon::Polygon(std::vector<Polygon> &polygons) {
 		}
 	}
 	polygons.push_back(*this);
+}
+
+bool check_one_line_intersection(double a, double b, double c, double d) {
+	if (a > b) {
+		std::swap(a, b);
+	}
+	if (c > d) {
+		std::swap(c, d);
+	}
+	return std::max(a, c) <= std::min(b, d);
+}
+
+double oriented_area(const Point &a, const Point &b, const Point &c) {
+	return (b.x_ - a.x_) * (c.y_ - a.y_) - (b.y_ - a.y_) * (c.x_ - a.x_);
+}
+
+bool segment_and_segment_intersection(const Segment &a, const Segment &b) { //simple
+	return oriented_area(a.a_, a.b_, b.a_) * oriented_area(a.a_, a.b_, b.b_) <= 0 && 
+	       oriented_area(b.a_, b.b_, a.a_) * oriented_area(b.a_, b.b_, a.b_) <= 0 &&
+	       check_one_line_intersection(a.a_.x_, a.b_.x_, b.a_.x_, b.a_.x_) &&
+	       check_one_line_intersection(a.a_.y_, a.b_.y_, b.a_.y_, b.a_.y_);
+}
+
+bool segment_and_polygon_intersection(const Segment &segment, const Polygon &polygon) {
+	for (size_t i = 0; i < polygon.size_; ++i) {
+		Segment other{polygon.coord_[i], polygon.coord_[(i + 1) % polygon.size_]};
+		if (segment_and_segment_intersection(segment, other)) {
+			return false;
+		}
+	}
+	return true;
 }
 
 void swap(Point &a, Point &b) {

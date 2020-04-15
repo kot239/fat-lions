@@ -64,6 +64,9 @@ public:
 	Polygon(std::vector<Polygon> &polygons);
 };
 
+bool segment_and_polygon_intersection(const Segment &segment, const Polygon &polygon);
+bool segment_and_segment_intersection(const Segment &a, const Segment &b);
+
 void swap(Point &a, Point &b);
 
 void swap(Vector &a, Vector &b);
