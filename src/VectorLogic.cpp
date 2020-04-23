@@ -1,6 +1,5 @@
 #include "../include/VectorLogic.hpp"
 #include "../include/World.hpp"
-#include <iostream>
 
 using namespace world;
 
@@ -10,21 +9,26 @@ bool VectorLogic::ready_for_reprod(const Animal& curAnimal) {
            curAnimal.hunger_ >= HUNGER_FOR_REPROD;
 }
 
-int VectorLogic::dist(Point a, Point b) {
+double VectorLogic::sqr_dist(Point a, Point b) {
     return (a.x_ - b.x_) * (a.x_ - b.x_) + (a.y_ - b.y_) * (a.y_ - b.y_);
 }
 
 Vector VectorLogic::find_correct_vec(const Animal& curAnimal, Vector resVector, const World& curWorld) {
-    int timeToThink = 5;
-    while (!curWorld.can_move(curAnimal.position_, curAnimal.position_ + resVector * curAnimal.velocity_)
-            && timeToThink > 0) {
-        resVector.x_ *= -1;
-        --timeToThink;
+    for (int i = -1; i <= 1; i += 2) {
+        for (int j = -1; i <= 1; j += 2) {
+            resVector.x_ *= j;
+            resVector.y_ *= i;
+            if (curWorld.can_move(curAnimal.position_, curAnimal.position_ + resVector * curAnimal.velocity_)) {
+                return resVector;
+            }
+            resVector.x_ *= j;
+            resVector.y_ *= i;
+        }
     }
     return resVector;
 }
 
-bool VectorLogic::is_died(Animal& curAnimal) {
+bool VectorLogic::is_dead(Animal& curAnimal) {
     if (curAnimal.age_ >= MAX_AGE || curAnimal.hunger_ >= MAX_HUNGER) {
         curAnimal.nextAction_ = Action::DIE;
         return true;
@@ -33,22 +37,22 @@ bool VectorLogic::is_died(Animal& curAnimal) {
 }
 
 template<typename T>
-void VectorLogic::reproduce(T& curAnimal, const std::vector<T>& animalArray, World& curWorld) {
-    double cur_dist;
-    double min_dist = -1;
+void VectorLogic::reproduce(T& curAnimal, std::vector<T>& animalArray, World& curWorld) {
+    double curDist;
+    double minDist = -1;
     Vector resVector = {0, 0};
-    for (auto animal : animalArray) {
-        cur_dist = dist(animal.position_, curAnimal.position_);
+    for (auto& animal : animalArray) {
+        curDist = sqr_dist(animal.position_, curAnimal.position_);
         if (animal.sex_ != curAnimal.sex_ && ready_for_reprod(animal) &&
-            (cur_dist < curAnimal.vision_ * curAnimal.vision_)) {
+            (curDist < curAnimal.vision_ * curAnimal.vision_)) {
 
             if (animal.position_ == curAnimal.position_) {
                 animal.nextAction_ = (animal.sex_ == Sex::FEMALE) ? Action::REPRODUCE : Action::NOTHING;
                 curAnimal.nextAction_ = (curAnimal.sex_ == Sex::FEMALE) ? Action::REPRODUCE : Action::NOTHING;
                 return;
             }
-            if (min_dist == -1 || cur_dist < min_dist) {
-                min_dist = cur_dist;
+            if (minDist == -1 || curDist < minDist) {
+                minDist = curDist;
                 resVector = animal.position_ - curAnimal.position_;
             }
         }
@@ -60,15 +64,15 @@ void VectorLogic::reproduce(T& curAnimal, const std::vector<T>& animalArray, Wor
 
 template<typename T>
 void VectorLogic::nutrition(Animal& curAnimal, const std::vector<T>& foodArray, World& curWorld) {
-    double cur_dist;
-    double min_dist = -1;
+    double curDist;
+    double minDist = -1;
     Vector resVector = {0, 0};
-    for (auto food : foodArray) {
-        cur_dist = dist(food.position_, curAnimal.position_);
-        if (cur_dist < curAnimal.vision_ * curAnimal.vision_ &&
-            (min_dist == -1 || cur_dist < min_dist)) {
+    for (auto& food : foodArray) {
+        curDist = sqr_dist(food.position_, curAnimal.position_);
+        if (curDist < curAnimal.vision_ * curAnimal.vision_ &&
+            (minDist == -1 || curDist < minDist)) {
 
-            min_dist = cur_dist;
+            minDist = curDist;
             resVector = food.position_ - curAnimal.position_;
         }
     }
@@ -80,7 +84,7 @@ void VectorLogic::nutrition(Animal& curAnimal, const std::vector<T>& foodArray, 
 }
 
 void VectorLogic::find_target_lion(Lion& curLion, World& curWorld) {
-    if (is_died(curLion)) {
+    if (is_dead(curLion)) {
         return;
     }
     if (ready_for_reprod(curLion)) {
@@ -92,14 +96,14 @@ void VectorLogic::find_target_lion(Lion& curLion, World& curWorld) {
 }
 
 void VectorLogic::find_target_zebra(Zebra& curZebra, World& curWorld) {
-    if (is_died(curZebra)) {
+    if (is_dead(curZebra)) {
         return;
     }
 
     Vector resVector = {0, 0};
 
-    for (auto lion : curWorld.lionsArray_) {
-        if (dist(lion.position_, curZebra.position_) < curZebra.vision_ * curZebra.vision_) {
+    for (auto& lion : curWorld.lionsArray_) {
+        if (sqr_dist(lion.position_, curZebra.position_) < curZebra.vision_ * curZebra.vision_) {
             resVector += lion.position_ - curZebra.position_; //find result vector
         }
     }
