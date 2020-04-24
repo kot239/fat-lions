@@ -36,7 +36,8 @@ void World::grass_death(size_t ind) {
 }
 
 void World::update() {
-	for (size_t i = 0; i < lionsArray_.size(); ++i) {
+	size_t cur_numb = lionsArray_.size();
+	for (size_t i = 0; i < cur_numb; ++i) {
 		Lion *lion = &lionsArray_[i];
 		if (lion->nextAction_ == Action::EAT) {
 			lion->make_move();
@@ -71,7 +72,8 @@ void World::update() {
 			--i;
 		}
 	}
-	for (size_t i = 0; i < zebrasArray_.size(); ++i) {
+	cur_numb = zebrasArray_.size();
+	for (size_t i = 0; i < cur_numb; ++i) {
 		Zebra *zebra = &zebrasArray_[i];
 		if (zebra->nextAction_ == Action::EAT) {
 			zebra->make_move();
