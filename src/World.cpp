@@ -56,6 +56,7 @@ void World::update() {
 		if (lion->nextAction_ == Action::REPRODUCE) {
 			if (lion->sex_ == Sex::FEMALE) {
 				Lion new_lion;
+				new_lion.position_ = lion->position_;
 				lionsArray_.push_back(new_lion);
 			}
 			lion->nextAction_ = Action::GO;
@@ -90,6 +91,7 @@ void World::update() {
 		if (zebra->nextAction_ == Action::REPRODUCE) {
 			if (zebra->sex_ == Sex::FEMALE) {
 				Zebra new_zebra;
+				new_zebra.position_ = zebra->position_;
 				zebrasArray_.push_back(new_zebra);
 			}
 			zebra->nextAction_ = Action::GO;
