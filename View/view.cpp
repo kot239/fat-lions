@@ -41,11 +41,19 @@ void View::update_world() {
     chart_->draw_chart(world.lionsArray_.size(), world.zebrasArray_.size());
 }
 
+void View::start_game() {
+    timer = new QTimer();
+    connect(timer, SIGNAL(timeout()), this, SLOT(update_world()));
+    timer->start(SECOND / FPS);
+    return;
+}
+
 View::View(QWidget* parent) : QWidget(parent), ui_(new Ui::View) {
     ui_->setupUi(this);
     scene_ = new QGraphicsScene();
     chart_ = new Chart();
     chart_->legend()->hide();
+
     for (int i = 0; i < 10; i++) {
         Zebra tmp;
         world.zebrasArray_.push_back(tmp);
@@ -55,17 +63,15 @@ View::View(QWidget* parent) : QWidget(parent), ui_(new Ui::View) {
         world.lionsArray_.push_back(tmp);
     }
 
-    ui_->graphicsView->setScene(scene_);
-    ui_->graphicsView->setRenderHint(QPainter::Antialiasing);
-    ui_->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    ui_->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    ui_->graphicsView_2->setChart(chart_);
+    ui_->map->setScene(scene_);
+    ui_->map->setRenderHint(QPainter::Antialiasing);
+    ui_->map->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui_->map->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui_->chart_view->setChart(chart_);
 
     scene_->setSceneRect(MAP_W_CONOR, MAP_H_CONOR, MAP_WIDTH, MAP_HEIGHT);
 
-    timer = new QTimer();
-    connect(timer, SIGNAL(timeout()), this, SLOT(update_world()));
-    timer->start(SECOND / FPS);
+    connect(ui_->start_button, SIGNAL(clicked()), this, SLOT(start_game()));
 }
 
 View::~View() {

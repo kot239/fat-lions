@@ -16,7 +16,7 @@
   <property name="windowTitle">
    <string>View</string>
   </property>
-  <widget class="QGraphicsView" name="graphicsView">
+  <widget class="QGraphicsView" name="map">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -26,7 +26,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QChartView" name="graphicsView_2">
+  <widget class="QChartView" name="chart_view">
    <property name="geometry">
     <rect>
      <x>660</x>
@@ -36,7 +36,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QPushButton" name="start_button">
    <property name="geometry">
     <rect>
      <x>660</x>

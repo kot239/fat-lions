@@ -7,6 +7,7 @@
 #include <QTimer>
 #include <QLabel>
 #include <QtCharts/QChartView>
+#include <QPushButton>
 
 #include "animal_view.h"
 #include "chart.h"
@@ -25,6 +26,7 @@ signals:
 
 public slots:
     void update_world();
+    void start_game();
 
 public:
     explicit View(QWidget* parent = nullptr);
