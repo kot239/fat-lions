@@ -30,9 +30,9 @@ public:
 	Vector(const Vector &v);
 	Vector(const Point &a, const Point &b);
     Vector &operator+=(const Vector &v);
-    Vector &operator*=(const int val);
-	Vector operator*(const int val);
-
+    Vector &operator*=(const double val);
+	Vector operator*(const double val);
+    void normalize();
 	double len() const;
 
 };

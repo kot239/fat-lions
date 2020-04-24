@@ -29,12 +29,12 @@ void View::update_world() {
     add_animals(world.zebrasArray_, ZEBRA_COLOR);
     add_animals(world.lionsArray_, LION_COLOR);
 
-    for (size_t j = 0; j < world.zebrasArray_.size(); j++) {
-        logic.find_target_zebra(world.zebrasArray_[j], world);
+    for (auto& curZebra : world.zebrasArray_) {
+        logic.find_target_zebra(curZebra, world);
     }
 
-    for (size_t j = 0; j < world.lionsArray_.size(); j++) {
-        logic.find_target_lion(world.lionsArray_[j], world);
+    for (auto& curLion : world.lionsArray_) {
+        logic.find_target_lion(curLion, world);
     }
     world.update();
 }
@@ -43,11 +43,11 @@ View::View(QWidget* parent) : QWidget(parent), ui_(new Ui::View) {
     ui_->setupUi(this);
     scene_ = new QGraphicsScene();
     
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 10; i++) {
         Zebra tmp;
         world.zebrasArray_.push_back(tmp);
     }
-    for (int i = 0; i < 50; i++) {
+    for (int i = 0; i < 3; i++) {
         Lion tmp;
         world.lionsArray_.push_back(tmp);
     }

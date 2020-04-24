@@ -5,6 +5,8 @@
 #include <cmath>
 #include <algorithm>
 #include <stdlib.h>
+#include <assert.h>
+#include <iostream>
 
 namespace world {
 
@@ -61,17 +63,21 @@ Vector::Vector(const Point &a, const Point &b) {
 
 Vector::Vector(const Vector &other) : x_(other.x_), y_(other.y_) {}
 
+void Vector::normalize() {
+    assert(!(len() < eps));
+    *this *=  ((double)(1) / len());
+}
 
-Vector Vector::operator*(const int val) {
+Vector Vector::operator*(const double val) {
 	Vector cur(*this);
 	cur *= val;
 	return cur;
 }
 
-Vector &Vector::operator*=(const int val) {
-	x_ *= val;
-	y_ *= val;
-	return *this;
+Vector &Vector::operator*=(const double val) {
+    x_ *= val;
+    y_ *= val;
+    return *this;
 }
 
 Vector &Vector::operator+=(const Vector &v) {
@@ -109,8 +115,6 @@ bool Angle::operator<(const Angle &other) const {
 bool Angle::operator==(const Angle &other) const {
 	return abs(phi - other.phi) < eps;
 }
-
-
 
 Angle &Angle::operator=(const Angle &other) {
 	phi = other.phi;

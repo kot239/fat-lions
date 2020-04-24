@@ -17,11 +17,13 @@ const int HUNGER_FOR_REPROD = 10;
 const int CD_REPROD_TIME = 3;
 const int MAX_HUNGER = 100000000;
 const int GRASS_NUTRITION = 10;
-const double START_VELOCITY = 2;
+const double START_VELOCITY = 5;
 const int START_HUNGER = 2;
+const int START_VISION = 10000;
 const int ZEBRAS_NUTRITION = 20;
 const size_t X_FIELD_SIZE = 672;
 const size_t Y_FIELD_SIZE = 472;
+
 
 class World final {
 public:

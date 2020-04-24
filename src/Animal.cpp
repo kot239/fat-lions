@@ -3,6 +3,7 @@
 #include <random>
 #include <iostream>
 #include <ctime>
+#include<cstdlib>
 
 namespace world {
 
@@ -11,12 +12,11 @@ Animal::Animal() {
     direction_.y_= abs(rand()) % 100;
     if (rand() & 1) direction_.x_ *= -1;
     if (rand() & 1) direction_.y_ *= -1;
-   
+    direction_.normalize();
     velocity_ = 10;
-    vision_ = 100000;
+    vision_ = 70;
     position_.x_ = abs(rand()) % 600;
     position_.y_= abs(rand()) % 400;
-   
     hunger_ = 0;
     age_= 0;
     reprodCd_ = 0;
@@ -31,6 +31,7 @@ Animal::Animal() {
 Animal::Animal(const Animal &other) : direction_(other.direction_)
 									, nextAction_(Action::NOTHING)
 									, velocity_(START_VELOCITY)
+									, vision_(START_VISION)
 									, position_(other.position_)
 									, hunger_(START_HUNGER)
 									, age_(-1)
@@ -43,12 +44,7 @@ Animal::Animal(const Animal &other) : direction_(other.direction_)
 }
 
 void Animal::make_move() {
-	double len = sqrt((direction_.x_ - position_.x_) * (direction_.x_ - position_.x_) +
-	(direction_.y_ - position_.y_) * (direction_.y_ - position_.y_)); 
-
-	direction_.x_ = (direction_.x_ - position_.x_) / len;
-	direction_.y_ = (direction_.y_ - position_.y_) / len; 
-	position_ += (direction_ * velocity_);
+    position_ += (direction_ * velocity_);
 }
 
 void swap(Animal &a, Animal &b) {
