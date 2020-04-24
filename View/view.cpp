@@ -1,6 +1,7 @@
 #include "view.h"
 #include "ui_view.h"
 
+
 const char* LION_COLOR = "#FFCC33";
 const char* ZEBRA_COLOR = "#999999";
 
@@ -37,13 +38,15 @@ void View::update_world() {
         logic.find_target_lion(world.lionsArray_[j], world);
     }
     world.update();
+    chart_->draw_chart(world.lionsArray_.size(), world.zebrasArray_.size());
 }
 
 View::View(QWidget* parent) : QWidget(parent), ui_(new Ui::View) {
     ui_->setupUi(this);
     scene_ = new QGraphicsScene();
-    
-    for (int i = 0; i < 5; i++) {
+    chart_ = new Chart();
+    chart_->legend()->hide();
+    for (int i = 0; i < 10; i++) {
         Zebra tmp;
         world.zebrasArray_.push_back(tmp);
     }
@@ -56,6 +59,7 @@ View::View(QWidget* parent) : QWidget(parent), ui_(new Ui::View) {
     ui_->graphicsView->setRenderHint(QPainter::Antialiasing);
     ui_->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui_->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui_->graphicsView_2->setChart(chart_);
 
     scene_->setSceneRect(MAP_W_CONOR, MAP_H_CONOR, MAP_WIDTH, MAP_HEIGHT);
 

@@ -12,7 +12,7 @@ int main(int argc, char* argv[])
 
     View w;
 
-    w.resize(800, 600);
+    w.resize(1000, 600);
     //w.setWindowTitle("Fat Lions");
     //w.setWindowIcon(QIcon("icon.png"));
     w.show();

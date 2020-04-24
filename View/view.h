@@ -6,8 +6,10 @@
 #include <QShortcut>
 #include <QTimer>
 #include <QLabel>
+#include <QtCharts/QChartView>
 
 #include "animal_view.h"
+#include "chart.h"
 #include "../include/World.hpp"
 #include "../include/VectorLogic.hpp"
 
@@ -34,6 +36,7 @@ private:
     QTimer* timer;
     World world;
     VectorLogic logic;
+    Chart* chart_;
 
     template <typename T>
     void add_animals(const std::vector<T>& animals, const char* color);
