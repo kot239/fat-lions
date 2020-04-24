@@ -46,3 +46,10 @@ void Chart::draw_chart(qreal lions_cnt, qreal zebras_cnt) {
     series_zebras_->append(x_z_, y_z_);
 
 }
+
+void Chart::clean() {
+    series_lions_->clear();
+    series_zebras_->clear();
+    x_l_ = 0;
+    x_z_ = 0;
+}

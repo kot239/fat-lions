@@ -27,6 +27,7 @@ signals:
 public slots:
     void update_world();
     void start_game();
+    void stop_game();
 
 public:
     explicit View(QWidget* parent = nullptr);

@@ -15,6 +15,7 @@ public:
     Chart(QGraphicsItem* parent = nullptr, Qt::WindowFlags wFlags = nullptr);
 	virtual ~Chart() = default;
     void draw_chart(qreal lions_cnt, qreal zebras_cnt);
+    void clean();
 
 private:
     QLineSeries* series_lions_;

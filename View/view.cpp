@@ -41,19 +41,16 @@ void View::update_world() {
     chart_->draw_chart(world.lionsArray_.size(), world.zebrasArray_.size());
 }
 
-void View::start_game() {
-    timer = new QTimer();
-    connect(timer, SIGNAL(timeout()), this, SLOT(update_world()));
-    timer->start(SECOND / FPS);
+void View::stop_game() {
+    timer->stop();
+    scene_->clear();
+    world.zebrasArray_.clear();
+    world.lionsArray_.clear();
+    chart_->clean();
     return;
 }
 
-View::View(QWidget* parent) : QWidget(parent), ui_(new Ui::View) {
-    ui_->setupUi(this);
-    scene_ = new QGraphicsScene();
-    chart_ = new Chart();
-    chart_->legend()->hide();
-
+void View::start_game() {
     for (int i = 0; i < 10; i++) {
         Zebra tmp;
         world.zebrasArray_.push_back(tmp);
@@ -62,6 +59,18 @@ View::View(QWidget* parent) : QWidget(parent), ui_(new Ui::View) {
         Lion tmp;
         world.lionsArray_.push_back(tmp);
     }
+    timer = new QTimer();
+    timer->start(SECOND / FPS);
+    connect(timer, SIGNAL(timeout()), this, SLOT(update_world()));
+    connect(ui_->stop_button, SIGNAL(clicked()), this, SLOT(stop_game()));
+    return;
+}
+
+View::View(QWidget* parent) : QWidget(parent), ui_(new Ui::View) {
+    ui_->setupUi(this);
+    scene_ = new QGraphicsScene();
+    chart_ = new Chart();
+    chart_->legend()->hide();
 
     ui_->map->setScene(scene_);
     ui_->map->setRenderHint(QPainter::Antialiasing);
