@@ -53,8 +53,8 @@ void VectorLogic::reproduce(T& curAnimal, std::vector<T>& animalArray, World& cu
 
             if (abs((animal.position_ - curAnimal.position_).x_) < 2 &&
                 abs((animal.position_ - curAnimal.position_).y_) < 2 ) {
-                animal.nextAction_ = (animal.sex_ == Sex::FEMALE) ? Action::REPRODUCE : Action::NOTHING;
-                curAnimal.nextAction_ = (curAnimal.sex_ == Sex::FEMALE) ? Action::REPRODUCE : Action::NOTHING;
+                animal.nextAction_ = Action::REPRODUCE;
+                curAnimal.nextAction_ = Action::REPRODUCE;
                 return;
             }
             if (abs(minDist + 1) < 0.00001 || curDist < minDist) {

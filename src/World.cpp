@@ -58,6 +58,8 @@ void World::update() {
 				Lion new_lion;
 				lionsArray_.push_back(new_lion);
 			}
+			lion->nextAction_ = Action::GO;
+
 			lion->reprodCd_ = -1;
 		}
 		++lion->age_;
@@ -90,6 +92,7 @@ void World::update() {
 				Zebra new_zebra;
 				zebrasArray_.push_back(new_zebra);
 			}
+			zebra->nextAction_ = Action::GO;
 			zebra->reprodCd_ = -1;
 		}
 		++zebra->age_;
