@@ -19,8 +19,8 @@ Animal::Animal() {
     position_.y_= abs(rand()) % 400;
     hunger_ = 0;
     age_= 0;
-    reprodCd_ = 0;
-   
+    reprodCd_ = -1;
+    nextAction_ = Action::GO;
     if (std::rand() & 1) {
         sex_= Sex::MALE;
     } else {
@@ -34,8 +34,9 @@ Animal::Animal(const Animal &other) : direction_(other.direction_)
 									, vision_(START_VISION)
 									, position_(other.position_)
 									, hunger_(START_HUNGER)
-									, age_(-1)
-									, reprodCd_(CD_REPROD_TIME) {
+									, age_(other.age_)
+									, reprodCd_(other.reprodCd_) {
+	nextAction_ = Action::GO;
 	if (std::rand() & 1) {
 		sex_ = Sex::MALE;
 	} else {

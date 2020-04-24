@@ -52,9 +52,10 @@ void VectorLogic::reproduce(T& curAnimal, std::vector<T>& animalArray, World& cu
         if (animal.sex_ != curAnimal.sex_ && ready_for_reprod(animal) &&
             (curDist < curAnimal.vision_ * curAnimal.vision_)) {
 
-            if (animal.position_ == curAnimal.position_) {
-                animal.nextAction_ = (animal.sex_ == Sex::FEMALE) ? Action::REPRODUCE : Action::NOTHING;
-                curAnimal.nextAction_ = (curAnimal.sex_ == Sex::FEMALE) ? Action::REPRODUCE : Action::NOTHING;
+            if (abs((animal.position_ - curAnimal.position_).x_) < 2 &&
+                abs((animal.position_ - curAnimal.position_).y_) < 2 ) {
+                animal.nextAction_ = Action::REPRODUCE;
+                curAnimal.nextAction_ = Action::REPRODUCE;
                 return;
             }
             if (abs(minDist + 1) < 0.00001 || curDist < minDist) {
@@ -85,9 +86,12 @@ void VectorLogic::nutrition(Animal& curAnimal, const std::vector<T>& foodArray, 
 
             minDist = curDist;
             resVector = food.position_ - curAnimal.position_;
+            if (resVector.len() < 10) {
+                curAnimal.nextAction_ = Action::EAT;
+            }
         }
     }
-    if (!(resVector.len() < 0.0001))  {
+    if (!(resVector.len() < 0.0001) && curAnimal.nextAction_ != Action::EAT)  {
         curAnimal.nextAction_ = Action::GO;
         curAnimal.direction_ = find_correct_vec(curAnimal, resVector, curWorld);
         return;
@@ -101,8 +105,8 @@ void VectorLogic::find_target_lion(Lion& curLion, World& curWorld) {
     if (ready_for_reprod(curLion)) {
         reproduce<Lion>(curLion, curWorld.lionsArray_, curWorld);
     } 
+    //БАГА, никогда размножаться не будут
     nutrition<Zebra>(curLion, curWorld.zebrasArray_, curWorld);
-    curLion.nextAction_ = Action::GO;
     curLion.direction_ = find_correct_vec(curLion, curLion.direction_, curWorld);
 }
 

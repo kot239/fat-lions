@@ -36,44 +36,15 @@ void World::grass_death(size_t ind) {
 }
 
 void World::update() {
-	for (size_t i = 0; i < zebrasArray_.size(); ++i) {
-		Zebra *zebra = &zebrasArray_[i];
-		if (zebra->nextAction_ == Action::EAT) {
-			zebra->make_move();
-			for (size_t j = 0; j < grassArray_.size(); ++j) {
-				if (grassArray_[j].get_position() == zebra->position_) {
-					zebra->hunger_ -= GRASS_NUTRITION;
-					grass_death(j);
-					break;
-				}
-			}
-		}
-		if (zebra->nextAction_ == Action::GO) {
-			zebra->make_move();
-		}
-		if (zebra->nextAction_ == Action::REPRODUCE) {
-			if (zebra->sex_ == Sex::FEMALE) {
-				zebrasArray_.push_back(Zebra(*zebra));
-			}
-			zebra->reprodCd_ = -1;
-		}
-		++zebra->age_;
-		++zebra->hunger_;
-		++zebra->reprodCd_;
-		if (zebra->nextAction_ == Action::DIE) {
-			zebras_death(i);
-			--i;
-		}
-	}
-
-
 	for (size_t i = 0; i < lionsArray_.size(); ++i) {
 		Lion *lion = &lionsArray_[i];
 		if (lion->nextAction_ == Action::EAT) {
 			lion->make_move();
 			for (size_t j = 0; j < zebrasArray_.size(); ++j) {
-				if (zebrasArray_[j].position_ == lion->position_) {
+				if (abs(zebrasArray_[j].position_.x_- lion->position_.x_) < 10 && 
+					abs(zebrasArray_[j].position_.y_- lion->position_.y_) < 10) {
 					lion->hunger_ -= ZEBRAS_NUTRITION;
+				    lion->nextAction_ = Action::GO;
 					zebras_death(j);
 					break;
 				}
@@ -84,8 +55,11 @@ void World::update() {
 		}
 		if (lion->nextAction_ == Action::REPRODUCE) {
 			if (lion->sex_ == Sex::FEMALE) {
-				lionsArray_.push_back(Lion(*lion));
+				Lion new_lion;
+				lionsArray_.push_back(new_lion);
 			}
+			lion->nextAction_ = Action::GO;
+
 			lion->reprodCd_ = -1;
 		}
 		++lion->age_;
@@ -93,6 +67,39 @@ void World::update() {
 		++lion->hunger_;
 		if (lion->nextAction_ == Action::DIE) {
 			lions_death(i);
+			--i;
+		}
+	}
+	for (size_t i = 0; i < zebrasArray_.size(); ++i) {
+		Zebra *zebra = &zebrasArray_[i];
+		if (zebra->nextAction_ == Action::EAT) {
+			zebra->make_move();
+			for (size_t j = 0; j < grassArray_.size(); ++j) {
+				if (grassArray_[j].get_position() == zebra->position_) {
+					zebra->hunger_ -= GRASS_NUTRITION;
+			        zebra->nextAction_ = Action::GO;
+
+					grass_death(j);
+					break;
+				}
+			}
+		}
+		if (zebra->nextAction_ == Action::GO) {
+			zebra->make_move();
+		}
+		if (zebra->nextAction_ == Action::REPRODUCE) {
+			if (zebra->sex_ == Sex::FEMALE) {
+				Zebra new_zebra;
+				zebrasArray_.push_back(new_zebra);
+			}
+			zebra->nextAction_ = Action::GO;
+			zebra->reprodCd_ = -1;
+		}
+		++zebra->age_;
+		++zebra->hunger_;
+		++zebra->reprodCd_;
+		if (zebra->nextAction_ == Action::DIE) {
+			zebras_death(i);
 			--i;
 		}
 	}

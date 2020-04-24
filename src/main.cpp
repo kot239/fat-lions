@@ -23,7 +23,7 @@ int main() {
     World world;
     VectorLogic vector_logic;
 
-    for (int i = 0; i < 0; i++) {
+    for (int i = 0; i < 10; i++) {
         Zebra tmp;
         world.zebrasArray_.push_back(tmp);
     }
@@ -31,8 +31,6 @@ int main() {
         Lion tmp;
         world.lionsArray_.push_back(tmp);
     }
-    std::cout << "START\n";
-    std::cout << world.lionsArray_[0].direction_.x_ << ' ' << world.lionsArray_[0].direction_.y_ << '\n';
     run_game(world, vector_logic);
 
 } 
