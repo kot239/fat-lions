@@ -1,6 +1,7 @@
 #include "view.h"
 #include "ui_view.h"
 
+
 const char* LION_COLOR = "#FFCC33";
 const char* ZEBRA_COLOR = "#999999";
 
@@ -37,12 +38,19 @@ void View::update_world() {
         logic.find_target_lion(curLion, world);
     }
     world.update();
+    chart_->draw_chart(world.lionsArray_.size(), world.zebrasArray_.size());
 }
 
-View::View(QWidget* parent) : QWidget(parent), ui_(new Ui::View) {
-    ui_->setupUi(this);
-    scene_ = new QGraphicsScene();
-    
+void View::stop_game() {
+    timer->stop();
+    scene_->clear();
+    world.zebrasArray_.clear();
+    world.lionsArray_.clear();
+    chart_->clean();
+    return;
+}
+
+void View::start_game() {
     for (int i = 0; i < 10; i++) {
         Zebra tmp;
         world.zebrasArray_.push_back(tmp);
@@ -51,17 +59,28 @@ View::View(QWidget* parent) : QWidget(parent), ui_(new Ui::View) {
         Lion tmp;
         world.lionsArray_.push_back(tmp);
     }
+    timer = new QTimer();
+    timer->start(SECOND / FPS);
+    connect(timer, SIGNAL(timeout()), this, SLOT(update_world()));
+    connect(ui_->stop_button, SIGNAL(clicked()), this, SLOT(stop_game()));
+    return;
+}
 
-    ui_->graphicsView->setScene(scene_);
-    ui_->graphicsView->setRenderHint(QPainter::Antialiasing);
-    ui_->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    ui_->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+View::View(QWidget* parent) : QWidget(parent), ui_(new Ui::View) {
+    ui_->setupUi(this);
+    scene_ = new QGraphicsScene();
+    chart_ = new Chart();
+    chart_->legend()->hide();
+
+    ui_->map->setScene(scene_);
+    ui_->map->setRenderHint(QPainter::Antialiasing);
+    ui_->map->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui_->map->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui_->chart_view->setChart(chart_);
 
     scene_->setSceneRect(MAP_W_CONOR, MAP_H_CONOR, MAP_WIDTH, MAP_HEIGHT);
 
-    timer = new QTimer();
-    connect(timer, SIGNAL(timeout()), this, SLOT(update_world()));
-    timer->start(SECOND / FPS);
+    connect(ui_->start_button, SIGNAL(clicked()), this, SLOT(start_game()));
 }
 
 View::~View() {

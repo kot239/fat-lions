@@ -25,12 +25,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #endif()
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
+find_package(Qt5Charts)
 
 if(ANDROID)
   add_library(View SHARED
     main.cpp
     view.cpp
     view.h
+    chart.cpp
+    chart.h
     animal_view.h
     animal_view.cpp
     view.ui
@@ -53,6 +56,8 @@ else()
     main.cpp
     view.cpp
     view.h
+    chart.cpp
+    chart.h
     animal_view.h
     animal_view.cpp
     view.ui
@@ -72,4 +77,4 @@ else()
   )
 endif()
 
-target_link_libraries(View PRIVATE Qt5::Widgets)
+target_link_libraries(View PRIVATE Qt5::Widgets Qt5::Charts)
