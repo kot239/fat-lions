@@ -43,11 +43,11 @@ View::View(QWidget* parent) : QWidget(parent), ui_(new Ui::View) {
     ui_->setupUi(this);
     scene_ = new QGraphicsScene();
     
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 100; i++) {
         Zebra tmp;
         world.zebrasArray_.push_back(tmp);
     }
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 50; i++) {
         Lion tmp;
         world.lionsArray_.push_back(tmp);
     }
