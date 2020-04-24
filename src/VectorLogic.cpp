@@ -7,7 +7,7 @@ using namespace world;
 
 bool VectorLogic::ready_for_reprod(const Animal& curAnimal) {
     return curAnimal.age_ >= AGE_FOR_REPROD &&
-           curAnimal.reprodCd_ &&
+           curAnimal.reprodCd_ >= CD_REPROD_TIME &&
            curAnimal.hunger_ >= HUNGER_FOR_REPROD;
 }
 
