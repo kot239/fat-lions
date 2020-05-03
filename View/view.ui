@@ -14,7 +14,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>View</string>
+   <string>Life Simulation</string>
   </property>
   <widget class="QGraphicsView" name="map">
    <property name="geometry">
@@ -60,6 +60,73 @@
    </property>
    <property name="text">
     <string>Stop</string>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="lions_numb">
+   <property name="geometry">
+    <rect>
+     <x>670</x>
+     <y>340</y>
+     <width>151</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="minimum">
+    <number>1</number>
+   </property>
+   <property name="maximum">
+    <number>100</number>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="zebras_numb">
+   <property name="geometry">
+    <rect>
+     <x>670</x>
+     <y>390</y>
+     <width>151</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="minimum">
+    <number>1</number>
+   </property>
+   <property name="maximum">
+    <number>100</number>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>830</x>
+     <y>340</y>
+     <width>59</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::NoFrame</enum>
+   </property>
+   <property name="text">
+    <string>Lions</string>
+   </property>
+   <property name="scaledContents">
+    <bool>false</bool>
+   </property>
+   <property name="wordWrap">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>830</x>
+     <y>390</y>
+     <width>61</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Zebras</string>
    </property>
   </widget>
  </widget>
