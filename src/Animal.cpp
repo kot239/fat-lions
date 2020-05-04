@@ -35,14 +35,7 @@ Animal::Animal(const Animal &other) : direction_(other.direction_)
 									, position_(other.position_)
 									, hunger_(START_HUNGER)
 									, age_(other.age_)
-									, reprodCd_(other.reprodCd_) {
-	nextAction_ = Action::GO;
-	if (std::rand() & 1) {
-		sex_ = Sex::MALE;
-	} else {
-		sex_ = Sex::FEMALE;
-	}
-}
+									, reprodCd_(other.reprodCd_) {}
 
 void Animal::make_move() {
     position_ += (direction_ * velocity_);
