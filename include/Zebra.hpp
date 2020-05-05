@@ -5,7 +5,10 @@
 
 namespace world {
 
-class Zebra final : public Animal {};
+class Zebra final : public Animal { 
+public:
+ //   void create_child(World&) override;
+};
 
 } //namespace world
 

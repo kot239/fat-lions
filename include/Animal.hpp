@@ -5,6 +5,9 @@
 
 namespace world {
 
+class World;
+
+
 enum class Sex {
     MALE, FEMALE
 };
@@ -26,8 +29,8 @@ public:
     Sex sex_;
 
     Animal();
-    Animal(const Animal &other);
-
+    Animal(const Animal &other) = default;
+  //  virtual void create_child(World&) = 0;
     void make_move();
 };
 

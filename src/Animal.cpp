@@ -13,7 +13,7 @@ Animal::Animal() {
     if (rand() & 1) direction_.x_ *= -1;
     if (rand() & 1) direction_.y_ *= -1;
     direction_.normalize();
-    velocity_ = 10;
+    velocity_ = 5;
     vision_ = 70;
     position_.x_ = abs(rand()) % 600;
     position_.y_= abs(rand()) % 400;
@@ -28,28 +28,19 @@ Animal::Animal() {
     }   
 }
 
-Animal::Animal(const Animal &other) : direction_(other.direction_)
-									, nextAction_(Action::NOTHING)
-									, velocity_(START_VELOCITY)
-									, vision_(START_VISION)
-									, position_(other.position_)
-									, hunger_(START_HUNGER)
-									, age_(other.age_)
-									, reprodCd_(other.reprodCd_) {}
-
 void Animal::make_move() {
     position_ += (direction_ * velocity_);
 }
 
 void swap(Animal &a, Animal &b) {
-	std::swap(a.direction_, b.direction_);
-	std::swap(a.nextAction_, b.nextAction_);
-	std::swap(a.velocity_, b.velocity_);
-	std::swap(a.position_, b.position_);
-	std::swap(a.sex_, b.sex_);
-	std::swap(a.age_, b.age_);
-	std::swap(a.hunger_, b.hunger_);
-	std::swap(a.reprodCd_, b.reprodCd_);
+    std::swap(a.direction_, b.direction_);
+    std::swap(a.nextAction_, b.nextAction_);
+    std::swap(a.velocity_, b.velocity_);
+    std::swap(a.position_, b.position_);
+    std::swap(a.sex_, b.sex_);
+    std::swap(a.age_, b.age_);
+    std::swap(a.hunger_, b.hunger_);
+    std::swap(a.reprodCd_, b.reprodCd_);
 }
 
 } //namespace world

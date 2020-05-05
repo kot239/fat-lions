@@ -52,8 +52,8 @@ void VectorLogic::reproduce(T& curAnimal, std::vector<T>& animalArray, World& cu
         if (animal.sex_ != curAnimal.sex_ && ready_for_reprod(animal) &&
             (curDist < curAnimal.vision_ * curAnimal.vision_)) {
 
-            if (abs((animal.position_ - curAnimal.position_).x_) < 2 &&
-                abs((animal.position_ - curAnimal.position_).y_) < 2 ) {
+            if (abs(animal.position_.x_ - curAnimal.position_.x_) < 10 &&
+                abs(animal.position_.y_ - curAnimal.position_.y_) < 10 ) {
                 animal.nextAction_ = Action::REPRODUCE;
                 curAnimal.nextAction_ = Action::REPRODUCE;
                 return;
@@ -64,7 +64,6 @@ void VectorLogic::reproduce(T& curAnimal, std::vector<T>& animalArray, World& cu
             }
         }
     }
-    curAnimal.nextAction_ = Action::GO;
     if (!(resVector.len() < 0.0001)) {
         curAnimal.direction_ = find_correct_vec(curAnimal, resVector, curWorld);
     }
@@ -104,6 +103,7 @@ void VectorLogic::find_target_lion(Lion& curLion, World& curWorld) {
     }
     if (ready_for_reprod(curLion)) {
         reproduce<Lion>(curLion, curWorld.lionsArray_, curWorld);
+        return;
     } 
     //БАГА, никогда размножаться не будут
     nutrition<Zebra>(curLion, curWorld.zebrasArray_, curWorld);
