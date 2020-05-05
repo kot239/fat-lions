@@ -6,12 +6,8 @@
 
 const double PI = 3.14159265;
 
-AnimalView::AnimalView(const char* color, QObject* parent) : QObject(parent), QGraphicsItem(), color_(color) {};
-
-AnimalView::~AnimalView() {};
-
-void AnimalView::set_location(Animal animal) {
-    position_ = animal.position_;
+AnimalView::AnimalView(const char* color, const Animal animal, QObject* parent) : QObject(parent), QGraphicsItem(),
+        color_(color), position_(animal.position_) {
     double arg = double(animal.direction_.y_ * (-1)) / sqrt(double(animal.direction_.x_ * animal.direction_.x_ + animal.direction_.y_ * animal.direction_.y_));
     if (animal.direction_.x_ >= 0) {
         angle_ = acos(arg) * 180.0 / PI;

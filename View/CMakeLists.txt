@@ -36,6 +36,8 @@ if(ANDROID)
     chart.h
     animal_view.h
     animal_view.cpp
+    grass_view.h
+    grass_view.cpp
     view.ui
     ../include/Animal.hpp
     ../include/Geometry.hpp
@@ -60,6 +62,8 @@ else()
     chart.h
     animal_view.h
     animal_view.cpp
+    grass_view.h
+    grass_view.cpp
     view.ui
     ../include/Animal.hpp
     ../include/Geometry.hpp

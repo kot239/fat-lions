@@ -18,17 +18,27 @@ template <typename T>
 void View::add_animals(const std::vector<T>& animals, const char* color) {
     for (size_t j = 0; j < animals.size(); j++) {
         AnimalView* animal;
-        animal = new AnimalView(color);
-        animal->set_location(animals[j]);
+        animal = new AnimalView(color, animals[j]);
         scene_->addItem(animal);
         animal->setPos(animal->position_.x_, animal->position_.y_);
     }
 }
+
+void View::add_grass(const std::vector<Grass> grass) {
+    for (size_t j = 0; j < grass.size(); j++) {
+        GrassView* grass_rec;
+        grass_rec = new GrassView(grass[j]);
+        scene_->addItem(grass_rec);
+        grass_rec->setPos(grass_rec->position_.x_, grass_rec->position_.y_);
+    }
+}
+
 void View::update_world() {
     scene_->clear();
 
     add_animals(world.zebrasArray_, ZEBRA_COLOR);
     add_animals(world.lionsArray_, LION_COLOR);
+    add_grass(world.grassArray_);
 
     for (auto& curZebra : world.zebrasArray_) {
         logic.find_target_zebra(curZebra, world);

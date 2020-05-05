@@ -12,6 +12,7 @@
 
 #include "animal_view.h"
 #include "chart.h"
+#include "grass_view.h"
 #include "../include/World.hpp"
 #include "../include/VectorLogic.hpp"
 
@@ -46,6 +47,7 @@ private:
 
     template <typename T>
     void add_animals(const std::vector<T>& animals, const char* color);
+    void add_grass(const std::vector<Grass> grass_);
 };
 
 #endif // VIEW_H_
