@@ -15,7 +15,7 @@ class GrassView : public QObject, public QGraphicsItem {
 	Q_OBJECT
 
 public:
-    GrassView(const Grass grass, QObject* parent = nullptr);
+    GrassView(const Grass& grass, QObject* parent = nullptr);
     ~GrassView() = default;
 
 	Point position_;

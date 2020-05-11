@@ -8,8 +8,9 @@ namespace world {
 
 class Grass final {
 public:
+	Grass();
 	Grass(Animal &animal);
-	Point get_position() const;
+	Grass(const Grass&) = default;
 	Point position_;
 };
 

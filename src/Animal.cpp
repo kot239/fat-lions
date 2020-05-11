@@ -14,7 +14,7 @@ Animal::Animal() {
     if (rand() & 1) direction_.y_ *= -1;
     direction_.normalize();
     velocity_ = 5;
-    vision_ = 70;
+    vision_ = 50;
     position_.x_ = abs(rand()) % 600;
     position_.y_= abs(rand()) % 400;
     hunger_ = 0;

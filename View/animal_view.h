@@ -15,7 +15,7 @@ class AnimalView : public QObject, public QGraphicsItem {
 	Q_OBJECT
 
 public:
-    AnimalView(const char* color, const Animal animal, QObject* parent = nullptr);
+    AnimalView(const char* color, const Animal& animal, QObject* parent = nullptr);
     ~AnimalView() = default;
 
 	Point position_;

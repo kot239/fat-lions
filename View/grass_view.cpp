@@ -2,7 +2,7 @@
 
 #include <cmath>
 
-GrassView::GrassView(const Grass grass, QObject* parent) : QObject(parent), QGraphicsItem(), position_(grass.position_) {};
+GrassView::GrassView(const Grass& grass, QObject* parent) : QObject(parent), QGraphicsItem(), position_(grass.position_) {};
 
 QRectF GrassView::boundingRect() const {
 	return QRectF(-30, -30, 30, 30);

@@ -6,7 +6,7 @@
 
 const double PI = 3.14159265;
 
-AnimalView::AnimalView(const char* color, const Animal animal, QObject* parent) : QObject(parent), QGraphicsItem(),
+AnimalView::AnimalView(const char* color, const Animal& animal, QObject* parent) : QObject(parent), QGraphicsItem(),
         color_(color), position_(animal.position_) {
     double arg = double(animal.direction_.y_ * (-1)) / sqrt(double(animal.direction_.x_ * animal.direction_.x_ + animal.direction_.y_ * animal.direction_.y_));
     if (animal.direction_.x_ >= 0) {

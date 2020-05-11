@@ -20,12 +20,22 @@ bool World::can_move(const Point &from, const Point &to) const {
 }
 
 void World::zebras_death(size_t ind) {
+    if (ind == zebrasArray_.size()) {
+        grassArray_.push_back(Grass(zebrasArray_[ind])); 
+        zebrasArray_.pop_back();
+        return;
+    }
     swap(zebrasArray_[ind], zebrasArray_.back());
     grassArray_.push_back(Grass(zebrasArray_[ind])); 
     zebrasArray_.pop_back();
 }
 
 void World::lions_death(size_t ind) {
+    if (ind == lionsArray_.size()) {
+        grassArray_.push_back(Grass(lionsArray_[ind])); 
+        lionsArray_.pop_back();
+        return;
+    }
     swap(lionsArray_[ind], lionsArray_.back());
     grassArray_.push_back(Grass(lionsArray_[ind])); 
     lionsArray_.pop_back();
@@ -79,7 +89,8 @@ void World::update() {
         if (zebra->nextAction_ == Action::EAT) {
             zebra->make_move();
             for (size_t j = 0; j < grassArray_.size(); ++j) {
-                if (grassArray_[j].get_position() == zebra->position_) {
+                if (abs(grassArray_[j].position_.x_- zebra->position_.x_) < 10 && 
+                    abs(grassArray_[j].position_.y_- zebra->position_.y_) < 10) {
                     zebra->hunger_ -= GRASS_NUTRITION;
                     zebra->nextAction_ = Action::GO;
 
@@ -107,6 +118,10 @@ void World::update() {
             zebras_death(i);
             --i;
         }
+    }
+    if (rand() % FREQUENCY == 0) {
+        Grass new_grass;
+        grassArray_.push_back(new_grass);
     }
 }
 

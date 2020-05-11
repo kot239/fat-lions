@@ -1,9 +1,11 @@
 #include "../include/Grass.hpp"
+#include <random>
 
 namespace world {
 
-Point Grass::get_position() const {
-	return position_;
+Grass::Grass() {
+	position_.x_ = abs(rand()) % 600;
+    position_.y_= abs(rand()) % 400;
 }
 
 Grass::Grass(Animal &animal) {

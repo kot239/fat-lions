@@ -1,6 +1,6 @@
 #include "view.h"
 #include "ui_view.h"
-
+#include <iostream>
 
 const char* LION_COLOR = "#FFCC33";
 const char* ZEBRA_COLOR = "#999999";
@@ -56,6 +56,7 @@ void View::stop_game() {
     scene_->clear();
     world.zebrasArray_.clear();
     world.lionsArray_.clear();
+    world.grassArray_.clear();
     chart_->clean();
     ui_->start_button->setEnabled(true);
     return;

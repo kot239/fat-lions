@@ -12,7 +12,7 @@ struct VectorLogic {
     void find_target_zebra(world::Zebra& curZebra, world::World& curWorld);
 
     template<typename T>
-    void reproduce(T& curAnimal, std::vector<T>& animalArray, world::World& curWorld); 
+    bool reproduce(T& curAnimal, std::vector<T>& animalArray, world::World& curWorld); 
 
     template<typename T>
     void nutrition(world::Animal& curAnimal, const std::vector<T>& foodArray, world::World& curWorld);

@@ -11,19 +11,19 @@
 
 namespace world {
 
-const int AGE_FOR_REPROD = 1;
-const int MAX_AGE = 10000;
-const int HUNGER_FOR_REPROD = 10;
-const int CD_REPROD_TIME = 100;
-const int MAX_HUNGER = 100000000;
-const int GRASS_NUTRITION = 10;
-const double START_VELOCITY = 5;
-const int START_HUNGER = 2;
-const int START_VISION = 50;
-const int ZEBRAS_NUTRITION = 20;
-const size_t X_FIELD_SIZE = 672;
-const size_t Y_FIELD_SIZE = 472;
-
+constexpr int AGE_FOR_REPROD = 1;
+constexpr int MAX_AGE = 1000;
+constexpr int HUNGER_FOR_REPROD = 500;
+constexpr int CD_REPROD_TIME = 100;
+constexpr int MAX_HUNGER = 10;
+constexpr int GRASS_NUTRITION = 10;
+constexpr double START_VELOCITY = 5;
+constexpr int START_HUNGER = 2;
+constexpr int START_VISION = 50;
+constexpr int ZEBRAS_NUTRITION = 20;
+constexpr size_t X_FIELD_SIZE = 672;
+constexpr size_t Y_FIELD_SIZE = 472;
+constexpr int FREQUENCY = 29;
 
 class World final {
 public:
