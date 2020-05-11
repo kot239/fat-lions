@@ -8,6 +8,7 @@ Grass::Grass() {
     position_.y_= abs(rand()) % 400;
 }
 
+
 Grass::Grass(Animal &animal) {
 	position_ = animal.position_;
 }

@@ -31,6 +31,7 @@ public:
     Animal();
     Animal(const Animal &other) = default;
   //  virtual void create_child(World&) = 0;
+    Animal& operator=(const Animal& other) = default;
     void make_move();
 };
 

@@ -77,8 +77,8 @@ bool VectorLogic::reproduce(T& curAnimal, std::vector<T>& animalArray, World& cu
 
 template<typename T>
 void VectorLogic::nutrition(Animal& curAnimal, const std::vector<T>& foodArray, World& curWorld) {
-    double curDist;
     double minDist = -1;
+    double curDist = 0;
     Vector resVector = {0, 0};
     for (auto& food : foodArray) {
         curDist = sqr_dist(food.position_, curAnimal.position_);

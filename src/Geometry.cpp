@@ -21,7 +21,7 @@ Point::Point() {
 
 Point::Point(const Point &other) : x_(other.x_), y_(other.y_) {}
 
-Point &Point::operator=(const Point &other) {
+Point& Point::operator=(const Point &other) {
 	x_ = other.x_;
 	y_ = other.y_;
 	return *this;

@@ -23,11 +23,11 @@ int main() {
     World world;
     VectorLogic vector_logic;
 
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 50; i++) {
         Zebra tmp;
         world.zebrasArray_.push_back(tmp);
     }
-    for (int i = 0; i < 1; i++) {
+    for (int i = 0; i < 50; i++) {
         Lion tmp;
         world.lionsArray_.push_back(tmp);
     }

@@ -28,6 +28,7 @@ Animal::Animal() {
     }   
 }
 
+
 void Animal::make_move() {
     position_ += (direction_ * velocity_);
 }

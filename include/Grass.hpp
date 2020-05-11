@@ -11,6 +11,7 @@ public:
 	Grass();
 	Grass(Animal &animal);
 	Grass(const Grass&) = default;
+	Grass& operator=(const Grass&) = default;
 	Point position_;
 };
 

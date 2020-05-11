@@ -19,106 +19,69 @@ bool World::can_move(const Point &from, const Point &to) const {
      return true;
 }
 
-void World::zebras_death(size_t ind) {
-    if (ind == zebrasArray_.size()) {
-        grassArray_.push_back(Grass(zebrasArray_[ind])); 
-        zebrasArray_.pop_back();
+template<typename ANIMAL, typename FOOD>
+void World::eating(ANIMAL& animal, std::vector<FOOD>& foodArray, int nutrition) {
+    animal.make_move();
+    if (foodArray.size() == 0) {
         return;
     }
-    swap(zebrasArray_[ind], zebrasArray_.back());
-    grassArray_.push_back(Grass(zebrasArray_[ind])); 
-    zebrasArray_.pop_back();
-}
+    for (auto& food : foodArray) {
+        if (abs(animal.position_.x_- food.position_.x_) < 10 && 
+            abs(animal.position_.y_- food.position_.y_) < 10 && 
+            animal.nextAction_ == Action::EAT) {
 
-void World::lions_death(size_t ind) {
-    if (ind == lionsArray_.size()) {
-        grassArray_.push_back(Grass(lionsArray_[ind])); 
-        lionsArray_.pop_back();
-        return;
+            animal.hunger_ -= nutrition;
+            animal.nextAction_ = Action::GO;
+            food = foodArray.back();
+        }
     }
-    swap(lionsArray_[ind], lionsArray_.back());
-    grassArray_.push_back(Grass(lionsArray_[ind])); 
-    lionsArray_.pop_back();
+    foodArray.pop_back();
 }
 
-void World::grass_death(size_t ind) {
-    swap(grassArray_[ind], grassArray_.back());
-    grassArray_.pop_back();
+template<typename ANIMAL>
+void World::reproduce(std::vector<ANIMAL>& animalArray) {
+    for (size_t i = 0; i < animalArray.size(); i++) {
+        if (animalArray[i].nextAction_ == Action::REPRODUCE) {
+            if (animalArray[i].sex_ == Sex::FEMALE) {
+                ANIMAL new_animal;
+                new_animal.position_ = animalArray[i].position_;
+                animalArray.push_back(new_animal);
+            }
+            animalArray[i].nextAction_ = Action::GO;
+            animalArray[i].reprodCd_ = -1;
+        }
+    }
+}
+
+template <typename ANIMAL, typename FOOD>
+void World::update_species(std::vector<ANIMAL>& animalArray, std::vector<FOOD>& foodArray, int nutrition) {
+    int numbAlive = 0;
+    for (auto& animal : animalArray) {
+        if (animal.nextAction_ == Action::EAT) {
+            eating<ANIMAL, FOOD>(animal, foodArray, nutrition);
+        }
+        if (animal.nextAction_ == Action::GO) {
+            animal.make_move();
+        }
+        if (animal.nextAction_ != Action::REPRODUCE) {
+           ++animal.age_;
+           ++animal.reprodCd_;
+           ++animal.hunger_;
+        }
+        
+        if (animal.nextAction_ != Action::DIE) {
+            animalArray[numbAlive] = animal;
+            ++numbAlive;
+        } 
+    }
+    animalArray.resize(numbAlive);
+    reproduce<ANIMAL>(animalArray);
 }
 
 void World::update() {
-    size_t cur_numb = lionsArray_.size();
-    for (size_t i = 0; i < cur_numb; ++i) {
-        Lion *lion = &lionsArray_[i];
-        if (lion->nextAction_ == Action::EAT) {
-            lion->make_move();
-            for (size_t j = 0; j < zebrasArray_.size(); ++j) {
-                if (abs(zebrasArray_[j].position_.x_- lion->position_.x_) < 10 && 
-                    abs(zebrasArray_[j].position_.y_- lion->position_.y_) < 10) {
-                    lion->hunger_ -= ZEBRAS_NUTRITION;
-                    lion->nextAction_ = Action::GO;
-                    zebras_death(j);
-                    break;
-                }
-            }
-        }
-        if (lion->nextAction_ == Action::GO) {
-            lion->make_move();
-        }
-        if (lion->nextAction_ == Action::REPRODUCE) {
-            if (lion->sex_ == Sex::FEMALE) {
-                Lion new_lion;
-                new_lion.position_ = lion->position_;
-                lionsArray_.push_back(new_lion);
-            }
-            lion->nextAction_ = Action::GO;
+    update_species<Lion, Zebra>(lionsArray_, zebrasArray_, ZEBRAS_NUTRITION);
+    update_species<Zebra, Grass>(zebrasArray_, grassArray_, GRASS_NUTRITION);
 
-            lion->reprodCd_ = -1;
-        }
-        ++lion->age_;
-        ++lion->reprodCd_;
-        ++lion->hunger_;
-        if (lion->nextAction_ == Action::DIE) {
-            lions_death(i);
-            --i;
-        }
-    }
-    cur_numb = zebrasArray_.size();
-    for (size_t i = 0; i < cur_numb; ++i) {
-        Zebra *zebra = &zebrasArray_[i];
-        if (zebra->nextAction_ == Action::EAT) {
-            zebra->make_move();
-            for (size_t j = 0; j < grassArray_.size(); ++j) {
-                if (abs(grassArray_[j].position_.x_- zebra->position_.x_) < 10 && 
-                    abs(grassArray_[j].position_.y_- zebra->position_.y_) < 10) {
-                    zebra->hunger_ -= GRASS_NUTRITION;
-                    zebra->nextAction_ = Action::GO;
-
-                    grass_death(j);
-                    break;
-                }
-            }
-        }
-        if (zebra->nextAction_ == Action::GO) {
-            zebra->make_move();
-        }
-        if (zebra->nextAction_ == Action::REPRODUCE) {
-            if (zebra->sex_ == Sex::FEMALE) {
-                Zebra new_zebra;
-                new_zebra.position_ = zebra->position_;
-                zebrasArray_.push_back(new_zebra);
-            }
-            zebra->nextAction_ = Action::GO;
-            zebra->reprodCd_ = -1;
-        }
-        ++zebra->age_;
-        ++zebra->hunger_;
-        ++zebra->reprodCd_;
-        if (zebra->nextAction_ == Action::DIE) {
-            zebras_death(i);
-            --i;
-        }
-    }
     if (rand() % FREQUENCY == 0) {
         Grass new_grass;
         grassArray_.push_back(new_grass);
