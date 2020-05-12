@@ -39,8 +39,8 @@ private:
     Ui::View* ui_;
     QGraphicsScene* scene_;
     QTimer* timer;
-    World world;
-    VectorLogic logic;
+    World* world = nullptr;
+    VectorLogic* logic = nullptr;
     Chart* chart_;
     int number_of_lions_ = 1;
     int number_of_zebras_ = 1;

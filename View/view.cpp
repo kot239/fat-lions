@@ -36,27 +36,27 @@ void View::add_grass(const std::vector<Grass> grass) {
 void View::update_world() {
     scene_->clear();
 
-    add_animals(world.zebrasArray_, ZEBRA_COLOR);
-    add_animals(world.lionsArray_, LION_COLOR);
-    add_grass(world.grassArray_);
+    add_animals(world->zebrasArray_, ZEBRA_COLOR);
+    add_animals(world->lionsArray_, LION_COLOR);
+    add_grass(world->grassArray_);
 
-    for (auto& curZebra : world.zebrasArray_) {
-        logic.find_target_zebra(curZebra, world);
+    for (auto& curZebra : world->zebrasArray_) {
+        logic->find_target_zebra(curZebra);
     }
 
-    for (auto& curLion : world.lionsArray_) {
-        logic.find_target_lion(curLion, world);
+    for (auto& curLion : world->lionsArray_) {
+        logic->find_target_lion(curLion);
     }
-    world.update();
-    chart_->draw_chart(world.lionsArray_.size(), world.zebrasArray_.size());
+    world->update();
+    chart_->draw_chart(world->lionsArray_.size(), world->zebrasArray_.size());
 }
 
 void View::stop_game() {
     timer->stop();
     scene_->clear();
-    world.zebrasArray_.clear();
-    world.lionsArray_.clear();
-    world.grassArray_.clear();
+    world->zebrasArray_.clear();
+    world->lionsArray_.clear();
+    world->grassArray_.clear();
     chart_->clean();
     ui_->start_button->setEnabled(true);
     return;
@@ -69,11 +69,11 @@ void View::start_game() {
     ui_->start_button->setEnabled(false);
     for (int i = 0; i < number_of_zebras_; i++) {
         Zebra tmp;
-        world.zebrasArray_.push_back(tmp);
+        world->zebrasArray_.push_back(tmp);
     }
     for (int i = 0; i < number_of_lions_; i++) {
         Lion tmp;
-        world.lionsArray_.push_back(tmp);
+        world->lionsArray_.push_back(tmp);
     }
     timer = new QTimer();
     timer->start(SECOND / FPS);
@@ -83,11 +83,11 @@ void View::start_game() {
 }
 
 View::View(QWidget* parent) : QWidget(parent), ui_(new Ui::View) {
+
     ui_->setupUi(this);
     scene_ = new QGraphicsScene();
     chart_ = new Chart();
     chart_->legend()->hide();
-
     ui_->map->setScene(scene_);
     ui_->map->setRenderHint(QPainter::Antialiasing);
     ui_->map->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -97,8 +97,12 @@ View::View(QWidget* parent) : QWidget(parent), ui_(new Ui::View) {
     scene_->setSceneRect(MAP_W_CONOR, MAP_H_CONOR, MAP_WIDTH, MAP_HEIGHT);
 
     connect(ui_->start_button, SIGNAL(clicked()), this, SLOT(start_game()));
+    world = new World();
+    logic = new VectorLogic(*world);   
 }
 
 View::~View() {
+    delete logic;
+    delete world;
     delete ui_;
 }

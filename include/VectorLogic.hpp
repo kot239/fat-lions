@@ -3,19 +3,23 @@
 
 #include "World.hpp"
 
-struct VectorLogic {
+class VectorLogic {
+public:
+    explicit VectorLogic(const world::World& world) : curWorld_(world) {}
     bool ready_for_reprod(const world::Animal& curAnimal);
     double sqr_dist(world::Point a, world::Point b);
-    world::Vector find_correct_vec(world::Animal& curAnimal, world::Vector resVector, const world::World& curWorld);
+    world::Vector find_correct_vec(world::Animal& curAnimal, world::Vector resVector);
     bool is_dead(world::Animal& animal);
-    void find_target_lion(world::Lion& curLion, world::World& curWorld);
-    void find_target_zebra(world::Zebra& curZebra, world::World& curWorld);
+    void find_target_lion(world::Lion& curLion);
+    void find_target_zebra(world::Zebra& curZebra);
 
     template<typename T>
-    bool reproduce(T& curAnimal, std::vector<T>& animalArray, world::World& curWorld); 
+    bool reproduce(T& curAnimal, const std::vector<T>& animalArray); 
 
     template<typename T>
-    void nutrition(world::Animal& curAnimal, const std::vector<T>& foodArray, world::World& curWorld);
+    void nutrition(world::Animal& curAnimal, const std::vector<T>& foodArray);
+private:
+    const world::World& curWorld_;
 };
 
 #endif

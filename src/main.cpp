@@ -8,11 +8,11 @@ using namespace world;
 void run_game(World& world, VectorLogic& logic) {
     for (int i = 0; i < 1000; i++) {
         for (size_t j = 0; j < world.zebrasArray_.size(); j++) {
-            logic.find_target_zebra(world.zebrasArray_[j], world);
+            logic.find_target_zebra(world.zebrasArray_[j]);
         }
 
         for (size_t j = 0; j < world.lionsArray_.size(); j++) {
-            logic.find_target_lion(world.lionsArray_[j], world);
+            logic.find_target_lion(world.lionsArray_[j]);
         }
         world.update();
     }    
@@ -21,8 +21,7 @@ void run_game(World& world, VectorLogic& logic) {
 int main() {
     std::srand(std::time(nullptr));
     World world;
-    VectorLogic vector_logic;
-
+    VectorLogic vector_logic(world);
     for (int i = 0; i < 50; i++) {
         Zebra tmp;
         world.zebrasArray_.push_back(tmp);
@@ -31,6 +30,7 @@ int main() {
         Lion tmp;
         world.lionsArray_.push_back(tmp);
     }
+
     run_game(world, vector_logic);
 
 } 
