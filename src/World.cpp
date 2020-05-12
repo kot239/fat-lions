@@ -22,9 +22,6 @@ bool World::can_move(const Point &from, const Point &to) const {
 template<typename ANIMAL, typename FOOD>
 void World::eating(ANIMAL& animal, std::vector<FOOD>& foodArray, int nutrition) {
     animal.make_move();
-    if (foodArray.size() == 0) {
-        return;
-    }
     for (auto& food : foodArray) {
         if (abs(animal.position_.x_- food.position_.x_) < 10 && 
             abs(animal.position_.y_- food.position_.y_) < 10 && 
@@ -32,10 +29,12 @@ void World::eating(ANIMAL& animal, std::vector<FOOD>& foodArray, int nutrition) 
 
             animal.hunger_ -= nutrition;
             animal.nextAction_ = Action::GO;
-            food = foodArray.back();
+            swap(food, foodArray.back());
         }
     }
-    foodArray.pop_back();
+    if (animal.nextAction_ == Action::GO) { 
+        foodArray.pop_back();
+    }
 }
 
 template<typename ANIMAL>

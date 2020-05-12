@@ -64,7 +64,7 @@ Vector::Vector(const Point &a, const Point &b) {
 Vector::Vector(const Vector &other) : x_(other.x_), y_(other.y_) {}
 
 void Vector::normalize() {
-    assert(!(len() < eps));
+ //   assert(!(len() < eps));
     *this *=  ((double)(1) / len());
 }
 
