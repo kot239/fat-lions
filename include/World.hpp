@@ -24,6 +24,8 @@ constexpr int ZEBRAS_NUTRITION = 20;
 constexpr size_t X_FIELD_SIZE = 672;
 constexpr size_t Y_FIELD_SIZE = 472;
 constexpr int FREQUENCY = 29;
+constexpr int OBSTACLE_R = 50;
+constexpr int MAX_OBSTACLE_R = 75;
 
 class World final {
 public:

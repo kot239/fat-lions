@@ -6,17 +6,15 @@ namespace world {
 
 
 bool World::can_move(const Point &from, const Point &to) const {
-    /*for (auto &polygon : obstaclesArray_) {
+    if (to.x_ < 10 || to.x_ > (621 - 10) || to.y_ < 10 || to.y_ > (471 - 10)) {
+        return false;
+    }
+    for (auto &polygon : obstaclesArray_) {
         if (segment_and_polygon_intersection(Segment{from, to}, polygon)) {
             return false;
         }
     }
-    return true; */
-    if (to.x_ < 10 || to.x_ > (621 - 10) ||
-        to.y_ < 10 || to.y_ > (471 - 10)) {
-        return false;
-    }
-     return true;
+    return true;
 }
 
 template<typename ANIMAL, typename FOOD>

@@ -33,6 +33,11 @@ Point &Point::operator+=(const Vector &v) {
 	return *this;
 }
 
+Point &Point::operator+=(const Point &other) {
+	x_ += other.x_;
+	y_ += other.y_;
+	return *this;
+}
 
 bool Point::operator==(const Point &point) {
 	return (abs(x_ - point.x_) < eps && abs(y_ - point.y_) < eps);
@@ -41,6 +46,12 @@ bool Point::operator==(const Point &point) {
 Point Point::operator+(const Vector &v) const {
 	Point cur(*this);
 	cur += v;
+	return cur;
+}
+
+Point Point::operator+(const Point &other) const {
+	Point cur(*this);
+	cur += other;
 	return cur;
 }
 
@@ -161,6 +172,7 @@ bool point_in_polygon(const Point &point, const Polygon &polygon) {
 
 std::vector<Point> convex_hull(std::vector<Point> &v) { //gift wrapping algo
 	size_t ind = 0, n = v.size();
+	assert(n > 2);
 	for (size_t i = 1; i < n; ++i) {
 		if (v[i].y_ < v[ind].y_) {
 			ind = i;
@@ -192,31 +204,59 @@ std::vector<Point> convex_hull(std::vector<Point> &v) { //gift wrapping algo
 		result.push_back(pi);
 	}
 	return result;
+}
 
+double dist(const Point &a, const Point &b) {
+	return sqrt((a.x_ - b.x_) * (a.x_- b.x_) + (a.y_ - b.y_) * (a.y_- b.y_));
+}
+
+bool in_field(const Point &a) {
+    return (a.x_ >= 0 && a.y_ >= 0 && a.x_ < X_FIELD_SIZE && a.y_ < Y_FIELD_SIZE);
 }
 
 Polygon::Polygon(std::vector<Polygon> &polygons) {
-	size_ = abs(rand()) % 10 + 3;
-	for (size_t i = 0; i < size_; ++i) {
-		auto cur = Point();
+	int cnt = 0;
+	Point c;
+	while (cnt < 10) {
+		c = Point();
+		double min_dist = 1e9;
 		for (auto polygon : polygons) {
-			if (!point_in_polygon(cur, polygon)) {
-				coord_.push_back(cur);
+			for (size_t i = 0; i < polygon.coord_.size(); ++i) {
+				min_dist = std::min(min_dist, dist(polygon.coord_[i], c));
 			}
 		}
+		if (min_dist >= OBSTACLE_R) {
+			break;
+		}
+		++cnt;
+	}
+	if (cnt == 10) {
+		return;
+	}
+	size_ = abs(rand()) % 10 + 3;
+	for (size_t i = 0; coord_.size() < size_; ++i) {
+		Point d{};
+		d.x_ = static_cast<int>(d.x_) % OBSTACLE_R;
+		if (rand() & 1) {
+			d.x_ *= -1;
+		}
+		d.y_ = static_cast<int>(d.y_) % OBSTACLE_R;
+		if (rand() & 1) {
+			d.y_ *= -1;
+		}
+		Point cur(c + d);
+		bool flag = true;
+		for (auto polygon : polygons) {
+			if (!point_in_polygon(cur, polygon) || !in_field(cur)) {
+				flag = false;
+			}
+		}
+		if (flag) {
+			coord_.push_back(cur);
+		}
+
 	}
 	coord_ = convex_hull(coord_);
-	size_ = coord_.size();
-	size_t ind = 0;
-	while(ind < polygons.size()) {
-		if (point_in_polygon(polygons[ind].coord_[0], *this)) {
-			swap(polygons[ind], polygons.back());
-			polygons.pop_back();
-		} else {
-			++ind;
-		}
-	}
-	polygons.push_back(*this);
 }
 
 bool check_one_line_intersection(double a, double b, double c, double d) {

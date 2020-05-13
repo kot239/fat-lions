@@ -16,8 +16,10 @@ public:
 
 	Point &operator=(const Point &other);
 	Point &operator+=(const Vector &v);
+	Point &operator+=(const Point &other);
 	bool operator==(const Point &other);
 	Point operator+(const Vector &v) const;
+	Point operator+(const Point &other) const;
 	Vector operator-(const Point &other) const;
 };
 
@@ -66,6 +68,9 @@ public:
 
 bool segment_and_polygon_intersection(const Segment &segment, const Polygon &polygon);
 bool segment_and_segment_intersection(const Segment &a, const Segment &b);
+
+
+bool in_field(const Point &a);
 
 void swap(Point &a, Point &b);
 
