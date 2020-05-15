@@ -33,12 +33,33 @@ void View::add_grass(const std::vector<Grass> grass) {
     }
 }
 
-void View::update_world() {
-    scene_->clear();
+void View::add_obstacles(const std::vector<Polygon> obsts) {
+    for (size_t j = 0; j < obsts.size(); j++) {
+        ObstacleView* obs;
+        obs = new ObstacleView(obsts[j]);
+        scene_->addItem(obs);
+        obs->setPos(obs->position_.x_, obs->position_.y_);
+    }
+}
 
+void View::clear_scene() {
+    QList<QGraphicsItem*> all = scene_->items();
+    for(int i = 0; i < all.size(); i++) {
+    QGraphicsItem *obj = all[i];
+        scene_->removeItem(obj);
+        delete obj;
+        scene_->update();
+    }
+}
+
+void View::update_world() {
+    //scene_->clear();
+    clear_scene();
+
+    add_obstacles(world->obstaclesArray_);
+    add_grass(world->grassArray_);
     add_animals(world->zebrasArray_, ZEBRA_COLOR);
     add_animals(world->lionsArray_, LION_COLOR);
-    add_grass(world->grassArray_);
 
     for (auto& curZebra : world->zebrasArray_) {
         logic->find_target_zebra(curZebra);
@@ -53,9 +74,11 @@ void View::update_world() {
 
 void View::stop_game() {
     timer->stop();
-    scene_->clear();
-    world->zebrasArray_.clear();
+    //scene_->clear();
+    clear_scene();
+    world->obstaclesArray_.clear();
     world->lionsArray_.clear();
+    world->zebrasArray_.clear();
     world->grassArray_.clear();
     chart_->clean();
     ui_->start_button->setEnabled(true);
@@ -74,12 +97,12 @@ void View::start_game() {
         Lion tmp;
         world->lionsArray_.push_back(tmp);
     }
-    /*for (int i = 0; i < 10; ++i) {
+    for (int i = 0; i < 10; ++i) {
         Polygon tmp(world->obstaclesArray_);
         if (tmp.coord_.size() > 0) {
             world->obstaclesArray_.push_back(tmp);
         }
-    }*/
+    }
     timer = new QTimer();
     timer->start(SECOND / FPS);
     connect(timer, SIGNAL(timeout()), this, SLOT(update_world()));

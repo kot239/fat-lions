@@ -38,6 +38,8 @@ if(ANDROID)
     animal_view.cpp
     grass_view.h
     grass_view.cpp
+    obstacles_view.h
+    obstacles_view.cpp
     view.ui
     ../include/Animal.hpp
     ../include/Geometry.hpp
@@ -64,6 +66,8 @@ else()
     animal_view.cpp
     grass_view.h
     grass_view.cpp
+    obstacles_view.h
+    obstacles_view.cpp
     view.ui
     ../include/Animal.hpp
     ../include/Geometry.hpp
