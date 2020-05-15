@@ -19,6 +19,8 @@ Point::Point() {
 	y_ = abs(rand()) % Y_FIELD_SIZE;
 }
 
+Point::Point(double x, double y) : x_(x), y_(y) {}
+
 Point::Point(const Point &other) : x_(other.x_), y_(other.y_) {}
 
 Point& Point::operator=(const Point &other) {
@@ -108,12 +110,14 @@ Segment::Segment(const Point &a, const Point &b) : a_(a), b_(b) {}
 //Segment
 
 double coord_scalar_product(const Vector &a, const Vector &b) {
-	return a.x_ * b.x_ + a.y_ + b.y_;
+	//std::cerr << "vc" << a.x_ << " " << b.x_ << " " << a.y_ << " " << b.y_ << " ! ";
+	return a.x_ * b.x_ + a.y_ * b.y_;
 }
 
 //Angle
 Angle::Angle(const Vector &a, const Vector &b) {
-	phi = std::acos(a.len() * b.len() / coord_scalar_product(a, b));
+	//::cerr << coord_scalar_product(a, b) << " =prod ";
+	phi = std::acos(coord_scalar_product(a, b) / a.len() / b.len());
 }
 
 Angle::Angle(const Vector &a) { //polar
@@ -170,32 +174,36 @@ bool point_in_polygon(const Point &point, const Polygon &polygon) {
 	return true;
 }
 
+double oriented_area(const Point &a, const Point &b, const Point &c) {
+	return (b.x_ - a.x_) * (c.y_ - a.y_) - (b.y_ - a.y_) * (c.x_ - a.x_);
+}
+
 std::vector<Point> convex_hull(std::vector<Point> &v) { //gift wrapping algo
-	size_t ind = 0, n = v.size();
+	/*for (int i = 0; i < n; ++i) {
+		std::cerr << v[i].x_ << " " << v[i].y_ << "\n";
+	}
+	std::cerr "finish\n";*/
+	size_t n = v.size();
 	assert(n > 2);
 	for (size_t i = 1; i < n; ++i) {
-		if (v[i].y_ < v[ind].y_) {
-			ind = i;
-		}
-		if (v[i].y_ == v[ind].y_ && v[i].x_ > v[ind].x_) {
-			ind = i;
+		if (v[i].x_ < v[0].x_) {
+			swap(v[0], v[i]);
 		}
 	}
 
-	auto p0 = v[ind];
+	auto p0 = v[0];
 	auto pi = p0;
 	std::vector<Point> result = {p0};
-	v.push_back(p0);
-	ind = 0;
+	v.push_back(v[0]);
+	size_t ind = 0;
 	while (true) {
 		++ind;
-		for (size_t i = ind; i < n; ++i) {
-			Vector v1(result.back(), v[i]), v2(result.back(), v[ind]);
-			Angle angle1(v1);
-			Angle angle2(v2);
-			if (angle1 < angle2 || (angle1 == angle2 && v1.len() > v2.len())) {
-				swap(v[i], v[ind]);
+		for (size_t i = ind + 1; i < n; ++i) {
+			//Vector v1(result.back(), v[i]), v2(result.back(), v[ind]);
+			if (oriented_area(result.back(), v[ind], v[i]) < 0) {
+				ind = i;
 			}
+
 		}
 		pi = v[ind];
 		if (pi == p0) {
@@ -256,6 +264,8 @@ Polygon::Polygon(std::vector<Polygon> &polygons) {
 		}
 
 	}
+	//coord_ = std::vector<Point>{{1, 2}, {5, 1}, {3, 3}, {4, 4}, {2, 5}};
+	//coord_.push_back(Point(1, 2));
 	coord_ = convex_hull(coord_);
 }
 
@@ -269,9 +279,6 @@ bool check_one_line_intersection(double a, double b, double c, double d) {
 	return std::max(a, c) <= std::min(b, d);
 }
 
-double oriented_area(const Point &a, const Point &b, const Point &c) {
-	return (b.x_ - a.x_) * (c.y_ - a.y_) - (b.y_ - a.y_) * (c.x_ - a.x_);
-}
 
 bool segment_and_segment_intersection(const Segment &a, const Segment &b) { //simple
 	return oriented_area(a.a_, a.b_, b.a_) * oriented_area(a.a_, a.b_, b.b_) <= 0 && 

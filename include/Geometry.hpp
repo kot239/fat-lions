@@ -12,6 +12,7 @@ public:
 	double x_, y_;
 
 	Point();
+	Point(double x, double y);
 	Point(const Point &other);
 
 	Point &operator=(const Point &other);

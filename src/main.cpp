@@ -31,6 +31,20 @@ int main() {
         world.lionsArray_.push_back(tmp);
     }
 
+    for (int i = 0; i < 10; ++i) {
+        Polygon tmp(world.obstaclesArray_);
+        if (tmp.coord_.size() > 0) {
+            world.obstaclesArray_.push_back(tmp);
+        }
+    }
+
+    for (int i = 0; i < world.obstaclesArray_.size(); ++i) {
+        std::cout << "Polygon " << i << "\n";
+        for (int j = 0; j < (int)world.obstaclesArray_[i].coord_.size(); ++j) {
+            std::cout << world.obstaclesArray_[i].coord_[j].x_ << " " << world.obstaclesArray_[i].coord_[j].y_ << "\n";
+        }
+    }
+
     run_game(world, vector_logic);
 
 } 
