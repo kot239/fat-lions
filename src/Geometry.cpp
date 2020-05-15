@@ -155,7 +155,7 @@ int get_sign(double val) {
 }
 
 bool point_in_polygon(const Point &point, const Polygon &polygon) { 
-	size_t n = polygon.size_;
+	size_t n = polygon.coord_.size();
 	int sign = 0;
 	for (size_t i = 0; i < n; ++i) {
 		size_t next = i + 1;
@@ -281,20 +281,20 @@ bool check_one_line_intersection(double a, double b, double c, double d) {
 
 
 bool segment_and_segment_intersection(const Segment &a, const Segment &b) { //simple
-	return oriented_area(a.a_, a.b_, b.a_) * oriented_area(a.a_, a.b_, b.b_) <= 0 && 
+	return oriented_area(a.a_, a.b_, b.a_) * oriented_area(a.a_, a.b_, b.b_) <= 0 &&
 	       oriented_area(b.a_, b.b_, a.a_) * oriented_area(b.a_, b.b_, a.b_) <= 0 &&
-	       check_one_line_intersection(a.a_.x_, a.b_.x_, b.a_.x_, b.a_.x_) &&
-	       check_one_line_intersection(a.a_.y_, a.b_.y_, b.a_.y_, b.a_.y_);
+	       check_one_line_intersection(a.a_.x_, a.b_.x_, b.a_.x_, b.b_.x_) &&
+	       check_one_line_intersection(a.a_.y_, a.b_.y_, b.a_.y_, b.b_.y_);
 }
 
 bool segment_and_polygon_intersection(const Segment &segment, const Polygon &polygon) {
-	for (size_t i = 0; i < polygon.size_; ++i) {
-		Segment other{polygon.coord_[i], polygon.coord_[(i + 1) % polygon.size_]};
+	for (size_t i = 0; i < polygon.coord_.size(); ++i) {
+		Segment other{polygon.coord_[i], polygon.coord_[(i + 1) % polygon.coord_.size()]};
 		if (segment_and_segment_intersection(segment, other)) {
-			return false;
+			return true;
 		}
 	}
-	return true;
+	return false;
 }
 
 void swap(Point &a, Point &b) {
