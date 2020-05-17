@@ -22,10 +22,41 @@ QRectF AnimalView::boundingRect() const {
 };
 
 void AnimalView::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
-	QPolygon polygon;
-    polygon << QPoint(0, -10) << QPoint(5, 5) << QPoint(-5,5);
-    painter->setBrush(QColor(color_));
-    painter->drawPolygon(polygon);
+    if (strcmp(color_, "#FFCC33") == 0) {
+        QPolygon body;
+        body << QPoint(3, -3) << QPoint(3, 3) << QPoint(0, 4) << QPoint (0,5);
+        body << QPoint(1, 6) << QPoint(0, 7) << QPoint(-1, 6) << QPoint (0,5);
+        body << QPoint(0, 4) << QPoint(-3, 3) << QPoint(-3, -3);
+        painter->setBrush(QColor(color_));
+        painter->drawPolygon(body);
+        QPolygon hair;
+        hair << QPoint(3, -3) << QPoint(5, -5) << QPoint(3, -7) << QPoint (-3, -7) << QPoint(-5, -5) << QPoint(-3, -3);
+        painter->setBrush(QColor("#663300"));
+        painter->drawPolygon(hair);
+    } else {
+        QPolygon body;
+        body << QPoint(4, 0) << QPoint(0, -9) << QPoint(-4, 0) << QPoint(-4, 4) << QPoint(4, 4);
+        painter->setBrush(QColor("#FFFFFF"));
+        painter->drawPolygon(body);
+        QPolygon tail;
+        tail << QPoint(0, 4) << QPoint(0, 6) << QPoint(1, 6) << QPoint(0, 7) << QPoint(-1, 6) << QPoint(0, 6);
+        painter->setBrush(QColor("#000000"));
+        painter->drawPolygon(tail);
+        QPolygon fst;
+        fst << QPoint(4, 2) << QPoint(4, 4) << QPoint(-4, 4) << QPoint(-4, 2);
+        painter->setBrush(QColor("#000000"));
+        painter->drawPolygon(fst);
+        QPolygon snd;
+        snd << QPoint(3, -1) << QPoint(-3, -1) << QPoint(-2, -2) << QPoint(2, -2);
+        painter->setBrush(QColor("#000000"));
+        painter->drawPolygon(snd);
+        QPolygon left;
+        left << QPoint(-1, -7) << QPoint(-3, -6) << QPoint(-1, -5);
+        painter->drawPolygon(left);
+        QPolygon right;
+        right << QPoint(1, -7) << QPoint(3, -6) << QPoint(1, -5);
+        painter->drawPolygon(right);
+    }
     Q_UNUSED(option);
     Q_UNUSED(widget);
 };

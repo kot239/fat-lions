@@ -15,7 +15,7 @@ void ObstacleView::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 	QPolygon polygon;
     for (auto pt: obst_.coord_)
     	polygon << QPoint(pt.x_, pt.y_);
-    painter->setBrush(QColor("#CCCC99"));
+    painter->setBrush(QColor("#666666"));
     painter->drawPolygon(polygon);
     Q_UNUSED(option);
     Q_UNUSED(widget);
