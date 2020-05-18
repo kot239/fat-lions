@@ -3,7 +3,7 @@
 
 #include "World.hpp"
 
-constexpr int NUMBER_OF_POINTS = 50;
+constexpr int NUMBER_OF_POINTS = 500;
 constexpr int LEN_COEF = 1;
 constexpr int MAXX = 600;
 constexpr int MAXY = 600;
