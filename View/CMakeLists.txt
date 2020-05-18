@@ -75,12 +75,14 @@ else()
     ../include/Lion.hpp
     ../include/Obstacle.hpp
     ../include/VectorLogic.hpp
+    ../include/RandomLogic.hpp
     ../include/World.hpp
     ../include/Zebra.hpp
     ../src/Animal.cpp
     ../src/Geometry.cpp
     ../src/Grass.cpp
     ../src/VectorLogic.cpp
+    ../src/RandomLogic.cpp
     ../src/World.cpp
   )
 endif()

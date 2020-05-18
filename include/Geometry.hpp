@@ -6,7 +6,6 @@
 namespace world {
 
 class Vector;
-
 class Point final {
 public:
 	double x_, y_;
@@ -23,6 +22,8 @@ public:
 	Point operator+(const Point &other) const;
 	Vector operator-(const Point &other) const;
 };
+
+double dist(const Point& a, const Point& b); 
 
 class Vector final {
 public:

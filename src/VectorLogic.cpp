@@ -5,12 +5,6 @@
 
 using namespace world;
 
-bool VectorLogic::ready_for_reprod(const Animal& curAnimal) {
-    return curAnimal.age_ >= AGE_FOR_REPROD &&
-           curAnimal.reprodCd_ >= CD_REPROD_TIME &&
-           curAnimal.hunger_ <= HUNGER_FOR_REPROD;
-}
-
 double VectorLogic::sqr_dist(Point a, Point b) {
     return (a.x_ - b.x_) * (a.x_ - b.x_) + (a.y_ - b.y_) * (a.y_ - b.y_);
 }
@@ -24,6 +18,7 @@ Vector VectorLogic::find_correct_vec(Animal& curAnimal, Vector resVector) {
         for (int j = 1; j >= -1; j -= 2) {
             resVector.x_ *= j;
             resVector.y_ *= i;
+            resVector.normalize();
             if (curWorld_.can_move(curAnimal.position_, curAnimal.position_ + resVector * curAnimal.velocity_)) {
                 return resVector;
             }
@@ -34,14 +29,6 @@ Vector VectorLogic::find_correct_vec(Animal& curAnimal, Vector resVector) {
     return resVector; 
 }
 
-bool VectorLogic::is_dead(Animal& curAnimal) {
-    if (curAnimal.age_ >= MAX_AGE || curAnimal.hunger_ >= MAX_HUNGER) {
-        curAnimal.nextAction_ = Action::DIE;
-        return true;
-    }
-    return false; 
-}
-
 template<typename T>
 bool VectorLogic::reproduce(T& curAnimal, const std::vector<T>& animalArray) {
     double curDist;
@@ -49,7 +36,7 @@ bool VectorLogic::reproduce(T& curAnimal, const std::vector<T>& animalArray) {
     Vector resVector = {0, 0};
     for (const auto& animal : animalArray) {
         curDist = sqr_dist(animal.position_, curAnimal.position_);
-        if (animal.sex_ != curAnimal.sex_ && ready_for_reprod(animal) &&
+        if (animal.sex_ != curAnimal.sex_ && animal.ready_for_reprod() &&
             (curDist < curAnimal.vision_ * curAnimal.vision_)) {
 
             if (abs(animal.position_.x_ - curAnimal.position_.x_) < 10 &&
@@ -100,10 +87,10 @@ void VectorLogic::nutrition(Animal& curAnimal, const std::vector<T>& foodArray) 
 }
 
 void VectorLogic::find_target_lion(Lion& curLion) { 
-    if (is_dead(curLion)) {
+    if (curLion.is_dead()) {
         return;
     }
-    if (ready_for_reprod(curLion)) {
+    if (curLion.ready_for_reprod()) {
         if (reproduce<Lion>(curLion, curWorld_.lionsArray_)) {
             return;
         }
@@ -113,7 +100,7 @@ void VectorLogic::find_target_lion(Lion& curLion) {
 }
 
 void VectorLogic::find_target_zebra(Zebra& curZebra) {
-    if (is_dead(curZebra)) {
+    if (curZebra.is_dead()) {
         return;
     }
 
@@ -131,7 +118,7 @@ void VectorLogic::find_target_zebra(Zebra& curZebra) {
         return;   
     }
 
-    if (ready_for_reprod(curZebra)) {
+    if (curZebra.ready_for_reprod()) {
         if (reproduce<Zebra>(curZebra, curWorld_.zebrasArray_)) {
             return;
         }

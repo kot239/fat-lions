@@ -62,11 +62,11 @@ void View::update_world() {
     add_animals(world->lionsArray_, LION_COLOR);
 
     for (auto& curZebra : world->zebrasArray_) {
-        logic->find_target_zebra(curZebra);
+        vlogic->find_target_zebra(curZebra);
     }
 
     for (auto& curLion : world->lionsArray_) {
-        logic->find_target_lion(curLion);
+        rlogic->find_target_lion(curLion);
     }
     world->update();
     chart_->draw_chart(world->lionsArray_.size(), world->zebrasArray_.size());
@@ -126,11 +126,14 @@ View::View(QWidget* parent) : QWidget(parent), ui_(new Ui::View) {
 
     connect(ui_->start_button, SIGNAL(clicked()), this, SLOT(start_game()));
     world = new World();
-    logic = new VectorLogic(*world);   
+    vlogic = new VectorLogic(*world);
+    rlogic = new RandomLogic(*world);   
+   
 }
 
 View::~View() {
-    delete logic;
+    delete rlogic;
+    delete vlogic;
     delete world;
     delete ui_;
 }

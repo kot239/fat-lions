@@ -1,6 +1,7 @@
 #include "../include/World.hpp"
 #include <iostream>
 #include <cmath>
+#include "assert.h"
 
 namespace world {
 
@@ -13,13 +14,12 @@ bool World::can_move(const Point &from, const Point &to) const {
         if (segment_and_polygon_intersection(Segment{from, to}, polygon)) {
             return false;
         }
-    }
+    }  
     return true;
 }
 
 template<typename ANIMAL, typename FOOD>
 void World::eating(ANIMAL& animal, std::vector<FOOD>& foodArray, int nutrition) {
-    animal.make_move();
     for (auto& food : foodArray) {
         if (abs(animal.position_.x_- food.position_.x_) < 10 && 
             abs(animal.position_.y_- food.position_.y_) < 10 && 
@@ -54,11 +54,11 @@ template <typename ANIMAL, typename FOOD>
 void World::update_species(std::vector<ANIMAL>& animalArray, std::vector<FOOD>& foodArray, int nutrition) {
     int numbAlive = 0;
     for (auto& animal : animalArray) {
-        if (animal.nextAction_ == Action::EAT) {
-            eating<ANIMAL, FOOD>(animal, foodArray, nutrition);
-        }
         if (animal.nextAction_ == Action::GO) {
             animal.make_move();
+        }
+        if (animal.nextAction_ == Action::EAT) {
+            eating<ANIMAL, FOOD>(animal, foodArray, nutrition);
         }
         if (animal.nextAction_ != Action::REPRODUCE) {
            ++animal.age_;

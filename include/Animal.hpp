@@ -21,7 +21,7 @@ public:
     Vector direction_;
     Action nextAction_;
     double velocity_;
-    int vision_;
+    double vision_;
     Point position_;
     int hunger_;
     int age_;
@@ -33,6 +33,8 @@ public:
   //  virtual void create_child(World&) = 0;
     Animal& operator=(const Animal& other) = default;
     void make_move();
+    bool ready_for_reprod() const;
+    bool is_dead();
 };
 
 void swap(Animal &a, Animal &b);

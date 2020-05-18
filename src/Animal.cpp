@@ -15,8 +15,8 @@ Animal::Animal() {
     direction_.normalize();
     velocity_ = 5;
     vision_ = 50;
-    position_.x_ = abs(rand()) % 600;
-    position_.y_= abs(rand()) % 400;
+    position_.x_ = 50 + rand() % 500;;
+    position_.y_= 50 + rand() % 300;
     hunger_ = 0;
     age_= 0;
     reprodCd_ = -1;
@@ -28,6 +28,19 @@ Animal::Animal() {
     }   
 }
 
+bool Animal::ready_for_reprod() const {
+    return age_ >= AGE_FOR_REPROD &&
+           reprodCd_ >= CD_REPROD_TIME &&
+           hunger_ <= HUNGER_FOR_REPROD;
+}
+
+bool Animal::is_dead() {
+    if (age_ >= MAX_AGE || hunger_ >= MAX_HUNGER) {
+        nextAction_ = Action::DIE;
+        return true;
+    }
+    return false; 
+}
 
 void Animal::make_move() {
     position_ += (direction_ * velocity_);

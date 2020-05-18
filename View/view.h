@@ -17,6 +17,7 @@
 #include "obstacles_view.h"
 #include "../include/World.hpp"
 #include "../include/VectorLogic.hpp"
+#include "../include/RandomLogic.hpp"
 
 namespace Ui {
 class View;
@@ -42,7 +43,8 @@ private:
     QGraphicsScene* scene_;
     QTimer* timer;
     World* world = nullptr;
-    VectorLogic* logic = nullptr;
+    VectorLogic* vlogic = nullptr;
+    RandomLogic* rlogic = nullptr;
     Chart* chart_;
     int number_of_lions_ = 1;
     int number_of_zebras_ = 1;
