@@ -149,40 +149,21 @@ void RandomLogic::find_target_lion(Lion& curLion) {
     }
     points_= generator_.generate_point(curLion);
     Point curPos = points_[0];
-    Point optimalPoint = curPos;
-    Point emergencyPoint = curPos;
-    double maxBen = point_cost.count_benefits_for_lion(curLion, optimalPoint);
-    bool has_optimal_point = false;
-    bool has_emergency_point = false;
+    set_start_value(curPos);
+    double maxBen = point_cost_.count_benefits_for_lion(curLion, optimalPoint_);
     for (const auto& point : points_) {
         if (curWorld_.can_move(curPos, point)) {
-            double pointBen = point_cost.count_benefits_for_lion(curLion, point);
+            double pointBen = point_cost_.count_benefits_for_lion(curLion, point);
             if (pointBen > maxBen) {
-                optimalPoint = point;
+                optimalPoint_ = point;
                 maxBen = pointBen;
-                has_optimal_point = true;
+                has_optimal_point_ = true;
             } 
-            emergencyPoint = point;
-            has_emergency_point = true;
+            emergencyPoint_ = point;
+            has_emergency_point_ = true;
         }
     }
-    if (has_optimal_point) {
-        curLion.direction_ = optimalPoint - curPos;
-        curLion.direction_.normalize();   
-        curLion.nextAction_ = Action::GO; 
-        return;
-    }
-    if (!curWorld_.can_move(curPos, curPos + curLion.direction_ * curLion.velocity_)) {
-        if (has_emergency_point) {
-            curLion.direction_ = emergencyPoint - curPos;
-            curLion.direction_.normalize();
-        }
-        else {
-            curLion.nextAction_ = Action::NOTHING;
-            return;
-        }
-    } 
-    curLion.nextAction_ = Action::GO; 
+    update_dir(curLion);
 }
 
 bool RandomLogic::inDanger(Zebra& curZebra) {
@@ -208,40 +189,47 @@ void RandomLogic::find_target_zebra(Zebra& curZebra) {
     }
     points_= generator_.generate_point(curZebra);
     Point curPos = points_[0];
-    Point optimalPoint = curPos;
-    Point emergencyPoint = curPos;
-    double maxBen = point_cost.count_benefits_for_zebra(curZebra, optimalPoint);
-    bool has_optimal_point = false;
-    bool has_emergency_point = false;
+    set_start_value(curPos);
+    double maxBen = point_cost_.count_benefits_for_zebra(curZebra, optimalPoint_);
     for (const auto& point : points_) {
         if (curWorld_.can_move(curPos, point)) {
-            double pointBen = point_cost.count_benefits_for_zebra(curZebra, point);
+            double pointBen = point_cost_.count_benefits_for_zebra(curZebra, point);
             if (pointBen > maxBen) {
-                optimalPoint = point;
+                optimalPoint_ = point;
                 maxBen = pointBen;
-                has_optimal_point = true;
+                has_optimal_point_ = true;
             } 
-            emergencyPoint = point;
-            has_emergency_point = true;
+            emergencyPoint_ = point;
+            has_emergency_point_ = true;
         }
     }
-    if (has_optimal_point) {
-        curZebra.direction_ = optimalPoint - curPos;
-        curZebra.direction_.normalize();   
-        curZebra.nextAction_ = Action::GO; 
+    update_dir(curZebra);
+}
+
+void RandomLogic::set_start_value(const Point& curPos) {
+    optimalPoint_ = curPos;
+    emergencyPoint_ = curPos;
+    has_optimal_point_ = false;
+    has_emergency_point_ = false;
+}
+
+void RandomLogic::update_dir(Animal& curAnimal) {
+    Point curPos = curAnimal.position_;
+    if (has_optimal_point_) {
+        curAnimal.direction_ = optimalPoint_ - curPos;
+        curAnimal.direction_.normalize();   
+        curAnimal.nextAction_ = Action::GO; 
         return;
     }
-    if (!curWorld_.can_move(curPos, curPos + curZebra.direction_ * curZebra.velocity_)) {
-        if (has_emergency_point) {
-            curZebra.direction_ = emergencyPoint - curPos;
-            curZebra.direction_.normalize();
+    if (!curWorld_.can_move(curPos, curPos + curAnimal.direction_ * curAnimal.velocity_)) {
+        if (has_emergency_point_) {
+            curAnimal.direction_ = emergencyPoint_ - curPos;
+            curAnimal.direction_.normalize();
         }
         else {
-            curZebra.nextAction_ = Action::NOTHING;
+            curAnimal.nextAction_ = Action::NOTHING;
             return;
         }
     } 
-    curZebra.nextAction_ = Action::GO; 
-
+    curAnimal.nextAction_ = Action::GO; 
 }
-

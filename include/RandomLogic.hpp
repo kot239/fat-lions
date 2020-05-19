@@ -2,8 +2,9 @@
 #define _INCLUDE_RANDOMLOGIC_HPP_
 
 #include "World.hpp"
+#include <functional>
 
-constexpr int NUMBER_OF_POINTS = 500;
+constexpr int NUMBER_OF_POINTS = 50;
 constexpr int LEN_COEF = 1;
 constexpr int MAXX = 600;
 constexpr int MAXY = 600;
@@ -34,7 +35,7 @@ private:
 
 class RandomLogic {
 public:
-    explicit RandomLogic(world::World& world) : curWorld_(world), point_cost(world) {}
+    explicit RandomLogic(world::World& world) : curWorld_(world), point_cost_(world) {}
     void find_target_lion(world::Lion& curLion);
     void find_target_zebra(world::Zebra& curZebra);
 private:
@@ -48,11 +49,19 @@ private:
 
     void check_errors(world::Animal& curAnimal);
 
-    
+    void set_start_value(const world::Point& curPos);
+
+    void update_dir(world::Animal& curAnimal);
+
     const world::World& curWorld_;
-    CountBenefits point_cost;
+    CountBenefits point_cost_;
     PointGenerator generator_;
     std::vector<world::Point> points_;
+
+    world::Point optimalPoint_;
+    world::Point emergencyPoint_;
+    bool has_optimal_point_;
+    bool has_emergency_point_;
 };
 
 
