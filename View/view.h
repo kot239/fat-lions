@@ -51,6 +51,7 @@ private:
     void add_animals(const std::vector<T>& animals, const char* color);
     void add_grass(const std::vector<Grass> grass_);
     void add_obstacles(const std::vector<Polygon> obsts);
+    void add_background();
     void clear_scene();
 };
 

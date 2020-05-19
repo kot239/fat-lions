@@ -42,6 +42,13 @@ void View::add_obstacles(const std::vector<Polygon> obsts) {
     }
 }
 
+void View::add_background() {
+    QGraphicsRectItem* bg = new QGraphicsRectItem(10, 10, 621, 471);
+    //bg << QPoint(0, 0) << QPoint(0, 471) << QPoint(621, 471) << QPoint(621, 0);
+    bg->setBrush(QColor(204, 255, 153, 130));
+    scene_->addItem(bg);
+}
+
 void View::clear_scene() {
     QList<QGraphicsItem*> all = scene_->items();
     for(int i = 0; i < all.size(); i++) {
@@ -56,6 +63,7 @@ void View::update_world() {
     //scene_->clear();
     clear_scene();
 
+    add_background();
     add_obstacles(world->obstaclesArray_);
     add_grass(world->grassArray_);
     add_animals(world->zebrasArray_, ZEBRA_COLOR);
