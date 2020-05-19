@@ -25,7 +25,7 @@ const std::vector<Point>& PointGenerator::generate_point(const Animal& curAnimal
         if (!(abs(x - x0) < 0.0001 && abs(y - y0) < 0.0001)) {
             Vector dir(x - x0, y - y0);
             dir.normalize();
-            double r = fRand(curAnimal.velocity_ + 5, r0);
+            double r = fRand(curAnimal.velocity_, r0);
             dir *= r;
             Point new_pos = pos + dir;
             points_[i] = new_pos;
@@ -34,32 +34,81 @@ const std::vector<Point>& PointGenerator::generate_point(const Animal& curAnimal
     return points_;
 }
 
-double CountBenefits::count_benefits_for_lion(const Lion& curLion, 
-                               const Point& point) {
-    int coefHung = curLion.hunger_;
-    int coefReprod = MAX_HUNGER - coefHung;
-    Point startPoint = curLion.position_;
-   // double lenPath = dist(point, startPoint);
+template<typename T>
+double CountBenefits::count_benefits_food(const Animal& curAnimal,
+                                          const std::vector<T>& foodArray,
+                                          const Point& point) {
+    int coefHung = curAnimal.hunger_;
+    Point startPoint = curAnimal.position_;
     double pointBen = 0; 
-    for (const auto& zebra : curWorld_.zebrasArray_) {
-        if (dist(startPoint, zebra.position_) < curLion.vision_ &&
-            dist(point, zebra.position_) < curLion.vision_ && 
-            curWorld_.can_move(startPoint, zebra.position_) &&
-            curWorld_.can_move(point, zebra.position_)) {
-            pointBen += coefHung /(LEN_COEF * dist(point, zebra.position_));
-        }
-    }
-    for (const auto& lion : curWorld_.lionsArray_) {
-        if (lion.sex_ != curLion.sex_ &&
-            lion.ready_for_reprod() &&
-            dist(startPoint, lion.position_) < curLion.vision_ &&
-            dist(point, lion.position_) < curLion.vision_ && 
-            curWorld_.can_move(startPoint, lion.position_) &&
-            curWorld_.can_move(point, lion.position_)) {
-            pointBen += coefReprod / (LEN_COEF * dist(point, lion.position_));
+    for (const auto& food : foodArray) {
+        if (dist(startPoint, food.position_) < curAnimal.vision_ &&
+            dist(point, food.position_) < curAnimal.vision_ && 
+            curWorld_.can_move(startPoint, food.position_) &&
+            curWorld_.can_move(point, food.position_)) {
+
+            pointBen += coefHung /(LEN_COEF * dist(point, food.position_));
         }
     }
     return pointBen;
+}
+
+template<typename T>
+double CountBenefits::count_benefits_reprod(const T& curAnimal,
+                                          const std::vector<T>& animalArray,
+                                          const Point& point) {
+    int coefReprod = MAX_HUNGER - curAnimal.hunger_;
+    Point startPoint = curAnimal.position_;
+    double pointBen = 0; 
+    for (const auto& animal : animalArray) {
+        if (animal.sex_ != curAnimal.sex_ &&
+            animal.ready_for_reprod() &&
+            dist(startPoint, animal.position_) < curAnimal.vision_ &&
+            dist(point, animal.position_) < curAnimal.vision_ && 
+            curWorld_.can_move(startPoint, animal.position_) &&
+            curWorld_.can_move(point, animal.position_)) {
+
+            pointBen += coefReprod / (LEN_COEF * dist(point, animal.position_));
+        }
+    }
+    return pointBen;
+}
+
+double CountBenefits::count_benefits_for_lion(const Lion& curLion, 
+                               const Point& point) {
+    double pointBen = 0; 
+    pointBen += count_benefits_food<Zebra>(curLion, curWorld_.zebrasArray_, point);
+    pointBen += count_benefits_reprod<Lion>(curLion, curWorld_.lionsArray_, point);
+    return pointBen;
+}
+
+
+double CountBenefits::count_benefits_for_zebra(const Zebra& curZebra, 
+                               const Point& point) {
+    double pointBen = 0; 
+    Point startPoint = curZebra.position_;
+
+    pointBen += count_benefits_food<Grass>(curZebra, curWorld_.grassArray_, point);
+    pointBen += count_benefits_reprod<Zebra>(curZebra, curWorld_.zebrasArray_, point);
+    for (const auto& lion : curWorld_.lionsArray_) {
+        if (dist(lion.position_, startPoint) < curZebra.vision_ && 
+            dist(point, lion.position_) < curZebra.vision_ &&
+            curWorld_.can_move(startPoint, lion.position_) &&
+            curWorld_.can_move(point, lion.position_)) {
+
+            pointBen += DANGER_COST / (LEN_COEF * dist(point, lion.position_));
+        }
+    }
+    return pointBen;
+}
+
+void RandomLogic::check_errors(world::Animal& curAnimal) {
+    Point curPos = curAnimal.position_;
+    if (!curWorld_.can_move(curAnimal.position_, curAnimal.position_ + curAnimal.direction_ * curAnimal.velocity_)) {
+        std::cerr << curPos.x_ << ' ' << curPos.y_ << '\n';        
+        std::cerr << (curPos + curAnimal.direction_).x_  << ' ' << (curPos + curAnimal.direction_).y_ << '\n';
+        assert(false);
+    }
 }
 
 template<typename T>
@@ -68,7 +117,7 @@ bool RandomLogic::reproduce(T& curAnimal, const std::vector<T>& animalArray) {
         for (const auto& animal : animalArray) {
             if (animal.sex_ != curAnimal.sex_ &&
                 animal.ready_for_reprod() &&
-                dist(animal.position_, curAnimal.position_) < 10) {
+                dist(animal.position_, curAnimal.position_) < curAnimal.velocity_ ) {
                 curAnimal.nextAction_ = Action::REPRODUCE;
                 return true;
             }
@@ -80,7 +129,7 @@ bool RandomLogic::reproduce(T& curAnimal, const std::vector<T>& animalArray) {
 template<typename T>
 bool RandomLogic::nutrition(Animal& curAnimal, const std::vector<T>& foodArray) {
     for (const auto& food : foodArray) {
-        if (dist(curAnimal.position_, food.position_) < 10 ) {
+        if (dist(curAnimal.position_, food.position_) < curAnimal.velocity_ ) {
             curAnimal.nextAction_ = Action::EAT;
             return true;
         }
@@ -91,10 +140,6 @@ bool RandomLogic::nutrition(Animal& curAnimal, const std::vector<T>& foodArray) 
 void RandomLogic::find_target_lion(Lion& curLion) {
 	if (curLion.is_dead()) {
         return;
-    }
-    if (!curWorld_.can_move(curLion.position_, curLion.position_)) {
-        std::cerr << curLion.position_.x_ << ' ' << curLion.position_.y_ << '\n';
-        assert(false && "START_POINT_INCORRECT");
     }
     if(reproduce<Lion>(curLion, curWorld_.lionsArray_)) {
         return;
@@ -123,12 +168,7 @@ void RandomLogic::find_target_lion(Lion& curLion) {
     }
     if (has_optimal_point) {
         curLion.direction_ = optimalPoint - curPos;
-        curLion.direction_.normalize();
-        if (!curWorld_.can_move(curLion.position_, curLion.position_ + curLion.direction_ * curLion.velocity_)) {
-            std::cerr << curPos.x_ << ' ' << curPos.y_ << '\n';        
-            std::cerr << (curPos + curLion.direction_).x_  << ' ' << (curPos + curLion.direction_).y_ << '\n';
-            assert(false);
-        }
+        curLion.direction_.normalize();   
         curLion.nextAction_ = Action::GO; 
         return;
     }
@@ -142,10 +182,66 @@ void RandomLogic::find_target_lion(Lion& curLion) {
             return;
         }
     } 
-    if (!curWorld_.can_move(curLion.position_, curLion.position_ + curLion.direction_ * curLion.velocity_)) {
-        std::cerr << curPos.x_ << ' ' << curPos.y_ << '\n';        
-        std::cerr << (curPos + curLion.direction_).x_  << ' ' << (curPos + curLion.direction_).y_ << '\n';
-        assert(curWorld_.can_move(curPos, curPos + curLion.direction_));
-    } 
     curLion.nextAction_ = Action::GO; 
 }
+
+bool RandomLogic::inDanger(Zebra& curZebra) {
+    for (const auto& lion : curWorld_.lionsArray_) {
+        if (dist(lion.position_, curZebra.position_) < curZebra.vision_) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void RandomLogic::find_target_zebra(Zebra& curZebra) {
+    if (curZebra.is_dead()) {
+        return;
+    }
+    if (!inDanger(curZebra)) {
+        if (reproduce<Zebra>(curZebra, curWorld_.zebrasArray_)) {
+            return;
+        }
+        if (nutrition<Grass>(curZebra, curWorld_.grassArray_)) {
+            return;
+        }
+    }
+    points_= generator_.generate_point(curZebra);
+    Point curPos = points_[0];
+    Point optimalPoint = curPos;
+    Point emergencyPoint = curPos;
+    double maxBen = point_cost.count_benefits_for_zebra(curZebra, optimalPoint);
+    bool has_optimal_point = false;
+    bool has_emergency_point = false;
+    for (const auto& point : points_) {
+        if (curWorld_.can_move(curPos, point)) {
+            double pointBen = point_cost.count_benefits_for_zebra(curZebra, point);
+            if (pointBen > maxBen) {
+                optimalPoint = point;
+                maxBen = pointBen;
+                has_optimal_point = true;
+            } 
+            emergencyPoint = point;
+            has_emergency_point = true;
+        }
+    }
+    if (has_optimal_point) {
+        curZebra.direction_ = optimalPoint - curPos;
+        curZebra.direction_.normalize();   
+        curZebra.nextAction_ = Action::GO; 
+        return;
+    }
+    if (!curWorld_.can_move(curPos, curPos + curZebra.direction_ * curZebra.velocity_)) {
+        if (has_emergency_point) {
+            curZebra.direction_ = emergencyPoint - curPos;
+            curZebra.direction_.normalize();
+        }
+        else {
+            curZebra.nextAction_ = Action::NOTHING;
+            return;
+        }
+    } 
+    curZebra.nextAction_ = Action::GO; 
+
+}
+

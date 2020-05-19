@@ -62,7 +62,7 @@ void View::update_world() {
     add_animals(world->lionsArray_, LION_COLOR);
 
     for (auto& curZebra : world->zebrasArray_) {
-        vlogic->find_target_zebra(curZebra);
+        rlogic->find_target_zebra(curZebra);
     }
 
     for (auto& curLion : world->lionsArray_) {

@@ -13,7 +13,7 @@ Animal::Animal() {
     if (rand() & 1) direction_.x_ *= -1;
     if (rand() & 1) direction_.y_ *= -1;
     direction_.normalize();
-    velocity_ = 5;
+    velocity_ = START_VELOCITY;
     vision_ = 50;
     position_.x_ = 50 + rand() % 500;;
     position_.y_= 50 + rand() % 300;
