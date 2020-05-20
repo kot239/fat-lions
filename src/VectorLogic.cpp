@@ -74,7 +74,7 @@ void VectorLogic::nutrition(Animal& curAnimal, const std::vector<T>& foodArray) 
 
             minDist = curDist;
             resVector = food.position_ - curAnimal.position_;
-            if (resVector.len() < 10) {
+            if (resVector.len() < curAnimal.velocity_) {
                 curAnimal.nextAction_ = Action::EAT;
             }
         }

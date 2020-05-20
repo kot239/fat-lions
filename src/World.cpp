@@ -21,7 +21,7 @@ bool World::can_move(const Point &from, const Point &to) const {
 template<typename ANIMAL, typename FOOD>
 void World::eating(ANIMAL& animal, std::vector<FOOD>& foodArray, int nutrition) {
     for (auto& food : foodArray) {
-        if (dist(animal.position_, food.position_) < animal.velocity_ &&
+        if (dist(animal.position_, food.position_) < 1.5 * animal.velocity_ &&
             animal.nextAction_ == Action::EAT) {
 
             animal.hunger_ -= nutrition;
@@ -32,6 +32,7 @@ void World::eating(ANIMAL& animal, std::vector<FOOD>& foodArray, int nutrition) 
     if (animal.nextAction_ == Action::GO) { 
         foodArray.pop_back();
     }
+    animal.nextAction_ = Action::GO;
 }
 
 template<typename ANIMAL>
