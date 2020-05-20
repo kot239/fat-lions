@@ -20,7 +20,9 @@ void View::add_animals(const std::vector<T>& animals, const char* color) {
         AnimalView* animal;
         animal = new AnimalView(color, animals[j]);
         scene_->addItem(animal);
+        animals_view_.push_back(animal);
         animal->setPos(animal->position_.x_, animal->position_.y_);
+        connect(animal, SIGNAL(signal1()), this, SLOT(slot_animal_information()));
     }
 }
 
@@ -44,12 +46,12 @@ void View::add_obstacles(const std::vector<Polygon> obsts) {
 
 void View::add_background() {
     QGraphicsRectItem* bg = new QGraphicsRectItem(10, 10, 621, 471);
-    //bg << QPoint(0, 0) << QPoint(0, 471) << QPoint(621, 471) << QPoint(621, 0);
     bg->setBrush(QColor(204, 255, 153, 130));
     scene_->addItem(bg);
 }
 
 void View::clear_scene() {
+    animals_view_.clear();
     QList<QGraphicsItem*> all = scene_->items();
     for(int i = 0; i < all.size(); i++) {
     QGraphicsItem *obj = all[i];
@@ -82,7 +84,6 @@ void View::update_world() {
 
 void View::stop_game() {
     timer->stop();
-    //scene_->clear();
     clear_scene();
     world->obstaclesArray_.clear();
     world->lionsArray_.clear();
@@ -90,6 +91,8 @@ void View::stop_game() {
     world->grassArray_.clear();
     chart_->clean();
     ui_->start_button->setEnabled(true);
+    ui_->who->setText("Who");
+    ui_->sex->setText("Sex");
     return;
 }
 
@@ -116,6 +119,17 @@ void View::start_game() {
     connect(timer, SIGNAL(timeout()), this, SLOT(update_world()));
     connect(ui_->stop_button, SIGNAL(clicked()), this, SLOT(stop_game()));
     return;
+}
+
+void View::slot_animal_information() {
+    for (auto item: animals_view_) {
+        if (item->clicked_) {
+            ui_->who->setText(item->is_lion_ ? "Lion" : "Zebra");
+            ui_->sex->setText(item->is_fem_ ? "Female" : "Male");
+            item->clicked_ = false;
+            break;
+        }
+    }
 }
 
 View::View(QWidget* parent) : QWidget(parent), ui_(new Ui::View) {

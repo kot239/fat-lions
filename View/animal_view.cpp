@@ -7,7 +7,7 @@
 const double PI = 3.14159265;
 
 AnimalView::AnimalView(const char* color, const Animal& animal, QObject* parent) : QObject(parent), QGraphicsItem(),
-        color_(color), position_(animal.position_) {
+        position_(animal.position_), clicked_(false), color_(color){
     double arg = double(animal.direction_.y_ * (-1)) / sqrt(double(animal.direction_.x_ * animal.direction_.x_ + animal.direction_.y_ * animal.direction_.y_));
     if (animal.direction_.x_ >= 0) {
         angle_ = acos(arg) * 180.0 / PI;
@@ -15,14 +15,16 @@ AnimalView::AnimalView(const char* color, const Animal& animal, QObject* parent)
         angle_ = 360.0 - acos(arg) * 180.0 / PI;
     }
     setRotation(angle_);
+    is_lion_ = (strcmp(color_, "#FFCC33") == 0 ? true : false);
+    is_fem_ = (animal.sex_ == Sex::FEMALE ? true : false);
 };
 
 QRectF AnimalView::boundingRect() const {
-	return QRectF(-30, -30, 60, 60);
+    return QRectF(-50, -50, 50, 50);
 };
 
 void AnimalView::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
-    if (strcmp(color_, "#FFCC33") == 0) {
+    if (is_lion_) {
         QPolygon body;
         body << QPoint(3, -3) << QPoint(3, 3) << QPoint(0, 4) << QPoint (0,5);
         body << QPoint(1, 6) << QPoint(0, 7) << QPoint(-1, 6) << QPoint (0,5);
@@ -59,4 +61,10 @@ void AnimalView::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     }
     Q_UNUSED(option);
     Q_UNUSED(widget);
+};
+
+void AnimalView::mousePressEvent(QGraphicsSceneMouseEvent *event) {
+    emit signal1();
+    clicked_ = true;
+    QGraphicsItem::mousePressEvent(event);
 };

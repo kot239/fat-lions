@@ -14,16 +14,23 @@ class AnimalView : public QObject, public QGraphicsItem {
 
 	Q_OBJECT
 
+signals:
+    void signal1();
+
 public:
     AnimalView(const char* color, const Animal& animal, QObject* parent = nullptr);
     ~AnimalView() = default;
 
 	Point position_;
 	qreal angle_;
+    bool clicked_;
+    bool is_lion_;
+    bool is_fem_;
 
 protected:
 	QRectF boundingRect() const;
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
 
 private:
     const char* color_;

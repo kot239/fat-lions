@@ -6,10 +6,12 @@
 #include <QShortcut>
 #include <QTimer>
 #include <QLabel>
+#include <QString>
 #include <QtCharts/QChartView>
 #include <QPushButton>
 #include <QInputDialog>
 #include <QList>
+#include <string>
 
 #include "animal_view.h"
 #include "chart.h"
@@ -44,6 +46,7 @@ private:
     World* world = nullptr;
     VectorLogic* logic = nullptr;
     Chart* chart_;
+    QList<AnimalView*> animals_view_;
     int number_of_lions_ = 1;
     int number_of_zebras_ = 1;
 
@@ -53,6 +56,9 @@ private:
     void add_obstacles(const std::vector<Polygon> obsts);
     void add_background();
     void clear_scene();
+
+private slots:
+    void slot_animal_information();
 };
 
 #endif // VIEW_H_
