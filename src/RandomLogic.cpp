@@ -78,7 +78,9 @@ double CountBenefits::count_benefits_for_lion(const Lion& curLion,
                                const Point& point) {
     double pointBen = 0; 
     pointBen += count_benefits_food<Zebra>(curLion, curWorld_.zebrasArray_, point);
-    pointBen += count_benefits_reprod<Lion>(curLion, curWorld_.lionsArray_, point);
+    if (curLion.ready_for_reprod()) {
+        pointBen += count_benefits_reprod<Lion>(curLion, curWorld_.lionsArray_, point);
+    }
     return pointBen;
 }
 
@@ -89,7 +91,9 @@ double CountBenefits::count_benefits_for_zebra(const Zebra& curZebra,
     Point startPoint = curZebra.position_;
 
     pointBen += count_benefits_food<Grass>(curZebra, curWorld_.grassArray_, point);
-    pointBen += count_benefits_reprod<Zebra>(curZebra, curWorld_.zebrasArray_, point);
+    if (curZebra.ready_for_reprod()) {
+        pointBen += count_benefits_reprod<Zebra>(curZebra, curWorld_.zebrasArray_, point);
+    }
     for (const auto& lion : curWorld_.lionsArray_) {
         if (dist(lion.position_, startPoint) < curZebra.vision_ && 
             dist(point, lion.position_) < curZebra.vision_ &&
@@ -138,7 +142,7 @@ bool RandomLogic::nutrition(Animal& curAnimal, const std::vector<T>& foodArray) 
 }
 
 void RandomLogic::find_target_lion(Lion& curLion) {
-	if (curLion.is_dead()) {
+    if (curLion.is_dead()) {
         return;
     }
     if(reproduce<Lion>(curLion, curWorld_.lionsArray_)) {
