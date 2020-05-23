@@ -178,11 +178,12 @@ double oriented_area(const Point &a, const Point &b, const Point &c) {
 	return (b.x_ - a.x_) * (c.y_ - a.y_) - (b.y_ - a.y_) * (c.x_ - a.x_);
 }
 
+double rotate(const Point &a, const Point &b, const Point &c) {
+	return (b.x_ - a.x_) * (c.y_ - b.y_) - (b.y_ - a.y_) * (c.x_ - b.x_);
+}
+
 std::vector<Point> convex_hull(std::vector<Point> &v) { //gift wrapping algo
-	/*for (int i = 0; i < n; ++i) {
-		std::cerr << v[i].x_ << " " << v[i].y_ << "\n";
-	}
-	std::cerr "finish\n";*/
+	auto trash = v;
 	size_t n = v.size();
 	assert(n > 2);
 	for (size_t i = 1; i < n; ++i) {
@@ -191,26 +192,22 @@ std::vector<Point> convex_hull(std::vector<Point> &v) { //gift wrapping algo
 		}
 	}
 
-	auto p0 = v[0];
-	auto pi = p0;
-	std::vector<Point> result = {p0};
+	std::vector<Point> result = {v[0]};
 	v.push_back(v[0]);
 	size_t ind = 0;
 	while (true) {
 		++ind;
-		for (size_t i = ind + 1; i < n; ++i) {
-			//Vector v1(result.back(), v[i]), v2(result.back(), v[ind]);
-			if (oriented_area(result.back(), v[ind], v[i]) < 0) {
-				ind = i;
+		for (size_t i = ind + 1; i <= n; ++i) {
+			if (rotate(result.back(), v[ind], v[i]) < 0) {
+				swap(v[ind], v[i]);
 			}
-
 		}
-		pi = v[ind];
-		if (pi == p0) {
+		if (v[ind] == result.front()) {
 			break;
 		}
-		result.push_back(pi);
+		result.push_back(v[ind]);
 	}
+	//assert(result.size() > 2);
 	return result;
 }
 
@@ -264,7 +261,7 @@ Polygon::Polygon(std::vector<Polygon> &polygons) {
 		}
 
 	}
-	//coord_ = std::vector<Point>{{1, 2}, {5, 1}, {3, 3}, {4, 4}, {2, 5}};
+	//coord_ = std::vector<Point>{{56, 291}, {29, 229}, {42,  233},  {30, 208}};
 	//coord_.push_back(Point(1, 2));
 	coord_ = convex_hull(coord_);
 }
@@ -285,6 +282,7 @@ bool segment_and_segment_intersection(const Segment &a, const Segment &b) { //si
 	       oriented_area(b.a_, b.b_, a.a_) * oriented_area(b.a_, b.b_, a.b_) <= 0 &&
 	       check_one_line_intersection(a.a_.x_, a.b_.x_, b.a_.x_, b.b_.x_) &&
 	       check_one_line_intersection(a.a_.y_, a.b_.y_, b.a_.y_, b.b_.y_);
+	//return rotate(A,B,C)*rotate(A,B,D)<=0 and rotate(C,D,A)*rotate(C,D,B)<0
 }
 
 bool segment_and_polygon_intersection(const Segment &segment, const Polygon &polygon) {
