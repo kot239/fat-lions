@@ -65,12 +65,14 @@ public:
 	size_t size_;
 	std::vector<Point> coord_;
 
+	Polygon() = default;
 	Polygon(std::vector<Polygon> &polygons);
 };
 
 bool segment_and_polygon_intersection(const Segment &segment, const Polygon &polygon);
 bool segment_and_segment_intersection(const Segment &a, const Segment &b);
 
+bool point_in_polygon(const Point &point, const Polygon &polygon);
 
 bool in_field(const Point &a);
 

@@ -10,13 +10,13 @@
 
 namespace world {
 
-const double eps = 1e-6;
+const double eps = 1e-7;
 
 //Point
 
 Point::Point() {
-	x_ = abs(rand()) % X_FIELD_SIZE;
-	y_ = abs(rand()) % Y_FIELD_SIZE;
+	x_ = rand() % X_FIELD_SIZE;
+	y_ = rand() % Y_FIELD_SIZE;
 }
 
 Point::Point(double x, double y) : x_(x), y_(y) {}
@@ -141,7 +141,8 @@ Angle &Angle::operator=(const Angle &other) {
 //Polygon
 
 double cross_product(const Vector &a, const Vector &b) {
-	return a.len() * b.len() * std::sin(Angle(a, b).phi);
+	//return a.len() * b.len() * std::sin(Angle(a, b).phi);
+	return a.x_ * b.y_ - a.y_ * b.x_;
 }
 
 int get_sign(double val) {
@@ -156,6 +157,10 @@ int get_sign(double val) {
 
 bool point_in_polygon(const Point &point, const Polygon &polygon) { 
 	size_t n = polygon.coord_.size();
+	//std::cerr << point.x_ << " " << point.y_ << "\n" << "!!!!!!!!\n";
+	/*for (int i = 0; i < n; ++i) {
+		std::cerr << polygon.coord_[i].x_  << " " << polygon.coord_[i].y_ << "\n";
+	}*/
 	int sign = 0;
 	for (size_t i = 0; i < n; ++i) {
 		size_t next = i + 1;
@@ -163,10 +168,11 @@ bool point_in_polygon(const Point &point, const Polygon &polygon) {
 			next = 0;
 		}
 		int cur_sign = get_sign(cross_product(Vector(polygon.coord_[i], polygon.coord_[next]), Vector(polygon.coord_[i], point)));
+		//std::cerr<<cur_sign<< "\n";
 		if (sign == 0 && cur_sign != 0) {
 			sign = cur_sign;
 		}
-		if (sign == cur_sign || cur_sign == 0) {
+		if (sign == cur_sign || sign == 0) {
 			continue;
 		}
 		return false;
@@ -174,9 +180,9 @@ bool point_in_polygon(const Point &point, const Polygon &polygon) {
 	return true;
 }
 
-double oriented_area(const Point &a, const Point &b, const Point &c) {
+/*double oriented_area(const Point &a, const Point &b, const Point &c) {
 	return (b.x_ - a.x_) * (c.y_ - a.y_) - (b.y_ - a.y_) * (c.x_ - a.x_);
-}
+}*/
 
 double rotate(const Point &a, const Point &b, const Point &c) {
 	return (b.x_ - a.x_) * (c.y_ - b.y_) - (b.y_ - a.y_) * (c.x_ - b.x_);
@@ -230,7 +236,7 @@ Polygon::Polygon(std::vector<Polygon> &polygons) {
 				min_dist = std::min(min_dist, dist(polygon.coord_[i], c));
 			}
 		}
-		if (min_dist >= OBSTACLE_R) {
+		if (min_dist >= OBSTACLE_R + 25) {
 			break;
 		}
 		++cnt;
@@ -252,7 +258,7 @@ Polygon::Polygon(std::vector<Polygon> &polygons) {
 		Point cur(c + d);
 		bool flag = true;
 		for (auto polygon : polygons) {
-			if (!point_in_polygon(cur, polygon) || !in_field(cur)) {
+			if (point_in_polygon(cur, polygon) || !in_field(cur)) {
 				flag = false;
 			}
 		}
@@ -278,11 +284,11 @@ bool check_one_line_intersection(double a, double b, double c, double d) {
 
 
 bool segment_and_segment_intersection(const Segment &a, const Segment &b) { //simple
-	return oriented_area(a.a_, a.b_, b.a_) * oriented_area(a.a_, a.b_, b.b_) <= 0 &&
+	/*return oriented_area(a.a_, a.b_, b.a_) * oriented_area(a.a_, a.b_, b.b_) <= 0 &&
 	       oriented_area(b.a_, b.b_, a.a_) * oriented_area(b.a_, b.b_, a.b_) <= 0 &&
 	       check_one_line_intersection(a.a_.x_, a.b_.x_, b.a_.x_, b.b_.x_) &&
-	       check_one_line_intersection(a.a_.y_, a.b_.y_, b.a_.y_, b.b_.y_);
-	//return rotate(A,B,C)*rotate(A,B,D)<=0 and rotate(C,D,A)*rotate(C,D,B)<0
+	       check_one_line_intersection(a.a_.y_, a.b_.y_, b.a_.y_, b.b_.y_);*/
+	return rotate(a.a_, a.b_, b.a_) * rotate(a.a_, a.b_, b.b_) <= 0 && rotate(b.a_, b.b_, a.a_) * rotate(b.a_, b.b_, a.b_) < 0;
 }
 
 bool segment_and_polygon_intersection(const Segment &segment, const Polygon &polygon) {

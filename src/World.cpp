@@ -18,6 +18,21 @@ bool World::can_move(const Point &from, const Point &to) const {
     return true;
 }
 
+Point World::get_good_position() const {
+    while (true) {
+        Point cur{};
+        bool flag = true;
+        for (auto polygon : obstaclesArray_) {
+            if (point_in_polygon(cur, polygon)) {
+                flag = false;
+            }
+        }
+        if (flag) {
+            return cur;
+        } 
+    }
+}
+
 template<typename ANIMAL, typename FOOD>
 void World::eating(ANIMAL& animal, std::vector<FOOD>& foodArray, int nutrition) {
     for (auto& food : foodArray) {
@@ -81,6 +96,7 @@ void World::update() {
 
     if (rand() % FREQUENCY == 0) {
         Grass new_grass;
+        new_grass.position_ = get_good_position();
         grassArray_.push_back(new_grass);
     }
 }

@@ -35,6 +35,7 @@ public:
     std::vector<Polygon> obstaclesArray_;
 
     bool can_move(const Point &from, const Point &to) const;
+    Point get_good_position() const;
 
     template <typename ANIMAL, typename FOOD>
     void update_species(std::vector<ANIMAL>&, std::vector<FOOD>&, int nutrition); 

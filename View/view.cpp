@@ -89,19 +89,21 @@ void View::start_game() {
     number_of_lions_ = ui_->lions_numb->value();
     number_of_zebras_ = ui_->zebras_numb->value();
     ui_->start_button->setEnabled(false);
-    for (int i = 0; i < number_of_zebras_; i++) {
-        Zebra tmp;
-        world->zebrasArray_.push_back(tmp);
-    }
-    for (int i = 0; i < number_of_lions_; i++) {
-        Lion tmp;
-        world->lionsArray_.push_back(tmp);
-    }
     for (int i = 0; i < 10; ++i) {
         Polygon tmp(world->obstaclesArray_);
         if (tmp.coord_.size() > 0) {
             world->obstaclesArray_.push_back(tmp);
         }
+    }
+    for (int i = 0; i < number_of_zebras_; i++) {
+        Zebra tmp;
+        tmp.position_ = world->get_good_position();
+        world->zebrasArray_.push_back(tmp);
+    }
+    for (int i = 0; i < number_of_lions_; i++) {
+        Lion tmp;
+        tmp.position_ = world->get_good_position();
+        world->lionsArray_.push_back(tmp);
     }
     timer = new QTimer();
     timer->start(SECOND / FPS);
