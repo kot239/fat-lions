@@ -7,10 +7,14 @@
 #include <QTimer>
 #include <QLabel>
 #include <QString>
+#include <QImage>
+#include <QPixmap>
 #include <QtCharts/QChartView>
 #include <QPushButton>
 #include <QInputDialog>
 #include <QList>
+#include <QDebug>
+#include <QFile>
 #include <string>
 
 #include "animal_view.h"
@@ -49,6 +53,12 @@ private:
     QList<AnimalView*> animals_view_;
     int number_of_lions_ = 1;
     int number_of_zebras_ = 1;
+
+    QPixmap* lion_m1_;
+    QPixmap* lion_f1_;
+    QPixmap* zebra_m1_;
+    QPixmap* zebra_f1_;
+    QPixmap* animal_png_;
 
     template <typename T>
     void add_animals(const std::vector<T>& animals, const char* color);

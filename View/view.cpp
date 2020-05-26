@@ -92,6 +92,7 @@ void View::stop_game() {
     world->grassArray_.clear();
     chart_->clean();
     ui_->start_button->setEnabled(true);
+    ui_->pic->setPixmap(*animal_png_);
     ui_->who->setText("Who");
     ui_->sex->setText("Sex");
     return;
@@ -127,6 +128,14 @@ void View::slot_animal_information() {
         if (item->clicked_) {
             ui_->who->setText(item->is_lion_ ? "Lion" : "Zebra");
             ui_->sex->setText(item->is_fem_ ? "Female" : "Male");
+            if (item->is_lion_ && item->is_fem_)
+                ui_->pic->setPixmap(*lion_f1_);
+            if (item->is_lion_ && !item->is_fem_)
+                ui_->pic->setPixmap(*lion_m1_);
+            if (!item->is_lion_ && item->is_fem_)
+                ui_->pic->setPixmap(*zebra_f1_);
+            if (!item->is_lion_ && !item->is_fem_)
+                ui_->pic->setPixmap(*zebra_m1_);
             item->clicked_ = false;
             break;
         }
@@ -144,6 +153,21 @@ View::View(QWidget* parent) : QWidget(parent), ui_(new Ui::View) {
     ui_->map->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui_->map->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui_->chart_view->setChart(chart_);
+
+    animal_png_ = new QPixmap;
+    animal_png_->load("../fat-lions/View/animal.png");
+    lion_m1_ = new QPixmap;
+    lion_m1_->load("../fat-lions/View/lion_m1.png");
+    lion_f1_ = new QPixmap;
+    lion_f1_->load("../fat-lions/View/lion_f1.png");
+    zebra_m1_ = new QPixmap;
+    zebra_m1_->load("../fat-lions/View/zebra_m1.png");
+    zebra_f1_ = new QPixmap;
+    zebra_f1_->load("../fat-lions/View/zebra_f1.png");
+
+    qDebug() << QFile("../fat-lions/View/animal.png").exists();
+
+    ui_->pic->setPixmap(*animal_png_);
 
     scene_->setSceneRect(MAP_W_CONOR, MAP_H_CONOR, MAP_WIDTH, MAP_HEIGHT);
 

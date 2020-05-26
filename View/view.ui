@@ -40,10 +40,26 @@
    <property name="geometry">
     <rect>
      <x>660</x>
-     <y>480</y>
+     <y>460</y>
      <width>331</width>
      <height>51</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Lobster 1.4</family>
+     <pointsize>30</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+	background-color: rgb(255, 204, 0, 130);
+	border: 1px solid grey; 
+	font: &quot;Times New Roman&quot;;
+}</string>
    </property>
    <property name="text">
     <string>Start</string>
@@ -58,6 +74,18 @@
      <height>51</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Lobster 1.4</family>
+     <pointsize>30</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+	background-color: rgb(255, 204, 0, 130);
+	border: 1px solid grey; 
+}</string>
+   </property>
    <property name="text">
     <string>Stop</string>
    </property>
@@ -70,6 +98,12 @@
      <width>151</width>
      <height>41</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Lobster 1.4</family>
+     <pointsize>24</pointsize>
+    </font>
    </property>
    <property name="minimum">
     <number>0</number>
@@ -87,6 +121,12 @@
      <height>41</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>Lobster 1.4</family>
+     <pointsize>24</pointsize>
+    </font>
+   </property>
    <property name="minimum">
     <number>1</number>
    </property>
@@ -99,9 +139,15 @@
     <rect>
      <x>450</x>
      <y>510</y>
-     <width>59</width>
+     <width>91</width>
      <height>41</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Lobster 1.4</family>
+     <pointsize>24</pointsize>
+    </font>
    </property>
    <property name="frameShape">
     <enum>QFrame::NoFrame</enum>
@@ -121,9 +167,15 @@
     <rect>
      <x>180</x>
      <y>510</y>
-     <width>61</width>
+     <width>71</width>
      <height>41</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Lobster 1.4</family>
+     <pointsize>24</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Zebras</string>
@@ -132,27 +184,160 @@
   <widget class="QLabel" name="who">
    <property name="geometry">
     <rect>
-     <x>890</x>
-     <y>250</y>
-     <width>59</width>
-     <height>16</height>
+     <x>880</x>
+     <y>320</y>
+     <width>101</width>
+     <height>41</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Lobster 1.4</family>
+     <pointsize>24</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+	background-position: bottom center;
+	background-color: white;
+}</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
    </property>
    <property name="text">
     <string>Who</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="sex">
    <property name="geometry">
     <rect>
-     <x>890</x>
-     <y>280</y>
-     <width>59</width>
-     <height>16</height>
+     <x>880</x>
+     <y>400</y>
+     <width>101</width>
+     <height>41</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Lobster 1.4</family>
+     <pointsize>24</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+	background-position: bottom center;
+	background-color: white;
+}</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
    </property>
    <property name="text">
     <string>Sex</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="zebras_logic">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>560</y>
+     <width>141</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Lobster 1.4</family>
+    </font>
+   </property>
+   <item>
+    <property name="text">
+     <string>Vector Logic</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Random Logic</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QComboBox" name="lions_logic">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>560</y>
+     <width>141</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Lobster 1.4</family>
+    </font>
+   </property>
+   <item>
+    <property name="text">
+     <string>Vector Logic</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Random Logic</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="who_2">
+   <property name="geometry">
+    <rect>
+     <x>880</x>
+     <y>240</y>
+     <width>101</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Lobster 1.4</family>
+     <pointsize>24</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+	background-position: bottom center;
+	background-color: white;
+}</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="text">
+    <string>Animal</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="pic">
+   <property name="geometry">
+    <rect>
+     <x>660</x>
+     <y>240</y>
+     <width>200</width>
+     <height>200</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Box</enum>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
    </property>
   </widget>
  </widget>

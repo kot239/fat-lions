@@ -3,6 +3,8 @@
 #include <QApplication>
 #include <QWidget>
 #include <QPushButton>
+#include <QImage>
+#include <QPixmap>
 
 int main(int argc, char* argv[])
 {
@@ -14,7 +16,7 @@ int main(int argc, char* argv[])
 
     w.resize(1000, 600);
     //w.setWindowTitle("Fat Lions");
-    //w.setWindowIcon(QIcon("icon.png"));
+    //w.setWindowIcon(QIcon("fat_lion.png"));
     w.show();
 
     //start of the game
