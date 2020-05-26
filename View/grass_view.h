@@ -18,7 +18,7 @@ public:
     GrassView(const Grass& grass, QObject* parent = nullptr);
     ~GrassView() = default;
 
-	Point position_;
+    Point position_;
 
 protected:
 	QRectF boundingRect() const;

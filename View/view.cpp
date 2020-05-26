@@ -13,7 +13,6 @@ const int MAP_W_CONOR = 20;
 const int SECOND = 1000;
 const int FPS = 10;
 
-
 template <typename T>
 void View::add_animals(const std::vector<T>& animals, const char* color) {
     for (size_t j = 0; j < animals.size(); j++) {
@@ -22,7 +21,7 @@ void View::add_animals(const std::vector<T>& animals, const char* color) {
         scene_->addItem(animal);
         animals_view_.push_back(animal);
         animal->setPos(animal->position_.x_, animal->position_.y_);
-        connect(animal, SIGNAL(signal1()), this, SLOT(slot_animal_information()));
+        //connect(animal, SIGNAL(signal1()), this, SLOT(slot_animal_information()));
     }
 }
 
@@ -63,6 +62,7 @@ void View::clear_scene() {
 
 void View::update_world() {
     //scene_->clear();
+    slot_animal_information();
     clear_scene();
 
     add_background();
@@ -79,6 +79,7 @@ void View::update_world() {
         logic->find_target_lion(curLion);
     }
     world->update();
+
     chart_->draw_chart(world->lionsArray_.size(), world->zebrasArray_.size());
 }
 

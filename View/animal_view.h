@@ -15,7 +15,6 @@ class AnimalView : public QObject, public QGraphicsItem {
 	Q_OBJECT
 
 signals:
-    void signal1();
 
 public:
     AnimalView(const char* color, const Animal& animal, QObject* parent = nullptr);

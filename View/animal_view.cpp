@@ -20,11 +20,14 @@ AnimalView::AnimalView(const char* color, const Animal& animal, QObject* parent)
 };
 
 QRectF AnimalView::boundingRect() const {
-    return QRectF(-50, -50, 50, 50);
+    return QRectF(-10, -10, 20, 20);
 };
 
 void AnimalView::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
     if (is_lion_) {
+        //QRectF rect(-10, -10, 20, 20);
+        //painter->setBrush(QColor("#000000"));
+        //painter->drawPolygon(rect);
         QPolygon body;
         body << QPoint(3, -3) << QPoint(3, 3) << QPoint(0, 4) << QPoint (0,5);
         body << QPoint(1, 6) << QPoint(0, 7) << QPoint(-1, 6) << QPoint (0,5);
@@ -36,6 +39,9 @@ void AnimalView::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
         painter->setBrush(QColor("#663300"));
         painter->drawPolygon(hair);
     } else {
+        //QRectF rect(-10, -10, 20, 20);
+        //painter->setBrush(QColor("#663300"));
+        //painter->drawPolygon(rect);
         QPolygon body;
         body << QPoint(4, 0) << QPoint(0, -9) << QPoint(-4, 0) << QPoint(-4, 4) << QPoint(4, 4);
         painter->setBrush(QColor("#FFFFFF"));
@@ -64,7 +70,8 @@ void AnimalView::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 };
 
 void AnimalView::mousePressEvent(QGraphicsSceneMouseEvent *event) {
-    emit signal1();
     clicked_ = true;
-    QGraphicsItem::mousePressEvent(event);
+    //emit signal1();
+    Q_UNUSED(event);
+    //QGraphicsItem::mousePressEvent(event);
 };

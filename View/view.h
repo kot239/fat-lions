@@ -56,9 +56,9 @@ private:
     void add_obstacles(const std::vector<Polygon> obsts);
     void add_background();
     void clear_scene();
+    void slot_animal_information();
 
 private slots:
-    void slot_animal_information();
 };
 
 #endif // VIEW_H_

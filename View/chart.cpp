@@ -11,11 +11,13 @@ Chart::Chart(QGraphicsItem* parent, Qt::WindowFlags wFlags) :
     axis_y_ = new QValueAxis;
 
     QPen alive_lions("#FFCC33");
+    alive_lions.setWidthF(1.5);
     series_lions_->setPen(alive_lions);
     series_lions_->append(x_l_, y_l_);
     addSeries(series_lions_);
 
     QPen alive_zebras("#999999");
+    alive_zebras.setWidthF(1.5);
     series_zebras_->setPen(alive_zebras);
     series_zebras_->append(x_z_, y_z_);
     addSeries(series_zebras_);
@@ -38,12 +40,14 @@ void Chart::draw_chart(qreal lions_cnt, qreal zebras_cnt) {
     x_l_++;
     y_l_ = lions_cnt;
     QPen alive_lions("#FFCC33");
+    alive_lions.setWidthF(1.5);
     series_lions_->setPen(alive_lions);
     series_lions_->append(x_l_, y_l_);
     x_z_++;
     y_z_ = zebras_cnt;
 
     QPen alive_zebras("#999999");
+    alive_zebras.setWidthF(1.5);
     series_zebras_->setPen(alive_zebras);
     series_zebras_->append(x_z_, y_z_);
 
@@ -64,7 +68,7 @@ void Chart::clean() {
     series_zebras_->clear();
     x_l_ = 0;
     x_z_ = 0;
-    range_x_ = 100;
+    range_x_ = 1000;
     range_y_ = 100;
     axis_x_->setRange(0, range_x_);
     axis_y_->setRange(0, range_y_);
