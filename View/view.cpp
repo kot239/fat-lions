@@ -72,11 +72,19 @@ void View::update_world() {
     add_animals(world->lionsArray_, LION_COLOR);
 
     for (auto& curZebra : world->zebrasArray_) {
-        rlogic->find_target_zebra(curZebra);
+        if (ui_->zebras_logic->currentText() == QString("Vector Logic")) {
+            vlogic->find_target_zebra(curZebra);
+        } else {
+            rlogic->find_target_zebra(curZebra);
+        }
     }
 
     for (auto& curLion : world->lionsArray_) {
-        rlogic->find_target_lion(curLion);
+        if (ui_->lions_logic->currentText() == QString("Vector Logic")) {
+            vlogic->find_target_lion(curLion);
+        } else {
+            rlogic->find_target_lion(curLion);
+        }
     }
     world->update();
 
