@@ -164,15 +164,15 @@ View::View(QWidget* parent) : QWidget(parent), ui_(new Ui::View) {
     ui_->chart_view->setChart(chart_);
 
     animal_png_ = new QPixmap;
-    animal_png_->load("../fat-lions/View/pics/animal.png");
+    animal_png_->load("../fat-lions/pics/animal.png");
     lion_m1_ = new QPixmap;
-    lion_m1_->load("../fat-lions/View/pics/lion_m1.png");
+    lion_m1_->load("../fat-lions/pics/lion_m1.png");
     lion_f1_ = new QPixmap;
-    lion_f1_->load("../fat-lions/View/pics/lion_f1.png");
+    lion_f1_->load("../fat-lions/pics/lion_f1.png");
     zebra_m1_ = new QPixmap;
-    zebra_m1_->load("../fat-lions/View/pics/zebra_m1.png");
+    zebra_m1_->load("../fat-lions/pics/zebra_m1.png");
     zebra_f1_ = new QPixmap;
-    zebra_f1_->load("../fat-lions/View/pics/zebra_f1.png");
+    zebra_f1_->load("../fat-lions/pics/zebra_f1.png");
 
     ui_->pic->setPixmap(*animal_png_);
 
