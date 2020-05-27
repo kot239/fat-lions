@@ -13,14 +13,15 @@ const int MAP_W_CONOR = 20;
 const int SECOND = 1000;
 const int FPS = 10;
 
-
 template <typename T>
 void View::add_animals(const std::vector<T>& animals, const char* color) {
     for (size_t j = 0; j < animals.size(); j++) {
         AnimalView* animal;
         animal = new AnimalView(color, animals[j]);
         scene_->addItem(animal);
+        animals_view_.push_back(animal);
         animal->setPos(animal->position_.x_, animal->position_.y_);
+        //connect(animal, SIGNAL(signal1()), this, SLOT(slot_animal_information()));
     }
 }
 
@@ -42,7 +43,14 @@ void View::add_obstacles(const std::vector<Polygon> obsts) {
     }
 }
 
+void View::add_background() {
+    QGraphicsRectItem* bg = new QGraphicsRectItem(10, 10, 621, 471);
+    bg->setBrush(QColor(204, 255, 153, 130));
+    scene_->addItem(bg);
+}
+
 void View::clear_scene() {
+    animals_view_.clear();
     QList<QGraphicsItem*> all = scene_->items();
     for(int i = 0; i < all.size(); i++) {
     QGraphicsItem *obj = all[i];
@@ -54,8 +62,10 @@ void View::clear_scene() {
 
 void View::update_world() {
     //scene_->clear();
+    slot_animal_information();
     clear_scene();
 
+    add_background();
     add_obstacles(world->obstaclesArray_);
     add_grass(world->grassArray_);
     add_animals(world->zebrasArray_, ZEBRA_COLOR);
@@ -69,12 +79,12 @@ void View::update_world() {
         rlogic->find_target_lion(curLion);
     }
     world->update();
+
     chart_->draw_chart(world->lionsArray_.size(), world->zebrasArray_.size());
 }
 
 void View::stop_game() {
     timer->stop();
-    //scene_->clear();
     clear_scene();
     world->obstaclesArray_.clear();
     world->lionsArray_.clear();
@@ -82,6 +92,9 @@ void View::stop_game() {
     world->grassArray_.clear();
     chart_->clean();
     ui_->start_button->setEnabled(true);
+    ui_->pic->setPixmap(*animal_png_);
+    ui_->who->setText("Who");
+    ui_->sex->setText("Sex");
     return;
 }
 
@@ -112,6 +125,25 @@ void View::start_game() {
     return;
 }
 
+void View::slot_animal_information() {
+    for (auto item: animals_view_) {
+        if (item->clicked_) {
+            ui_->who->setText(item->is_lion_ ? "Lion" : "Zebra");
+            ui_->sex->setText(item->is_fem_ ? "Female" : "Male");
+            if (item->is_lion_ && item->is_fem_)
+                ui_->pic->setPixmap(*lion_f1_);
+            if (item->is_lion_ && !item->is_fem_)
+                ui_->pic->setPixmap(*lion_m1_);
+            if (!item->is_lion_ && item->is_fem_)
+                ui_->pic->setPixmap(*zebra_f1_);
+            if (!item->is_lion_ && !item->is_fem_)
+                ui_->pic->setPixmap(*zebra_m1_);
+            item->clicked_ = false;
+            break;
+        }
+    }
+}
+
 View::View(QWidget* parent) : QWidget(parent), ui_(new Ui::View) {
 
     ui_->setupUi(this);
@@ -123,6 +155,21 @@ View::View(QWidget* parent) : QWidget(parent), ui_(new Ui::View) {
     ui_->map->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui_->map->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui_->chart_view->setChart(chart_);
+
+    animal_png_ = new QPixmap;
+    animal_png_->load("../fat-lions/View/animal.png");
+    lion_m1_ = new QPixmap;
+    lion_m1_->load("../fat-lions/View/lion_m1.png");
+    lion_f1_ = new QPixmap;
+    lion_f1_->load("../fat-lions/View/lion_f1.png");
+    zebra_m1_ = new QPixmap;
+    zebra_m1_->load("../fat-lions/View/zebra_m1.png");
+    zebra_f1_ = new QPixmap;
+    zebra_f1_->load("../fat-lions/View/zebra_f1.png");
+
+    qDebug() << QFile("../fat-lions/View/animal.png").exists();
+
+    ui_->pic->setPixmap(*animal_png_);
 
     scene_->setSceneRect(MAP_W_CONOR, MAP_H_CONOR, MAP_WIDTH, MAP_HEIGHT);
 

@@ -6,10 +6,16 @@
 #include <QShortcut>
 #include <QTimer>
 #include <QLabel>
+#include <QString>
+#include <QImage>
+#include <QPixmap>
 #include <QtCharts/QChartView>
 #include <QPushButton>
 #include <QInputDialog>
 #include <QList>
+#include <QDebug>
+#include <QFile>
+#include <string>
 
 #include "animal_view.h"
 #include "chart.h"
@@ -46,14 +52,25 @@ private:
     VectorLogic* vlogic = nullptr;
     RandomLogic* rlogic = nullptr;
     Chart* chart_;
+    QList<AnimalView*> animals_view_;
     int number_of_lions_ = 1;
     int number_of_zebras_ = 1;
+
+    QPixmap* lion_m1_;
+    QPixmap* lion_f1_;
+    QPixmap* zebra_m1_;
+    QPixmap* zebra_f1_;
+    QPixmap* animal_png_;
 
     template <typename T>
     void add_animals(const std::vector<T>& animals, const char* color);
     void add_grass(const std::vector<Grass> grass_);
     void add_obstacles(const std::vector<Polygon> obsts);
+    void add_background();
     void clear_scene();
+    void slot_animal_information();
+
+private slots:
 };
 
 #endif // VIEW_H_

@@ -18,7 +18,7 @@ public:
     ObstacleView(const Polygon obst, QObject* parent = nullptr);
     ~ObstacleView() = default;
 
-	Point position_;
+    Point position_;
 
 protected:
 	QRectF boundingRect() const;

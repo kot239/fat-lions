@@ -24,6 +24,7 @@ private:
     QValueAxis* axis_y_;
     qreal x_l_, x_z_;
     qreal y_l_, y_z_;
+    qreal range_x_, range_y_;
 };
 
 #endif // CHART_H_
