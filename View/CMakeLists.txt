@@ -45,7 +45,6 @@ if(ANDROID)
     ../include/Geometry.hpp
     ../include/Grass.hpp
     ../include/Lion.hpp
-    ../include/Obstacle.hpp
     ../include/
     ../include/World.hpp
     ../include/Zebra.hpp
@@ -73,7 +72,6 @@ else()
     ../include/Geometry.hpp
     ../include/Grass.hpp
     ../include/Lion.hpp
-    ../include/Obstacle.hpp
     ../include/VectorLogic.hpp
     ../include/RandomLogic.hpp
     ../include/World.hpp

@@ -5,7 +5,6 @@
 #include "../include/Lion.hpp"
 #include "../include/Zebra.hpp"
 #include "../include/Grass.hpp"
-#include "../include/Obstacle.hpp"
 
 #include <vector>
 
@@ -23,9 +22,11 @@ constexpr int START_VISION = 50;
 constexpr int ZEBRAS_NUTRITION = 20;
 constexpr size_t X_FIELD_SIZE = 672;
 constexpr size_t Y_FIELD_SIZE = 472;
-constexpr int FREQUENCY = 29;
+constexpr int FREQUENCY = 23;
 constexpr int OBSTACLE_R = 50;
 constexpr int MAX_OBSTACLE_R = 75;
+constexpr int MAX_ANIMAL = 200;
+constexpr int MAX_GRASS = 30;
 
 class World final {
 public:

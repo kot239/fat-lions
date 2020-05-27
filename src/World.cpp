@@ -55,9 +55,11 @@ void World::reproduce(std::vector<ANIMAL>& animalArray) {
     for (size_t i = 0; i < animalArray.size(); i++) {
         if (animalArray[i].nextAction_ == Action::REPRODUCE) {
             if (animalArray[i].sex_ == Sex::FEMALE) {
-                ANIMAL new_animal;
-                new_animal.position_ = animalArray[i].position_;
-                animalArray.push_back(new_animal);
+                if (lionsArray_.size() + zebrasArray_.size() < MAX_ANIMAL) {
+                    ANIMAL new_animal;
+                    new_animal.position_ = animalArray[i].position_;
+                    animalArray.push_back(new_animal);
+                }
             }
             animalArray[i].nextAction_ = Action::GO;
             animalArray[i].reprodCd_ = -1;
@@ -94,7 +96,7 @@ void World::update() {
     update_species<Lion, Zebra>(lionsArray_, zebrasArray_, ZEBRAS_NUTRITION);
     update_species<Zebra, Grass>(zebrasArray_, grassArray_, GRASS_NUTRITION);
 
-    if (rand() % FREQUENCY == 0) {
+    if (rand() % FREQUENCY == 0 && grassArray_.size() < MAX_GRASS) {
         Grass new_grass;
         new_grass.position_ = get_good_position();
         grassArray_.push_back(new_grass);

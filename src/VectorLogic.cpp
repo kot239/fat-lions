@@ -2,6 +2,7 @@
 #include "../include/World.hpp"
 #include <iostream>
 #include <cmath>
+#include <assert.h>
 
 using namespace world;
 
@@ -35,18 +36,20 @@ bool VectorLogic::reproduce(T& curAnimal, const std::vector<T>& animalArray) {
     double minDist = -1;
     Vector resVector = {0, 0};
     for (const auto& animal : animalArray) {
-        curDist = sqr_dist(animal.position_, curAnimal.position_);
-        if (animal.sex_ != curAnimal.sex_ && animal.ready_for_reprod() &&
-            (curDist < curAnimal.vision_ * curAnimal.vision_)) {
+        if (curWorld_.can_move(curAnimal.position_, animal.position_)) {
+            curDist = sqr_dist(animal.position_, curAnimal.position_);
+            if (animal.sex_ != curAnimal.sex_ && animal.ready_for_reprod() &&
+                (curDist < curAnimal.vision_ * curAnimal.vision_)) {
 
-            if (abs(animal.position_.x_ - curAnimal.position_.x_) < 10 &&
-                abs(animal.position_.y_ - curAnimal.position_.y_) < 10 ) {
-                curAnimal.nextAction_ = Action::REPRODUCE;
-                return true;
-            }
-            if (abs(minDist + 1) < 0.00001 || curDist < minDist) {
-                minDist = curDist;
-                resVector = animal.position_ - curAnimal.position_;
+                if (abs(animal.position_.x_ - curAnimal.position_.x_) < 10 &&
+                    abs(animal.position_.y_ - curAnimal.position_.y_) < 10 ) {
+                    curAnimal.nextAction_ = Action::REPRODUCE;
+                    return true;
+                }
+                if (abs(minDist + 1) < 0.00001 || curDist < minDist) {
+                    minDist = curDist;
+                    resVector = animal.position_ - curAnimal.position_;
+                }
             }
         }
     }
@@ -67,15 +70,18 @@ void VectorLogic::nutrition(Animal& curAnimal, const std::vector<T>& foodArray) 
     double curDist = 0;
     Vector resVector = {0, 0};
     for (const auto& food : foodArray) {
-        curDist = sqr_dist(food.position_, curAnimal.position_);
+        if (curWorld_.can_move(curAnimal.position_, food.position_)) {
 
-        if (curDist < curAnimal.vision_ * curAnimal.vision_ &&
-            (abs(minDist + 1) < 0.00001 || curDist < minDist)) {
+            curDist = sqr_dist(food.position_, curAnimal.position_);
 
-            minDist = curDist;
-            resVector = food.position_ - curAnimal.position_;
-            if (resVector.len() < curAnimal.velocity_) {
-                curAnimal.nextAction_ = Action::EAT;
+            if (curDist < curAnimal.vision_ * curAnimal.vision_ &&
+                (abs(minDist + 1) < 0.00001 || curDist < minDist)) {
+
+                minDist = curDist;
+                resVector = food.position_ - curAnimal.position_;
+                if (resVector.len() < curAnimal.velocity_) {
+                    curAnimal.nextAction_ = Action::EAT;
+                }
             }
         }
     }
@@ -106,8 +112,10 @@ void VectorLogic::find_target_zebra(Zebra& curZebra) {
 
     Vector resVector = {0, 0};
     for (const auto& lion : curWorld_.lionsArray_) {
-        if (sqr_dist(lion.position_, curZebra.position_) < curZebra.vision_ * curZebra.vision_) {
-            resVector += lion.position_ - curZebra.position_; //find result vector
+        if (curWorld_.can_move(curZebra.position_, lion.position_)) {
+            if (sqr_dist(lion.position_, curZebra.position_) < curZebra.vision_ * curZebra.vision_) {
+                resVector += lion.position_ - curZebra.position_; //find result vector
+            }
         }
     }
 

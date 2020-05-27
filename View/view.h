@@ -13,8 +13,6 @@
 #include <QPushButton>
 #include <QInputDialog>
 #include <QList>
-#include <QDebug>
-#include <QFile>
 #include <string>
 
 #include "animal_view.h"
