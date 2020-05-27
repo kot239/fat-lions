@@ -1,5 +1,5 @@
-#include "Lion.hpp"
-#include "World.hpp"
+#include "include/Lion.hpp"
+#include "include/World.hpp"
 
 namespace world {
 /*

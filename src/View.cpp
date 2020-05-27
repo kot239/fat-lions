@@ -1,4 +1,4 @@
-#include "View.hpp"
+#include "../include/View.hpp"
 #include <iostream>
 
 const char* LION_COLOR = "#FFCC33";

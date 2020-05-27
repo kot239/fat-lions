@@ -1,4 +1,4 @@
-#include "Chart.hpp"
+#include "include/Chart.hpp"
 
 using namespace QtCharts;
 

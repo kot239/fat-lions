@@ -41,6 +41,8 @@ add_executable(LifeSimulation
     src/AnimalView.cpp
     src/GrassView.cpp
     src/ObstaclesView.cpp
+    src/VectorLogic.cpp
+    src/RandomLogic.cpp
 )
 
 target_link_libraries(LifeSimulation PRIVATE Qt5::Widgets Qt5::Charts)

@@ -1,4 +1,4 @@
-#include "AnimalView.hpp"
+#include "include/AnimalView.hpp"
 
 #include <cmath>
 

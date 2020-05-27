@@ -1,4 +1,4 @@
-#include "../include/VectorLogic.hpp"
+#include "VectorLogic.hpp"
 #include "../include/World.hpp"
 #include <iostream>
 #include <cmath>
