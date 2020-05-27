@@ -1,7 +1,7 @@
-#ifndef OBSTACLE_VIEW_H_
-#define OBSTACLE_VIEW_H_
+#ifndef GRASS_VIEW_H_
+#define GRASS_VIEW_H_
 
-#include "../include/Geometry.hpp"
+#include "Grass.hpp"
 
 #include <QGraphicsItem>
 #include <QPainter>
@@ -10,22 +10,19 @@
 
 using namespace world;
 
-class ObstacleView : public QObject, public QGraphicsItem {
+class GrassView : public QObject, public QGraphicsItem {
 
 	Q_OBJECT
 
 public:
-    ObstacleView(const Polygon obst, QObject* parent = nullptr);
-    ~ObstacleView() = default;
+    GrassView(const Grass& grass, QObject* parent = nullptr);
+    ~GrassView() = default;
 
     Point position_;
 
 protected:
 	QRectF boundingRect() const;
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-
-private:
-	Polygon obst_;
 };
 
-#endif // OBSTACLE_VIEW_H_
+#endif // GRASS_VIEW_H_

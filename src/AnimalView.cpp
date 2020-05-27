@@ -1,4 +1,4 @@
-#include "animal_view.h"
+#include "AnimalView.hpp"
 
 #include <cmath>
 

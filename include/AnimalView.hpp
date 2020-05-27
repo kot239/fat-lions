@@ -1,7 +1,7 @@
 #ifndef LION_H_
 #define LION_H_
 
-#include "../include/Lion.hpp"
+#include "Animal.hpp"
 
 #include <QGraphicsItem>
 #include <QPainter>

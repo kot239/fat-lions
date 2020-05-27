@@ -1,5 +1,4 @@
-#include "view.h"
-#include "ui_view.h"
+#include "View.hpp"
 #include <iostream>
 
 const char* LION_COLOR = "#FFCC33";

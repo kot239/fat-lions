@@ -1,51 +1,24 @@
-#include <iostream>
-#include "World.hpp"
-#include "VectorLogic.hpp"
-#include "RandomLogic.hpp"
-#include <ctime>
+#include "view.h"
 
-using namespace world;
+#include <QApplication>
+#include <QWidget>
+#include <QPushButton>
+#include <QImage>
+#include <QPixmap>
 
-void run_game(World& world, RandomLogic& logic) {
-    for (int i = 0; i < 10; i++) {
-        for (size_t j = 0; j < world.zebrasArray_.size(); j++) {
-            //logic.find_target_zebra(world.zebrasArray_[j]);
-        }
+int main(int argc, char* argv[])
+{
+    // very important comand
+    std::srand(unsigned(std::time(0)));
+    QApplication a(argc, argv);
 
-        for (size_t j = 0; j < world.lionsArray_.size(); j++) {
-            logic.find_target_lion(world.lionsArray_[j]);
-        }
-        world.update();
-    }    
+    View w;
+
+    w.resize(1000, 600);
+    //w.setWindowTitle("Fat Lions");
+    //w.setWindowIcon(QIcon("fat_lion.png"));
+    w.show();
+
+    //start of the game
+    return a.exec();
 }
-
-int main() {
-    std::srand(std::time(nullptr));
-    World world;
-    VectorLogic vector_logic(world);
-    RandomLogic random_logic(world);
-    for (int i = 0; i < 50; i++) {
-        Zebra tmp;
-        world.zebrasArray_.push_back(tmp);
-    }
-    for (int i = 0; i < 1; i++) {
-        Lion tmp;
-        world.lionsArray_.push_back(tmp);
-    }
-    for (int i = 0; i < 10; ++i) {
-        Polygon tmp(world.obstaclesArray_);
-        if (tmp.coord_.size() > 0) {
-            world.obstaclesArray_.push_back(tmp);
-        }
-    }
-/*
-    for (size_t i = 0; i < world.obstaclesArray_.size(); ++i) {
-        std::cout << "Polygon " << i << "\n";
-        for (int j = 0; j < (int)world.obstaclesArray_[i].coord_.size(); ++j) {
-            std::cout << world.obstaclesArray_[i].coord_[j].x_ << " " << world.obstaclesArray_[i].coord_[j].y_ << "\n";
-        }
-    } */
-
-    run_game(world, random_logic);
-
-} 

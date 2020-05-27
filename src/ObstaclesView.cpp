@@ -1,4 +1,4 @@
-#include "obstacles_view.h"
+#include "ObstaclesView.hpp"
 
 #include <cmath>
 

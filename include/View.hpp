@@ -15,13 +15,13 @@
 #include <QList>
 #include <string>
 
-#include "animal_view.h"
-#include "chart.h"
-#include "grass_view.h"
-#include "obstacles_view.h"
-#include "../include/World.hpp"
-#include "../include/VectorLogic.hpp"
-#include "../include/RandomLogic.hpp"
+#include "AnimalView.hpp"
+#include "Chart.hpp"
+#include "GrassView.hpp"
+#include "ObstaclesView.hpp"
+#include "World.hpp"
+#include "VectorLogic.hpp"
+#include "RandomLogic.hpp"
 
 namespace Ui {
 class View;

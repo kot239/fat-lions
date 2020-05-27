@@ -1,4 +1,4 @@
-#include "grass_view.h"
+#include "GrassView.hpp"
 
 #include <cmath>
 

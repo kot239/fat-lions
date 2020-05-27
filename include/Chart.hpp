@@ -6,7 +6,7 @@
 
 using namespace QtCharts;
 
-#include "../include/World.hpp"
+#include "World.hpp"
 
 class Chart : public QChart {
 
